@@ -1,5 +1,0 @@
----
-triple:          'arm64-apple-darwin'
-binary-path:     '/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCorePackageTests.xctest/Contents/MacOS/FSCorePackageTests'
-relocations:     []
-...
