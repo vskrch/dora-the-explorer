@@ -101,7 +101,9 @@ enum FileColumnFormatter {
 }
 
 /// Caches `NSWorkspace` icons keyed by the bits that decide the icon, so a
-/// 100k-row scroll draws from an in-memory dictionary instead of LS.
+/// 100k-row scroll draws from an in-memory dictionary instead of LS. Common
+/// content types are warmed off-main at launch so even the first sighting of
+/// each type stays off the scroll path.
 @MainActor
 final class FileIconCache {
     static let shared = FileIconCache()
@@ -114,19 +116,46 @@ final class FileIconCache {
 
     private var icons: [CacheKey: NSImage] = [:]
     private var folderIcon: NSImage?
-    private let lock = NSLock()
 
     private init() {}
 
-    func icon(for item: FileItem, preferredSize: CGSize) -> NSImage {
-        if item.isDirectory {
-            if let folderIcon { return folderIcon }
-            let image = NSImage(systemSymbolName: "folder.fill", accessibilityDescription: nil)
-                ?? NSWorkspace.shared.icon(forFileType: UTType.folder.identifier)
-            image.size = preferredSize
-            folderIcon = image
-            return image
+    /// Prefetches icons for common types off the main thread so cell
+    /// configuration never pays the LaunchServices lookup.
+    func warmCommonTypes() {
+        Task.detached(priority: .utility) { [weak self] in
+            let identifiers = [
+                UTType.png, UTType.jpeg, UTType.gif, UTType.heic, UTType.tiff,
+                UTType.pdf, UTType.plainText, UTType.rtf, UTType.html,
+                UTType.zip, UTType.gzip,
+                UTType.mpeg4Movie, UTType.quickTimeMovie, UTType.mp3, UTType.wav,
+                UTType.aiff, UTType.sourceCode, UTType.json, UTType.xml,
+                UTType.yaml, UTType.svg, .diskImage, .application,
+            ]
+            var warmed: [(CacheKey, NSImage)] = []
+            for type in identifiers {
+                let image = NSWorkspace.shared.icon(for: type)
+                image.size = CGSize(width: 18, height: 18)
+                warmed.append((
+                    CacheKey(isDirectory: false, isPackage: false, typeIdentifier: type.identifier),
+                    image
+                ))
+            }
+            let folder = NSImage(systemSymbolName: "folder.fill", accessibilityDescription: nil)
+                ?? NSWorkspace.shared.icon(for: UTType.folder)
+            folder.size = CGSize(width: 18, height: 18)
+
+            await MainActor.run { [weak self] in
+                guard let self else { return }
+                for (key, image) in warmed where self.icons[key] == nil {
+                    self.icons[key] = image
+                }
+                if self.folderIcon == nil { self.folderIcon = folder }
+            }
         }
+    }
+
+    func icon(for item: FileItem, preferredSize: CGSize) -> NSImage {
+        if item.isDirectory, let folderIcon { return folderIcon }
 
         let key = CacheKey(
             isDirectory: false,
@@ -135,11 +164,21 @@ final class FileIconCache {
         )
         if let cached = icons[key] { return cached }
 
+        if item.isDirectory {
+            // Folder with no warmed icon yet (first folders draw before warm
+            // completes): take the hit once, cache it forever.
+            let image = NSImage(systemSymbolName: "folder.fill", accessibilityDescription: nil)
+                ?? NSWorkspace.shared.icon(for: UTType.folder)
+            image.size = preferredSize
+            folderIcon = image
+            return image
+        }
+
         let image: NSImage
         if let type = item.contentType {
             image = NSWorkspace.shared.icon(for: type)
         } else {
-            image = NSWorkspace.shared.icon(forFileType: item.fileExtension)
+            image = NSWorkspace.shared.icon(for: UTType(filenameExtension: item.fileExtension) ?? .data)
         }
         image.size = preferredSize
         icons[key] = image

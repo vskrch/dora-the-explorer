@@ -12,7 +12,6 @@ enum MainWindow {
         window.title = "Dora the Explorer"
         window.titleVisibility = .hidden
         window.titlebarAppearsTransparent = true
-        window.styleMask.insert(.fullSizeContentView)
         window.isMovableByWindowBackground = false
         window.minSize = NSSize(width: 900, height: 520)
         window.center()

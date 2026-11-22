@@ -1,6 +1,7 @@
 import AppKit
 import AppCore
 import DesignSystem
+import FileOps
 import FSCore
 
 /// One window: title-bar tab strip, navigation bar, command bar, split body,
@@ -9,6 +10,19 @@ import FSCore
 final class WindowController: NSWindowController {
     let state: WindowState
     private let chrome = ExplorerChromeView()
+
+    // MARK: - File operations (Phase 9 trunk)
+
+    private let fileEngine = FileOperationEngine()
+    private let trashStore = TrashStore()
+    private var undoRecords: [UndoRecord] = []
+    private var redoRecords: [UndoRecord] = []
+    private var operationTask: Task<Void, Never>?
+
+    var canUndo: Bool { !undoRecords.isEmpty }
+    var canRedo: Bool { !redoRecords.isEmpty }
+    var hasSelection: Bool { !chrome.contentContainer.selectedItems.isEmpty }
+    var clipboardHasFiles: Bool { ClipboardStore.shared.readPasteboardFileURLs() != nil }
 
     init(state: WindowState) {
         self.state = state
@@ -65,6 +79,114 @@ final class WindowController: NSWindowController {
         chrome.contentContainer.newFolder()
     }
 
+    @objc func menuMoveToTrash() {
+        trashSelectedItems()
+    }
+
+    /// Focus the content table (after path submit, tab switching, navigation).
+    func focusContent() {
+        chrome.contentContainer.focusTable()
+    }
+
+    /// Window teardown: cancel everything that could outlive the window.
+    func tearDown() {
+        operationTask?.cancel()
+        chrome.contentContainer.tearDown()
+    }
+
+    // MARK: - Clipboard actions (responder chain lands on the table)
+
+    func copySelectedItems() {
+        let urls = chrome.contentContainer.selectedItems.map(\.url)
+        guard !urls.isEmpty else { return }
+        ClipboardStore.shared.copyItems(at: urls)
+    }
+
+    func cutSelectedItems() {
+        let urls = chrome.contentContainer.selectedItems.map(\.url)
+        guard !urls.isEmpty else { return }
+        ClipboardStore.shared.cutItems(at: urls)
+        applyCutGhosting()
+    }
+
+    func pasteIntoCurrentTab() {
+        guard let directory = state.selectedTab?.directory,
+              let urls = ClipboardStore.shared.readPasteboardFileURLs() else { return }
+        let isMove = ClipboardStore.shared.shouldPerformMove(for: urls)
+
+        operationTask?.cancel()
+        operationTask = Task { [weak self] in
+            guard let self else { return }
+            let outcome = isMove
+                ? await self.fileEngine.move(sources: urls, to: directory)
+                : await self.fileEngine.copy(sources: urls, to: directory)
+            self.finishOperation(outcome)
+            if isMove {
+                ClipboardStore.shared.clearCutIntent()
+                self.applyCutGhosting()
+            }
+        }
+    }
+
+    func trashSelectedItems() {
+        let urls = chrome.contentContainer.selectedItems.map(\.url)
+        guard !urls.isEmpty else { return }
+
+        operationTask?.cancel()
+        operationTask = Task { [weak self] in
+            guard let self else { return }
+            let outcome = await self.fileEngine.trash(urls, store: self.trashStore)
+            self.finishOperation(outcome)
+        }
+    }
+
+    func performUndo() {
+        guard let record = undoRecords.popLast() else { return }
+        operationTask?.cancel()
+        operationTask = Task { [weak self] in
+            guard let self else { return }
+            let outcome = await self.fileEngine.applyUndo(record)
+            if let redo = outcome.undo {
+                self.redoRecords.append(redo)
+            }
+            self.reportFailures(outcome.failures)
+        }
+    }
+
+    func performRedo() {
+        guard let record = redoRecords.popLast() else { return }
+        operationTask?.cancel()
+        operationTask = Task { [weak self] in
+            guard let self else { return }
+            let outcome = await self.fileEngine.applyUndo(record)
+            if let undo = outcome.undo {
+                self.undoRecords.append(undo)
+            }
+            self.reportFailures(outcome.failures)
+        }
+    }
+
+    // MARK: - Operation completion
+
+    private func finishOperation(_ outcome: OperationOutcome) {
+        if let undo = outcome.undo {
+            undoRecords.append(undo)
+            if undoRecords.count > 100 { undoRecords.removeFirst() }
+            redoRecords.removeAll()
+        }
+        reportFailures(outcome.failures)
+    }
+
+    private func reportFailures(_ failures: [FileOperationFailure]) {
+        guard let failure = failures.first else { return }
+        DoraLog.fileOps.error("operation failed for \(failure.source.lastPathComponent, privacy: .public): \(failure.reason, privacy: .public)")
+        _ = NSApp.presentError(failure)
+    }
+
+    private func applyCutGhosting() {
+        chrome.contentContainer.setCutPaths(ClipboardStore.shared.cutPaths)
+    }
+
     /// Rebuilds chrome from `state`. Called on every tab/bookmark change.
     func syncChrome() {
         let tabs = state.tabs.map { tab in
@@ -112,9 +234,12 @@ final class WindowController: NSWindowController {
 
     func closeTab(_ id: TabState.ID) {
         _ = state.closeTab(id)
+        chrome.contentContainer.closeTab(id)
         if state.tabs.isEmpty {
-            // Last tab closed: close window unless app keeps it open.
+            // Last tab closed: the window follows (Reopen Closed Tab can
+            // bring the tab back on this or any window).
             window?.performClose(nil)
+            return
         }
         syncChrome()
     }
@@ -206,6 +331,9 @@ extension WindowController: ExplorerChromeViewDelegate {
         action(tab)
         ChromeCaches.persist(state)
         syncChrome()
+        if window?.isKeyWindow == true {
+            focusContent()
+        }
     }
 }
 

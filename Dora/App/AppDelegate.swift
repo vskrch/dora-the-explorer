@@ -13,6 +13,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         DoraLog.ui.info("Dora the Explorer launched")
         NSApp.setActivationPolicy(.regular)
         BreadcrumbVolumeName.warmCache()
+        FileIconCache.shared.warmCommonTypes()
 
         if !WindowRegistry.shared.restoreWorkspaceIfEnabled() {
             WindowRegistry.shared.openWindow()
@@ -25,7 +26,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
-        WindowRegistry.shared.saveWorkspace()
+        WindowRegistry.shared.saveWorkspace(synchronously: true)
+        FolderViewStore.shared.flushNow()
     }
 
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {

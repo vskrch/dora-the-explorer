@@ -149,7 +149,9 @@ public enum FileGrouper {
         }
 
         return order.map { title in
-            ItemGroup(id: title, title: title, items: buckets[title] ?? [])
+            // Id keys on the grouping mode too, so collapse state can't hop
+            // between buckets that happen to share a title.
+            ItemGroup(id: "\(settings.key.rawValue):\(title)", title: title, items: buckets[title] ?? [])
         }
     }
 

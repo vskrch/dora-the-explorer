@@ -73,6 +73,9 @@ enum MainMenu {
         let renameItem = fileMenu.addItem(withTitle: "Rename", action: #selector(WindowController.menuRename), keyEquivalent: String(UnicodeScalar(NSF2FunctionKey)!))
         renameItem.keyEquivalentModifierMask = []
         renameItem.target = nil
+        let trashItem = fileMenu.addItem(withTitle: "Move to Trash", action: #selector(WindowController.menuMoveToTrash), keyEquivalent: String(UnicodeScalar(NSBackspaceCharacter)!))
+        trashItem.keyEquivalentModifierMask = [.command]
+        trashItem.target = nil
         fileMenu.addItem(.separator())
         let closeTab = fileMenu.addItem(withTitle: "Close Tab", action: #selector(WindowController.menuCloseTab), keyEquivalent: "w")
         closeTab.target = nil

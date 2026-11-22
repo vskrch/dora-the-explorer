@@ -15,6 +15,10 @@ final class FolderViewStore {
         var showHidden: Bool?
     }
 
+    /// One store per app: per-window instances would last-writer-wins-clobber
+    /// each other.
+    static let shared = FolderViewStore()
+
     private struct Store: Codable {
         var entries: [String: Entry]
     }

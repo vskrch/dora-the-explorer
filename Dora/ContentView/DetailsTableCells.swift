@@ -3,15 +3,36 @@ import AppCore
 import FSCore
 
 /// NSTableView subclass with the Explorer behaviours AppKit doesn't expose:
-/// Enter-to-open and middle-click-to-new-tab.
+/// Enter-to-open, middle-click-to-new-tab, and the clipboard/undo actions
+/// (they arrive through the responder chain, exactly like text editing).
 @MainActor
 final class FileTableView: NSTableView {
     var onOpenRows: ((IndexSet, Bool) -> Void)?
     var onMiddleClickRow: ((Int) -> Void)?
+    var onNavigateBack: (() -> Void)?
+
+    private var controller: WindowController? {
+        window?.windowController as? WindowController
+    }
 
     override func keyDown(with event: NSEvent) {
         if event.specialKey == .carriageReturn {
             onOpenRows?(selectedRowIndexes, event.modifierFlags.contains(.command))
+            return
+        }
+        if event.specialKey == .delete {
+            // Windows: the Delete key trashes the selection.
+            controller?.trashSelectedItems()
+            return
+        }
+        if event.specialKey == .backspace && event.modifierFlags.contains(.command) {
+            // macOS habit: Cmd+Backspace trashes too.
+            controller?.trashSelectedItems()
+            return
+        }
+        if event.specialKey == .backspace {
+            // Windows: Backspace navigates up/back.
+            onNavigateBack?()
             return
         }
         super.keyDown(with: event)
@@ -26,6 +47,39 @@ final class FileTableView: NSTableView {
             }
         }
         super.otherMouseUp(with: event)
+    }
+
+    // MARK: - Responder-chain actions
+    //
+    // NSTableView doesn't declare these, but the responder chain finds them
+    // by selector when the table is first responder — Edit menu items with
+    // nil targets dispatch here exactly like they do for text views.
+
+    @objc func copy(_ sender: Any?) { controller?.copySelectedItems() }
+    @objc func cut(_ sender: Any?) { controller?.cutSelectedItems() }
+    @objc func paste(_ sender: Any?) { controller?.pasteIntoCurrentTab() }
+    @objc func undo(_ sender: Any?) { controller?.performUndo() }
+    @objc func redo(_ sender: Any?) { controller?.performRedo() }
+
+    /// Trash the selection (File menu / Delete key semantics).
+    @objc func performDelete(_ sender: Any?) { controller?.trashSelectedItems() }
+
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        guard let controller else { return false }
+        switch menuItem.action {
+        case #selector(copy(_:)), #selector(cut(_:)):
+            return controller.hasSelection
+        case #selector(performDelete(_:)):
+            return controller.hasSelection
+        case #selector(paste(_:)):
+            return controller.clipboardHasFiles
+        case #selector(undo(_:)):
+            return controller.canUndo
+        case #selector(redo(_:)):
+            return controller.canRedo
+        default:
+            return true
+        }
     }
 }
 
@@ -154,6 +208,11 @@ final class FileNameCellView: NSTableCellView {
         nameLabel.stringValue = name
         setAccessibilityLabel(name)
         setAccessibilityValue(item.typeDescription)
+    }
+
+    /// Windows cut-ghosting: dimmed until the paste completes or is aborted.
+    func setCutAppearance(_ isCut: Bool) {
+        alphaValue = isCut ? 0.45 : 1.0
     }
 }
 

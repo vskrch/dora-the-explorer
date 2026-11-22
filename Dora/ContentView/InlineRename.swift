@@ -26,6 +26,12 @@ enum RenameValidator {
         if trimmed.isEmpty {
             return "Names can't be empty."
         }
+        if trimmed == "." || trimmed == ".." {
+            return "“\(trimmed)” is reserved and can't be used."
+        }
+        if trimmed.utf8.count > 255 {
+            return "Names can't be longer than 255 bytes."
+        }
         if !illegalCharacters(in: trimmed).isEmpty {
             return "Names can't contain the “/” character."
         }
@@ -77,14 +83,18 @@ final class InlineRenameField: NSObject, NSTextFieldDelegate {
         let basename = (currentName as NSString).deletingPathExtension
         if basename.isEmpty {
             field.currentEditor()?.selectAll(nil)
-        } else if let range = currentName.range(of: basename) {
-            field.currentEditor()?.selectedRange = NSRange(range, in: currentName)
+        } else if currentName.hasPrefix(basename) {
+            // Anchored prefix, not the first occurrence ("notes.notes.txt"
+            // must select "notes.notes", not "notes").
+            field.currentEditor()?.selectedRange = NSRange(location: 0, length: basename.utf16.count)
         } else {
             field.currentEditor()?.selectAll(nil)
         }
     }
 
     func cancel() {
+        errorTimer?.cancel()
+        errorTimer = nil
         field.delegate = nil
         field.removeFromSuperview()
         errorLabel.removeFromSuperview()

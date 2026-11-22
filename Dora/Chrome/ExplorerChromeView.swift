@@ -47,6 +47,7 @@ final class ExplorerChromeView: NSView {
     private let sidebarWidth: CGFloat = 220
     private let detailsWidth: CGFloat = 260
     private var leadingTrafficLightInset: CGFloat = 78
+    private var titleBarHeight: CGFloat = 38
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
@@ -63,7 +64,7 @@ final class ExplorerChromeView: NSView {
     }
 
     deinit {
-        DistributedNotificationCenter.default().removeObserver(self)
+        NSWorkspace.shared.notificationCenter.removeObserver(self)
     }
 
     // MARK: - Construction
@@ -139,6 +140,7 @@ final class ExplorerChromeView: NSView {
         // The title-bar glass strip is pinned in `build()`; the tab strip sits
         // inside it with the traffic lights reserved on the leading side.
         leadingTrafficLightInset = 78
+        self.titleBarHeight = titleBarHeight
         layoutChrome()
     }
 
@@ -156,9 +158,11 @@ final class ExplorerChromeView: NSView {
             (self?.window?.windowController as? WindowController)?.newTab(directory: self?.currentDirectory)
         }
         tabStrip.onDragOut = { [weak self] id, point in
-            guard let self else { return }
-            let windowPoint = self.window?.convertPoint(fromScreen: point) ?? point
-            (self.window?.windowController as? WindowController)?.tearOffTab(id, at: windowPoint)
+            guard let self, let window = self.window else { return }
+            // The strip reports a window-relative point; tear-off places the
+            // new window on screen — convert exactly once, in one direction.
+            let screenPoint = window.convertPoint(toScreen: point)
+            (window.windowController as? WindowController)?.tearOffTab(id, at: screenPoint)
         }
         tabStrip.contextMenuProvider = { [weak self] id in
             self?.tabContextMenu(for: id)
@@ -197,6 +201,9 @@ final class ExplorerChromeView: NSView {
         }
         contentContainer.onCountsChanged = { [weak self] in
             self?.delegate?.chromeDidChangeCounts()
+        }
+        contentContainer.onBackRequested = { [weak self] in
+            self?.delegate?.chromeDidRequestBack()
         }
 
         commandBar.onNew = { [weak self] in
@@ -257,12 +264,29 @@ final class ExplorerChromeView: NSView {
 
     // MARK: - Command bar menus
 
+    /// Pops a menu directly under the command-bar button for `role`,
+    /// in the window's content-view coordinates.
+    private func popBelowCommandBar(_ menu: NSMenu, role: String) {
+        guard let contentView = window?.contentView else { return }
+        let anchor: NSRect
+        if let button = commandBar.buttonsByRole[role] {
+            anchor = button.frame
+        } else {
+            anchor = NSRect(x: 8, y: commandBar.bounds.maxY - 30, width: 80, height: 26)
+        }
+        let point = NSPoint(
+            x: convert(anchor.origin, from: commandBar).x,
+            y: convert(anchor.origin, from: commandBar).y + anchor.height
+        )
+        menu.popUp(positioning: nil, at: contentView.convert(point, from: self), in: contentView)
+    }
+
     private func presentNewMenu() {
         let menu = NSMenu()
         let folderItem = NSMenuItem(title: "New Folder", action: #selector(newFolderAction), keyEquivalent: "")
         folderItem.target = self
         menu.addItem(folderItem)
-        popBelowCommandBar(menu)
+        popBelowCommandBar(menu, role: "new")
     }
 
     @objc private func newFolderAction() {
@@ -311,7 +335,7 @@ final class ExplorerChromeView: NSView {
         }
         menu.setSubmenu(groupMenu, for: menu.addItem(withTitle: "Group by", action: nil, keyEquivalent: ""))
 
-        popBelowCommandBar(menu)
+        popBelowCommandBar(menu, role: "sort")
     }
 
     @objc private func sortByAction(_ sender: NSMenuItem) {
@@ -355,18 +379,13 @@ final class ExplorerChromeView: NSView {
         hiddenItem.state = tab.showHidden ? .on : .off
         menu.addItem(hiddenItem)
 
-        popBelowCommandBar(menu)
+        popBelowCommandBar(menu, role: "view")
     }
 
     @objc private func toggleHiddenAction() {
         guard let tab = (window?.windowController as? WindowController)?.state.selectedTab else { return }
         tab.showHidden.toggle()
         contentContainer.applyShowHidden(tab.showHidden)
-    }
-
-    private func popBelowCommandBar(_ menu: NSMenu) {
-        guard let contentView = window?.contentView else { return }
-        menu.popUp(positioning: nil, at: NSPoint(x: 8, y: commandBar.frame.minY + 4), in: contentView)
     }
 
     private func tabContextMenu(for id: TabState.ID) -> NSMenu {
@@ -386,7 +405,9 @@ final class ExplorerChromeView: NSView {
     }
 
     private func hookAccessibilityChanges() {
-        DistributedNotificationCenter.default().addObserver(
+        // Display-accessibility notifications live on the workspace center,
+        // NOT the distributed center.
+        NSWorkspace.shared.notificationCenter.addObserver(
             self,
             selector: #selector(accessibilityChanged),
             name: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification,

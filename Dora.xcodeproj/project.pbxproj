@@ -35,6 +35,7 @@
 		BD6B652CCC2C374E2BB023F3 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F79A20BACC53AE50E457060 /* MainMenu.swift */; };
 		CE3D4F6A1BAE6C74B961C267 /* Thumbnails in Frameworks */ = {isa = PBXBuildFile; productRef = 83307DFAC74233F8350ECDC1 /* Thumbnails */; };
 		D468C8D548851BB8F10E4B18 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A8A6F5E9DE2DBA2B341BB7 /* MainWindow.swift */; };
+		E7924DB03550A1D1FB252111 /* ClipboardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7A57D34148EC9C663C6AAE /* ClipboardStore.swift */; };
 		F408C24DAD7D1D692ADF7158 /* ExplorerChromeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C43DCA723BD623993ED874 /* ExplorerChromeView.swift */; };
 		F4B4CA0F22F492C58875A5B1 /* FileRowSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5963337A2898A1DEDC3E4043 /* FileRowSpace.swift */; };
 		F894257AC105EC4782E8365C /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A994DDF8492CDF7524975D53 /* WindowController.swift */; };
@@ -82,6 +83,7 @@
 		A994DDF8492CDF7524975D53 /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 		BF1432DD01368727B3F7169B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D384C1C186CA0DF13D4329B6 /* BreadcrumbBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadcrumbBar.swift; sourceTree = "<group>"; };
+		DC7A57D34148EC9C663C6AAE /* ClipboardStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardStore.swift; sourceTree = "<group>"; };
 		E7ED106C0A28213F9A30B568 /* ShellIntegration */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ShellIntegration; path = Packages/ShellIntegration; sourceTree = SOURCE_ROOT; };
 		E8084547C80D7DB030279170 /* WindowRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRegistry.swift; sourceTree = "<group>"; };
 		E8A8A6F5E9DE2DBA2B341BB7 /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				4EB5A5298B936ACA700754C0 /* AppDelegate.swift */,
+				DC7A57D34148EC9C663C6AAE /* ClipboardStore.swift */,
 				3F79A20BACC53AE50E457060 /* MainMenu.swift */,
 			);
 			path = App;
@@ -327,6 +330,7 @@
 				96C714E0A305BA0875D05340 /* AppDelegate.swift in Sources */,
 				838BB0ED63CFBF9DD1F4A1EA /* BreadcrumbBar.swift in Sources */,
 				93CC773AA19A5D4F0A0CE250 /* BreadcrumbChildLoader.swift in Sources */,
+				E7924DB03550A1D1FB252111 /* ClipboardStore.swift in Sources */,
 				1EA68D04A3311BCFBD93169E /* CommandBarView.swift in Sources */,
 				6F5A2A6F9FD034ECC58E4BFB /* ContentViewContainer.swift in Sources */,
 				5E3FA946698CC3673BC70395 /* DetailsTableCells.swift in Sources */,

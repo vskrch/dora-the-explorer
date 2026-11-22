@@ -28,6 +28,7 @@ final class WindowRegistry: NSObject {
     }
 
     func closeWindow(_ controller: WindowController) {
+        controller.tearDown()
         controllers.removeAll { $0 === controller }
         scheduleSave()
     }
@@ -52,12 +53,12 @@ final class WindowRegistry: NSObject {
         return true
     }
 
-    func saveWorkspace() {
+    func saveWorkspace(synchronously: Bool = false) {
         guard UserDefaults.standard.object(forKey: Self.restoreKey) == nil
                 || UserDefaults.standard.bool(forKey: Self.restoreKey)
         else { return }
         let windows = controllers.map { $0.state.persisted }
-        store.save(.init(windows: windows, isEnabled: true))
+        store.save(.init(windows: windows, isEnabled: true), synchronous: synchronously)
     }
 
     private var saveWorkItem: DispatchWorkItem?

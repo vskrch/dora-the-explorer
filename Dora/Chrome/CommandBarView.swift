@@ -1,6 +1,6 @@
 import AppKit
 
-/// Row 3: command bar placeholder (wired to the command registry in Phase 8).
+/// Row 3: command bar (wired to the command registry in Phase 8).
 @MainActor
 final class CommandBarView: NSView {
     var onNew: (() -> Void)?
@@ -8,6 +8,8 @@ final class CommandBarView: NSView {
     var onView: (() -> Void)?
     var onFilter: (() -> Void)?
 
+    /// Buttons by role, so menus anchor under the one that was clicked.
+    private(set) var buttonsByRole: [String: NSButton] = [:]
     private let stack = NSStackView()
 
     override init(frame frameRect: NSRect) {
@@ -32,13 +34,13 @@ final class CommandBarView: NSView {
             stack.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -10),
         ])
 
-        stack.addArrangedSubview(makeButton("New", symbol: "plus", tooltip: "New ▾", action: #selector(newClicked)))
-        stack.addArrangedSubview(makeButton("Sort", symbol: "arrow.up.arrow.down", tooltip: "Sort ▾", action: #selector(sortClicked)))
-        stack.addArrangedSubview(makeButton("View", symbol: "square.grid.2x2", tooltip: "View ▾", action: #selector(viewClicked)))
-        stack.addArrangedSubview(makeButton("Filter", symbol: "line.3.horizontal.decrease.circle", tooltip: "Filter", action: #selector(filterClicked)))
+        stack.addArrangedSubview(makeButton("new", title: "New", symbol: "plus", tooltip: "New ▾", action: #selector(newClicked)))
+        stack.addArrangedSubview(makeButton("sort", title: "Sort", symbol: "arrow.up.arrow.down", tooltip: "Sort ▾", action: #selector(sortClicked)))
+        stack.addArrangedSubview(makeButton("view", title: "View", symbol: "square.grid.2x2", tooltip: "View ▾", action: #selector(viewClicked)))
+        stack.addArrangedSubview(makeButton("filter", title: "Filter", symbol: "line.3.horizontal.decrease.circle", tooltip: "Filter", action: #selector(filterClicked)))
     }
 
-    private func makeButton(_ title: String, symbol: String, tooltip: String, action: Selector) -> NSButton {
+    private func makeButton(_ role: String, title: String, symbol: String, tooltip: String, action: Selector) -> NSButton {
         let button = NSButton(title: title, target: self, action: action)
         button.image = NSImage(systemSymbolName: symbol, accessibilityDescription: tooltip)
         button.imagePosition = .imageLeading
@@ -46,6 +48,7 @@ final class CommandBarView: NSView {
         button.isBordered = false
         button.font = .systemFont(ofSize: 12)
         button.toolTip = tooltip
+        buttonsByRole[role] = button
         return button
     }
 

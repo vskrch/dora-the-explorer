@@ -70,9 +70,16 @@ public final class DirectoryModel {
 
     public var directory: URL { didSet { reload() } }
     public var settings: ViewSettings {
+
         didSet {
             guard settings != oldValue else { return }
-            regroup()
+            if settings.showHidden != oldValue.showHidden {
+                // Hidden items are excluded at enumeration time: changing the
+                // flag needs a fresh pass to add/remove them.
+                reload()
+            } else {
+                regroup()
+            }
         }
     }
 
@@ -132,18 +139,20 @@ public final class DirectoryModel {
 
                     if !publishedFirstBatch {
                         publishedFirstBatch = true
-                        let groups = sorter(loaded, settings.sortCriteria, settings.grouping)
+                        // Paint the first batch immediately: sort + group
+                        // off-main, then publish the Sendable result.
+                        let prepared = await Self.prepare(loaded, settings)
                         guard let self, !Task.isCancelled else { return }
-                        self.itemsByID = Dictionary(uniqueKeysWithValues: loaded.map { ($0.id, $0) })
+                        self.itemsByID = prepared.index
                         self.firstBatchLatency = clock.now - start
-                        self.publish(groups: groups)
+                        self.publish(groups: prepared.groups)
                     }
                 }
                 guard let self, !Task.isCancelled else { return }
-                let groups = sorter(loaded, settings.sortCriteria, settings.grouping)
-                self.itemsByID = Dictionary(uniqueKeysWithValues: loaded.map { ($0.id, $0) })
+                let prepared = await Self.prepare(loaded, settings)
+                self.itemsByID = prepared.index
                 self.isLoading = false
-                self.publish(groups: groups)
+                self.publish(groups: prepared.groups)
                 self.startWatching()
             } catch is CancellationError {
                 return
@@ -155,6 +164,34 @@ public final class DirectoryModel {
                 DoraLog.fsCore.error("load failed for \(directory.path, privacy: .public): \(error.localizedDescription, privacy: .public)")
             }
         }
+    }
+
+    /// Sort, group and index off the main actor for any directory size.
+    private static func prepare(
+        _ items: [FileItem],
+        _ settings: ViewSettings
+    ) async -> (groups: [ItemGroup], index: [FileItem.ID: FileItem]) {
+        await Task.detached(priority: .userInitiated) {
+            (
+                FileGrouper.groups(
+                    for: items,
+                    settings: .init(key: settings.grouping, sortCriteria: settings.sortCriteria)
+                ),
+                Dictionary(items.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+            )
+        }.value
+    }
+
+    // MARK: - Lifecycle
+
+    /// Cancels in-flight enumeration and stops the FSEvents watcher. Called
+    /// when a tab or window goes away, so no watcher keeps shipping disk
+    /// events into a dead view.
+    public func cancelLoads() {
+        loadTask?.cancel()
+        loadTask = nil
+        watcher?.stop()
+        watcher = nil
     }
 
     // MARK: - Live updates

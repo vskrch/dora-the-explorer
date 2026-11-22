@@ -158,6 +158,7 @@ final class TabItemView: NSView {
     private var trackingArea: NSTrackingArea?
     private var selected = false
     private var closeVisible = false
+    private var tearOffArmed = false
 
     var index = 0
     var isSelected: Bool {
@@ -275,7 +276,12 @@ final class TabItemView: NSView {
     }
 
     override func mouseDown(with event: NSEvent) {
+        tearOffArmed = false
         onSelect?(tabID)
+    }
+
+    override func mouseUp(with event: NSEvent) {
+        tearOffArmed = false
     }
 
     override func rightMouseDown(with event: NSEvent) {
@@ -283,10 +289,13 @@ final class TabItemView: NSView {
     }
 
     override func mouseDragged(with event: NSEvent) {
-        // Tear-off: a drag that leaves the strip vertically becomes a new window.
+        // Tear-off: dragging vertically past the strip becomes a new window.
+        // Fired once per drag — repeated drag ticks don't re-trigger.
+        guard !tearOffArmed else { return }
         let windowPoint = event.locationInWindow
         let stripFrame = convert(bounds, to: nil)
         if windowPoint.y < stripFrame.minY - 24 || windowPoint.y > stripFrame.maxY + 24 {
+            tearOffArmed = true
             onDragOut?(tabID, windowPoint)
         }
     }

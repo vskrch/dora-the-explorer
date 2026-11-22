@@ -37,17 +37,14 @@ public final class ChromeBackgroundView: NSVisualEffectView {
     }
 
     private func observeAccessibility() {
-        let names: [Notification.Name] = [
-            NSWorkspace.accessibilityDisplayOptionsDidChangeNotification,
-        ]
-        for name in names {
-            DistributedNotificationCenter.default().addObserver(
-                self,
-                selector: #selector(accessibilityChanged),
-                name: name,
-                object: nil
-            )
-        }
+        // Display-accessibility notifications live on the workspace center,
+        // not the distributed center.
+        NSWorkspace.shared.notificationCenter.addObserver(
+            self,
+            selector: #selector(accessibilityChanged),
+            name: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification,
+            object: nil
+        )
     }
 
     @objc private func accessibilityChanged() {
@@ -68,7 +65,7 @@ public final class ChromeBackgroundView: NSVisualEffectView {
     }
 
     deinit {
-        DistributedNotificationCenter.default().removeObserver(self)
+        NSWorkspace.shared.notificationCenter.removeObserver(self)
     }
 }
 

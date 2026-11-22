@@ -15,6 +15,12 @@ final class DetailsViewController: NSViewController {
     var onSortChanged: ((_ criteria: [SortCriterion]) -> Void)?
     var onColumnsChanged: ((_ columns: [FileColumn], _ widths: [String: Double]) -> Void)?
     var onRenameCommitted: ((_ item: FileItem, _ newName: String) -> Void)?
+    /// The host mirrors collapse state per tab.
+    var onGroupToggled: ((_ groupID: String) -> Void)?
+    /// Backspace in the table asks the chrome to navigate back.
+    var onNavigateBack: (() -> Void)?
+
+    private var cutPaths: Set<String> = []
 
     private(set) var model: DirectoryModel?
 
@@ -85,6 +91,9 @@ final class DetailsViewController: NSViewController {
                   let item = self.model?.item(withID: id) else { return }
             self.onOpen?(item, true)
         }
+        table.onNavigateBack = { [weak self] in
+            self?.onNavigateBack?()
+        }
 
         renameField.onCommit = { [weak self] newName, moveToNext in
             self?.commitRename(newName: newName, moveToNext: moveToNext)
@@ -127,40 +136,45 @@ final class DetailsViewController: NSViewController {
         self.model = model
         columnsState = columns
         rebuildColumns()
-        model.onPublish = { [weak self] in
-            self?.handlePublish()
-        }
-        handlePublish()
         syncSortIndicators()
     }
 
-    private func handlePublish() {
+    /// Applies a fresh snapshot with ID-addressed selection and a captured
+    /// viewport anchor. The caller (the container) owns selection state —
+    /// the table never derives selection from indexes across publishes.
+    func applySnapshot(
+        snapshot: DirectorySnapshot,
+        selection itemIDs: Set<FileItem.ID>,
+        collapsedGroupIDs: Set<String>,
+        anchorItemID: FileItem.ID?
+    ) {
         let state = signposter.beginInterval("details.rebuild")
         defer { signposter.endInterval("details.rebuild", state) }
 
-        // Keep the viewport anchored: the first visible item stays put when
-        // live updates re-sort or regroup the snapshot.
-        let anchorItemID = firstVisibleItemID()
-        rowSpace = FileRowSpace(
-            snapshot: model?.snapshot ?? DirectorySnapshot(generation: 0, groups: [], totalCount: 0),
-            collapsedGroupIDs: collapsedGroupIDs
-        )
+        self.collapsedGroupIDs = collapsedGroupIDs
+        rowSpace = FileRowSpace(snapshot: snapshot, collapsedGroupIDs: collapsedGroupIDs)
 
         isSyncingSelection = true
         table.reloadData()
-        setSelectedItemIDs(selectedItemIDs, scrollToAnchor: anchorItemID)
+        let rows = rowSpace.indexes(ofItems: itemIDs)
+        table.selectRowIndexes(rows, byExtendingSelection: false)
         isSyncingSelection = false
+
+        // Keep the viewport pinned: restore the anchor only if the update
+        // displaced it; never yank to the selection.
+        if let anchorItemID, let row = rowSpace.index(ofItem: anchorItemID) {
+            let visible = table.rows(in: table.visibleRect)
+            if visible.location == NSNotFound || row < visible.location || row >= visible.location + visible.length {
+                table.scrollRowToVisible(row)
+            }
+        }
     }
 
-    /// Row indices currently visible in the table's viewport.
-    private var visibleRows: [Int] {
-        let range = table.rows(in: table.visibleRect)
-        guard range.length > 0, range.location != NSNotFound else { return [] }
-        return Array(range.location..<range.location + range.length)
-    }
-
-    private func firstVisibleItemID() -> FileItem.ID? {
-        for row in visibleRows {
+    /// Anchor to preserve across the next publish: the first visible item.
+    var visibleAnchorItemID: FileItem.ID? {
+        let visible = table.rows(in: table.visibleRect)
+        guard visible.location != NSNotFound, visible.length > 0 else { return nil }
+        for row in visible.location..<visible.location + visible.length {
             if let id = rowSpace.itemID(at: row) {
                 return id
             }
@@ -170,7 +184,9 @@ final class DetailsViewController: NSViewController {
 
     // MARK: - Selection
 
-    private var selectedItemIDs: Set<FileItem.ID> {
+    /// IDs selected per the current table state (for reporting user changes;
+    /// restores never read from the table).
+    private var tableSelectionIDs: Set<FileItem.ID> {
         var ids: Set<FileItem.ID> = []
         for row in table.selectedRowIndexes {
             if let id = rowSpace.itemID(at: row) { ids.insert(id) }
@@ -178,24 +194,31 @@ final class DetailsViewController: NSViewController {
         return ids
     }
 
-    func setSelectedItemIDs(_ ids: Set<FileItem.ID>, scrollToAnchor: FileItem.ID? = nil) {
+    /// Programmatically selects by ID; only scrolls when asked to reveal an
+    /// anchor (tab restore, rename roll).
+    func setSelectedItemIDs(_ ids: Set<FileItem.ID>, revealingAnchor anchor: FileItem.ID? = nil) {
         isSyncingSelection = true
-        defer { isSyncingSelection = false }
-        let rows = rowSpace.indexes(ofItems: ids)
-        table.selectRowIndexes(rows, byExtendingSelection: false)
-        if let anchor = scrollToAnchor, ids.contains(anchor),
-           let row = rowSpace.index(ofItem: anchor) {
+        table.selectRowIndexes(rowSpace.indexes(ofItems: ids), byExtendingSelection: false)
+        if let anchor, let row = rowSpace.index(ofItem: anchor) {
             table.scrollRowToVisible(row)
-        } else if let first = rows.first {
-            table.scrollRowToVisible(first)
         }
+        isSyncingSelection = false
     }
 
     // MARK: - Opening
 
     @objc private func doubleClicked(_ sender: Any?) {
+        // Cmd+double-click opens the folder under the cursor in a new tab,
+        // leaving the selection untouched (Explorer behaviour); a plain
+        // double-click opens the selection as usual.
         let inNewTab = NSApp.currentEvent?.modifierFlags.contains(.command) ?? false
-        open(rows: table.selectedRowIndexes, inNewTab: inNewTab)
+        if inNewTab, table.clickedRow >= 0,
+           let id = rowSpace.itemID(at: table.clickedRow),
+           let item = model?.item(withID: id) {
+            onOpen?(item, true)
+        } else {
+            open(rows: table.selectedRowIndexes, inNewTab: false)
+        }
     }
 
     private func open(rows: IndexSet, inNewTab: Bool) {
@@ -213,13 +236,41 @@ final class DetailsViewController: NSViewController {
 
     // MARK: - Groups
 
-    func toggleGroup(_ groupID: String) {
+    private func toggleGroup(_ groupID: String) {
         if collapsedGroupIDs.contains(groupID) {
             collapsedGroupIDs.remove(groupID)
         } else {
             collapsedGroupIDs.insert(groupID)
         }
-        handlePublish()
+        onGroupToggled?(groupID)
+        guard let snapshot = model?.snapshot else { return }
+        applySnapshot(
+            snapshot: snapshot,
+            selection: tableSelectionIDs,
+            collapsedGroupIDs: collapsedGroupIDs,
+            anchorItemID: visibleAnchorItemID
+        )
+    }
+
+    /// Applies persisted per-folder column widths after attach.
+    func applyColumnWidths(_ widths: [String: Double]) {
+        guard !widths.isEmpty else { return }
+        for tableColumn in table.tableColumns {
+            if let width = widths[tableColumn.identifier.rawValue] {
+                tableColumn.width = CGFloat(width)
+            }
+        }
+    }
+
+    /// Re-applies the current snapshot after a structural column change.
+    private func refreshAfterColumnChange() {
+        guard let snapshot = model?.snapshot else { return }
+        applySnapshot(
+            snapshot: snapshot,
+            selection: tableSelectionIDs,
+            collapsedGroupIDs: collapsedGroupIDs,
+            anchorItemID: visibleAnchorItemID
+        )
     }
 
     // MARK: - Columns
@@ -273,23 +324,24 @@ final class DetailsViewController: NSViewController {
     @objc private func toggleColumnVisibility(_ sender: NSMenuItem) {
         guard let rawValue = sender.representedObject as? String,
               let column = FileColumn(rawValue: rawValue) else { return }
+        // The Name column is the identity of the view; it can't be removed.
+        guard column != .name else { return }
         if let index = columnsState.firstIndex(of: column) {
-            if columnsState.count > 1 {
-                columnsState.remove(at: index)
-            }
+            columnsState.remove(at: index)
         } else {
             let nameIndex = columnsState.firstIndex(of: .name) ?? -1
             columnsState.insert(column, at: nameIndex + 1)
         }
         rebuildColumns()
-        handlePublish()
+        refreshAfterColumnChange()
         reportColumnsChanged()
     }
 
     /// Measures visible rows and sizes every column to its widest content.
     @objc private func sizeAllColumnsToFit() {
-        let rows = visibleRows
-        guard !rows.isEmpty else { return }
+        let visible = table.rows(in: table.visibleRect)
+        guard visible.location != NSNotFound, visible.length > 0 else { return }
+        let rows = Array(visible.location..<visible.location + visible.length)
 
         let headerFont = NSFont.systemFont(ofSize: 11, weight: .semibold)
         let bodyFont = NSFont.systemFont(ofSize: 13)
@@ -354,7 +406,7 @@ final class DetailsViewController: NSViewController {
     }
 
     func beginRenameOfFirstSelection() {
-        guard let itemID = selectedItemIDs.first,
+        guard let itemID = tableSelectionIDs.first,
               let model, let item = model.item(withID: itemID) else { return }
         beginRename(for: item)
     }
@@ -365,13 +417,15 @@ final class DetailsViewController: NSViewController {
             return
         }
 
-        if newName == item.name {
+        // The committed value is whitespace-trimmed, matching validation.
+        let proposed = newName.trimmingCharacters(in: .whitespaces)
+        if proposed == item.name {
             endRename()
             return
         }
 
         if let error = RenameValidator.validate(
-            newName: newName,
+            newName: proposed,
             originalName: item.name,
             existingNames: model.snapshot.flatItems.map(\.name)
         ) {
@@ -379,20 +433,19 @@ final class DetailsViewController: NSViewController {
             // inside has already torn down the first responder) and show the
             // message inline.
             DoraLog.ui.error("rename rejected: \(error, privacy: .public)")
-            let invalid = newName
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 self.renameField.begin(
                     in: self.table,
                     rect: self.renameField.field.frame,
-                    currentName: invalid
+                    currentName: proposed
                 )
                 self.renameField.showError(error)
             }
             return
         }
 
-        onRenameCommitted?(item, newName)
+        onRenameCommitted?(item, proposed)
         renamingItem = nil
         endRename()
 
@@ -436,8 +489,14 @@ final class DetailsViewController: NSViewController {
         let nextRow = itemRows[current + 1].offset
         guard let nextID = rowSpace.itemID(at: nextRow),
               let model, let nextItem = model.item(withID: nextID) else { return }
-        setSelectedItemIDs([nextID])
+        setSelectedItemIDs([nextID], revealingAnchor: nextID)
         beginRename(for: nextItem)
+    }
+
+    /// Explorer-style cut ghosting: cut items render dimmed.
+    func setCutPaths(_ paths: Set<String>) {
+        cutPaths = paths
+        refreshAfterColumnChange()
     }
 
     // MARK: - NSTableViewDataSource
@@ -476,6 +535,8 @@ final class DetailsViewController: NSViewController {
                     ?? FileNameCellView()
                 view.identifier = nameCellIdentifier
                 view.configure(item: item, name: item.displayName)
+                let isCut = cutPaths.contains(item.url.path)
+                view.setCutAppearance(isCut)
                 return view
             }
 
@@ -520,12 +581,13 @@ final class DetailsViewController: NSViewController {
 
     func tableViewSelectionDidChange(_ notification: Notification) {
         guard !isSyncingSelection else { return }
-        onSelectionChanged?(selectedItemIDs)
+        onSelectionChanged?(tableSelectionIDs)
     }
 
     func tableView(_ tableView: NSTableView, typeSelectStringFor tableColumn: NSTableColumn?, row: Int) -> String? {
-        guard let tableColumn, tableColumn.identifier.rawValue == FileColumn.name.rawValue,
-              let id = rowSpace.itemID(at: row), let model,
+        // Explorer type-selects by name regardless of which column is
+        // active or sorted.
+        guard let id = rowSpace.itemID(at: row), let model,
               let item = model.item(withID: id) else { return nil }
         return item.displayName
     }

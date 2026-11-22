@@ -184,17 +184,18 @@ public final class WindowState: Identifiable {
 
     @discardableResult
     public func closeTab(_ id: TabState.ID, keepSnapshot: Bool = true) -> TabSnapshot? {
-        guard tabs.count > 1 || keepSnapshot == false,
-              let index = tabs.firstIndex(where: { $0.id == id }) else {
-            return nil
-        }
+        guard let index = tabs.firstIndex(where: { $0.id == id }) else { return nil }
         let removed = tabs.remove(at: index)
         if keepSnapshot {
             recentlyClosed.append(removed.snapshot)
             if recentlyClosed.count > 20 { recentlyClosed.removeFirst() }
         }
         if selectedTabID == id {
-            selectedTabID = tabs[min(index, tabs.count - 1)].id
+            // Emptying the tab list hands the window to its owner (controller
+            // closes the window); otherwise pick a neighbour.
+            selectedTabID = tabs.indices.contains(index)
+                ? tabs[min(index, tabs.count - 1)].id
+                : tabs.first?.id
         }
         return removed.snapshot
     }
@@ -290,6 +291,8 @@ public final class WorkspaceStore {
     private let url: URL
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
+    /// Serial I/O queue — the JSON write must never touch the main thread.
+    private let ioQueue = DispatchQueue(label: "com.dorasoft.dora.workspace", qos: .utility)
 
     public init(
         url: URL = FileManager.default
@@ -311,16 +314,26 @@ public final class WorkspaceStore {
         }
     }
 
-    public func save(_ workspace: PersistedWorkspace) {
-        do {
-            try FileManager.default.createDirectory(
-                at: url.deletingLastPathComponent(),
-                withIntermediateDirectories: true
-            )
-            let data = try encoder.encode(workspace)
-            try data.write(to: url, options: .atomic)
-        } catch {
-            DoraLog.shell.error("workspace save failed: \(error.localizedDescription, privacy: .public)")
+    /// Encodes on the caller (cheap), writes on the I/O queue. Pass
+    /// `synchronous: true` only from app termination.
+    public func save(_ workspace: PersistedWorkspace, synchronous: Bool = false) {
+        guard let data = try? encoder.encode(workspace) else { return }
+        let target = url
+        let write: @Sendable () -> Void = {
+            do {
+                try FileManager.default.createDirectory(
+                    at: target.deletingLastPathComponent(),
+                    withIntermediateDirectories: true
+                )
+                try data.write(to: target, options: .atomic)
+            } catch {
+                DoraLog.shell.error("workspace save failed: \(error.localizedDescription, privacy: .public)")
+            }
+        }
+        if synchronous {
+            ioQueue.sync(execute: write)
+        } else {
+            ioQueue.async(execute: write)
         }
     }
 }

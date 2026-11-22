@@ -1,25 +1,39 @@
 import AppKit
 import AppCore
+import FileOps
 import FSCore
 import os
 
 /// Owns one `DirectoryModel` per open tab, hosts the active content view,
-/// and drives the status bar counts. The split view's content pane.
+/// and is the *single* consumer of model publishes — it refreshes the table,
+/// the overlay states and the status counts on every change. The split view's
+/// content pane.
+///
+/// Selection is ID-addressed and lives on `TabState`; the table never derives
+/// selection from indexes across publishes, so live updates can't shift it.
 @MainActor
 final class ContentViewContainer: NSView {
     /// `url, openInNewTab`
     var onOpenURL: ((_ url: URL, _ inNewTab: Bool) -> Void)?
     var onCountsChanged: (() -> Void)?
+    var onSelectionChanged: (() -> Void)?
+    /// Backspace in the content table navigates back.
+    var onBackRequested: (() -> Void)?
 
-    private struct TabStateBox {
+    private struct TabBox {
         let model: DirectoryModel
+        var collapsedGroups: Set<String> = []
     }
 
-    private var tabBoxes: [TabState.ID: TabStateBox] = [:]
+    private var tabBoxes: [TabState.ID: TabBox] = [:]
     private var activeTabID: TabState.ID?
     private let details = DetailsViewController(columns: FileColumn.defaultOrder)
-    private let folderViews = FolderViewStore()
+    private var folderViews: FolderViewStore { FolderViewStore.shared }
     private let signposter = OSSignposter(subsystem: DoraLog.subsystem, category: "perf")
+
+    /// Pending helper-op tasks (new folder hand-off, rename). Cancelled on
+    /// teardown so nothing outlives the window.
+    private var helperTask: Task<Void, Never>?
 
     // Overlay states
     private let emptyState = EmptyStateView()
@@ -55,6 +69,8 @@ final class ContentViewContainer: NSView {
         details.onSelectionChanged = { [weak self] ids in
             guard let self, let tab = self.tab else { return }
             tab.selectedItemIDs = ids
+            tab.scrollAnchorID = ids.first
+            self.onSelectionChanged?()
             self.onCountsChanged?()
         }
         details.onSortChanged = { [weak self] criteria in
@@ -70,8 +86,20 @@ final class ContentViewContainer: NSView {
             box.model.settings = settings
             self.persistFolderView(for: tab, model: box.model, widths: widths)
         }
+        details.onGroupToggled = { [weak self] groupID in
+            guard let self, let tabID = self.activeTabID, var box = self.tabBoxes[tabID] else { return }
+            if box.collapsedGroups.contains(groupID) {
+                box.collapsedGroups.remove(groupID)
+            } else {
+                box.collapsedGroups.insert(groupID)
+            }
+            self.tabBoxes[tabID] = box
+        }
         details.onRenameCommitted = { [weak self] item, newName in
             self?.performRename(item: item, to: newName)
+        }
+        details.onNavigateBack = { [weak self] in
+            self?.onBackRequested?()
         }
         errorView.onRetry = { [weak self] in
             self?.reload()
@@ -86,7 +114,7 @@ final class ContentViewContainer: NSView {
         }
     }
 
-    // MARK: - Tab activation
+    // MARK: - Tab lifecycle
 
     func activate(tab: TabState) {
         let state = signposter.beginInterval("content.activate")
@@ -95,19 +123,26 @@ final class ContentViewContainer: NSView {
         if let oldID = activeTabID, oldID != tab.id, let oldBox = tabBoxes[oldID] {
             oldBox.model.onPublish = nil
         }
+        // Kill a pending New-Folder hand-off from another tab.
+        helperTask?.cancel()
 
         self.tab = tab
         activeTabID = tab.id
 
-        let box: TabStateBox
+        let box: TabBox
         if let existing = tabBoxes[tab.id] {
             box = existing
             applyTabSettings(tab: tab, to: box.model)
         } else {
             let model = DirectoryModel(directory: tab.directory, settings: settings(for: tab))
             applyTabSettings(tab: tab, to: model)
-            box = TabStateBox(model: model)
+            box = TabBox(model: model)
             tabBoxes[tab.id] = box
+        }
+
+        // Publishes drive everything: table refresh, overlays, status counts.
+        box.model.onPublish = { [weak self] in
+            self?.handlePublish()
         }
 
         if box.model.directory != tab.directory {
@@ -117,9 +152,34 @@ final class ContentViewContainer: NSView {
         }
 
         details.attach(model: box.model, columns: FileColumn.ordered(box.model.settings.columns))
-        details.setSelectedItemIDs(Set(tab.selectedItemIDs))
-        updateOverlays()
-        onCountsChanged?()
+        if let stored = folderViews.entry(for: tab.directory) {
+            details.applyColumnWidths(stored.columnWidths ?? [:])
+        }
+        details.setSelectedItemIDs(Set(tab.selectedItemIDs), revealingAnchor: tab.scrollAnchorID)
+        handlePublish()
+    }
+
+    /// Releases a closed tab's model and watcher. Without this, closed tabs
+    /// leak a live FSEvents stream and their full snapshots.
+    func closeTab(_ id: TabState.ID) {
+        guard let box = tabBoxes.removeValue(forKey: id) else { return }
+        box.model.onPublish = nil
+        box.model.cancelLoads()
+        if activeTabID == id {
+            activeTabID = nil
+        }
+    }
+
+    /// Window teardown: cancel everything that could outlive the view.
+    func tearDown() {
+        helperTask?.cancel()
+        for (id, box) in tabBoxes {
+            box.model.onPublish = nil
+            box.model.cancelLoads()
+            tabBoxes.removeValue(forKey: id)
+        }
+        activeTabID = nil
+        tab = nil
     }
 
     /// Tab state (sort/group/hidden) always wins over stored folder memory for
@@ -143,17 +203,32 @@ final class ContentViewContainer: NSView {
     }
 
     private func persistFolderView(for tab: TabState, model: DirectoryModel, widths: [String: Double]? = nil) {
-        let entry = FolderViewStore.Entry(
-            sortCriteria: model.settings.sortCriteria,
-            grouping: model.settings.grouping,
-            columns: model.settings.columns,
-            columnWidths: widths,
-            showHidden: model.settings.showHidden
-        )
+        var entry = folderViews.entry(for: tab.directory) ?? FolderViewStore.Entry()
+        entry.sortCriteria = model.settings.sortCriteria
+        entry.grouping = model.settings.grouping
+        entry.columns = model.settings.columns
+        if let widths { entry.columnWidths = widths }
+        entry.showHidden = model.settings.showHidden
         folderViews.save(entry, for: tab.directory)
     }
 
-    // MARK: - Model updates
+    // MARK: - Publishing
+
+    /// Sole publish consumer: re-renders the table with ID-addressed
+    /// selection and a captured viewport anchor, then refreshes overlays and
+    /// the status bar.
+    private func handlePublish() {
+        guard let tab, let box = tabBoxes[tab.id] else { return }
+        let anchor = details.visibleAnchorItemID
+        details.applySnapshot(
+            snapshot: box.model.snapshot,
+            selection: Set(tab.selectedItemIDs),
+            collapsedGroupIDs: box.collapsedGroups,
+            anchorItemID: anchor
+        )
+        updateOverlays(for: box.model)
+        onCountsChanged?()
+    }
 
     func reload() {
         guard let tab else { return }
@@ -177,7 +252,7 @@ final class ContentViewContainer: NSView {
     func applyShowHidden(_ show: Bool) {
         guard let tab, let box = tabBoxes[tab.id] else { return }
         tab.showHidden = show
-        box.model.settings.showHidden = show
+        box.model.settings.showHidden = show // changed flag reloads internally
         persistFolderView(for: tab, model: box.model)
     }
 
@@ -197,16 +272,60 @@ final class ContentViewContainer: NSView {
         return box.model.size(ofIDs: Set(tab.selectedItemIDs))
     }
 
+    var selectedItems: [FileItem] {
+        guard let tab, let box = tabBoxes[tab.id] else { return [] }
+        return tab.selectedItemIDs.compactMap { box.model.item(withID: $0) }
+    }
+
+    var currentDirectory: URL? {
+        tab?.directory
+    }
+
+    // MARK: - Focus & ghosting passthroughs
+
+    func focusTable() {
+        if let window = details.view.window {
+            window.makeFirstResponder(details.table)
+        }
+    }
+
+    func setCutPaths(_ paths: Set<String>) {
+        details.setCutPaths(paths)
+    }
+
     // MARK: - Actions
 
     func beginRenameOfFirstSelection() {
         details.beginRenameOfFirstSelection()
     }
 
-    /// Creates "New Folder" with the next free suffix, then selects it and
-    /// starts an inline rename — exactly like Windows Explorer. Uniqueness
-    /// probing and creation run off the main thread; the FSEvents watcher
-    /// brings the new folder into the snapshot.
+    /// Performs the rename off the main actor (cross-volume moves are full
+    /// copies); validation already ran in the view controller.
+    private func performRename(item: FileItem, to newName: String) {
+        let destination = item.url.deletingLastPathComponent().appendingPathComponent(newName)
+        helperTask?.cancel()
+        helperTask = Task { [weak self] in
+            let failure: (any Error)? = await Task.detached(priority: .userInitiated) {
+                do {
+                    try FileManager.default.moveItem(at: item.url, to: destination)
+                    return nil
+                } catch {
+                    return error
+                }
+            }.value
+            if let failure {
+                DoraLog.fileOps.error("rename failed for \(item.url.path, privacy: .public): \(failure.localizedDescription, privacy: .public)")
+                self?.presentErrorOnMain(failure)
+            } else {
+                DoraLog.fileOps.info("renamed \(item.name, privacy: .public)")
+            }
+        }
+    }
+
+    private func presentErrorOnMain(_ error: any Error) {
+        _ = NSApp.presentError(error)
+    }
+
     /// Creates "New Folder" with the next free suffix, then selects it and
     /// starts an inline rename — exactly like Windows Explorer. Probing and
     /// creation run off the main thread; the FSEvents watcher brings the new
@@ -216,7 +335,8 @@ final class ContentViewContainer: NSView {
         let directory = tab.directory
         let tabID = tab.id
 
-        Task { [weak self] in
+        helperTask?.cancel()
+        helperTask = Task { [weak self] in
             let outcome: Result<String, any Error> = await Task.detached(priority: .userInitiated) {
                 do {
                     let name = Self.uniqueFolderName(in: directory)
@@ -236,7 +356,7 @@ final class ContentViewContainer: NSView {
                 self?.selectAndRenameCreatedFolder(named: name, in: tabID)
             case .failure(let error):
                 DoraLog.fileOps.error("new folder failed: \(error.localizedDescription, privacy: .public)")
-                _ = NSApp.presentError(error)
+                self?.presentErrorOnMain(error)
             }
         }
     }
@@ -256,41 +376,16 @@ final class ContentViewContainer: NSView {
         // The watcher usually delivers the new item within one latency tick.
         Task { [weak self] in
             for _ in 0..<20 {
-                guard let self, let box = self.tabBoxes[tabID] else { return }
+                guard let self else { return }
+                // Tab switched away: never mutate another folder's view.
+                guard self.activeTabID == tabID, let box = self.tabBoxes[tabID] else { return }
                 if let item = box.model.snapshot.flatItems.first(where: { $0.name == name }) {
-                    self.details.setSelectedItemIDs([item.id])
+                    self.details.setSelectedItemIDs([item.id], revealingAnchor: item.id)
                     self.details.beginRename(for: item)
                     return
                 }
                 try? await Task.sleep(for: .milliseconds(100))
             }
-        }
-    }
-
-    private func performRename(item: FileItem, to newName: String) {
-        let existingNames: [String]
-        if let tab, let box = tabBoxes[tab.id] {
-            existingNames = box.model.snapshot.flatItems.map(\.name)
-        } else {
-            existingNames = []
-        }
-        guard RenameValidator.validate(
-            newName: newName,
-            originalName: item.name,
-            existingNames: existingNames
-        ) == nil else {
-            DoraLog.ui.error("rename rejected for \(item.name, privacy: .public)")
-            return
-        }
-
-        let destination = item.url.deletingLastPathComponent()
-            .appendingPathComponent(newName)
-        do {
-            try FileManager.default.moveItem(at: item.url, to: destination)
-            DoraLog.fileOps.info("renamed \(item.name, privacy: .public) to \(newName, privacy: .public)")
-        } catch {
-            DoraLog.fileOps.error("rename failed for \(item.url.path, privacy: .public): \(error.localizedDescription, privacy: .public)")
-            NSApp.presentError(error)
         }
     }
 
@@ -309,15 +404,7 @@ final class ContentViewContainer: NSView {
         addSubview(errorView)
     }
 
-    private func updateOverlays() {
-        guard let tab, let box = tabBoxes[tab.id] else {
-            emptyState.isHidden = true
-            loadingIndicator.isHidden = true
-            errorView.isHidden = true
-            return
-        }
-
-        let model = box.model
+    private func updateOverlays(for model: DirectoryModel) {
         if let error = model.loadError {
             errorView.configure(
                 title: "Couldn't open this folder",
@@ -329,10 +416,12 @@ final class ContentViewContainer: NSView {
         } else if model.snapshot.totalCount == 0 {
             if model.isLoading {
                 emptyState.isHidden = true
+                errorView.isHidden = true
                 loadingIndicator.isHidden = false
                 loadingIndicator.startAnimation(nil)
             } else {
                 emptyState.show(message: "This folder is empty.")
+                errorView.isHidden = true
                 loadingIndicator.isHidden = true
             }
         } else {
