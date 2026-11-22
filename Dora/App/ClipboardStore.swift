@@ -44,12 +44,15 @@ final class ClipboardStore {
         return urls.isEmpty ? nil : urls
     }
 
-    /// True when the pasted URLs form (part of) the current cut intent —
-    /// either cut in this window (session paths match) or cut in another
-    /// Dora window (marker present, no session paths to contradict it).
+    /// True when the pasted URLs are the live cut intent of THIS process.
+    ///
+    /// The pasteboard outlives the app and the marker can't be deleted from
+    /// it, so an EMPTY session `cutPaths` must mean "copy" — otherwise a
+    /// stale marker from a dead cut silently *moves* files after relaunch.
+    /// (Cross-window still works: `cutPaths` is process-global.)
     func shouldPerformMove(for urls: [URL]) -> Bool {
-        guard NSPasteboard.general.data(forType: Self.cutMarkerType) != nil else { return false }
-        if cutPaths.isEmpty { return true }
+        guard !cutPaths.isEmpty,
+              NSPasteboard.general.data(forType: Self.cutMarkerType) != nil else { return false }
         let paths = Set(urls.map(\.path))
         return paths.isSubset(of: cutPaths)
     }

@@ -29,9 +29,14 @@ final class WindowRegistry: NSObject {
     }
 
     func closeWindow(_ controller: WindowController) {
+        // Persist BEFORE removing the controller: closing the LAST window
+        // otherwise snapshots an empty workspace and the next launch restores
+        // nothing (quit-by-closing must behave like quit-by-menu).
+        let windows = controllers.map { $0.state.persisted }
+        store.save(.init(windows: windows, isEnabled: true))
+
         controller.tearDown()
         controllers.removeAll { $0 === controller }
-        scheduleSave()
     }
 
     // MARK: - Workspace restore
@@ -79,9 +84,6 @@ extension WindowRegistry: NSWindowDelegate {
         guard let window = notification.object as? NSWindow,
               let controller = controllers.first(where: { $0.window === window }) else { return }
         closeWindow(controller)
-        if controllers.isEmpty && !isRestoring {
-            saveWorkspace()
-        }
     }
 
     func windowDidResize(_ notification: Notification) {

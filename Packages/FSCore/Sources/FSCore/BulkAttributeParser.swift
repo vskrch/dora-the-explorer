@@ -3,29 +3,30 @@ import Foundation
 
 /// Decodes `getattrlistbulk(2)` buffers.
 ///
-/// Verified entry layout (macOS 26, APFS, see `BulkRequestDebugTests`):
+/// Verified against the SDK man page's example (getattrlistbulk(2)) and live
+/// kernel output. Entry layout — each entry starts 8-byte aligned:
 ///
 /// ```
-/// u32  entryLength                     (bytes after this word)
-/// u16  bitmapcount = 5
-/// u16  reserved    = 0
-/// u32  attribute mask (vol | dir << 16 …), group order as in attrlist
-/// u32  attribute mask bits 32+
-/// u32  ATTR_CMN_RETURNED_ATTRS[0]
-/// …    (attribute_set_t spans 20 bytes, starting 8 bytes after the entry payload)
-/// 8    ATTR_CMN_NAME (attrreference_t)
-/// 28   ATTR_CMN_OBJTYPE (u32)
-/// 32   ATTR_CMN_FILEID (u64)
-/// 40   ATTR_CMN_CRTIME (timespec)
-/// 56   ATTR_CMN_MODTIME (timespec)
-/// 72   ATTR_CMN_ACCTIME (timespec)
-/// 88   ATTR_CMN_FLAGS (u32)
-/// 92   ATTR_FILE_DATALENGTH (i64)
-/// 100  ATTR_FILE_ALLOCSIZE (i64)
-/// 108  attribute data (name bytes)
+/// u32  length        — total bytes of this entry INCLUDING this word;
+///                      step to the next entry by adding this (entry_start += length)
+/// +4   attribute_set_t returned — 20 bytes: commonattr, volattr, dirattr,
+///                      fileattr, forkattr (u32 each)
+/// +24  attributes in ascending bit order, each aligned per its type
+///      (attrreference_t/int64/timespec at 8-byte alignment from entry start):
+///        ATTR_CMN_NAME  (attrreference_t)
+///        ATTR_CMN_OBJTYPE (u32)
+///        ATTR_CMN_CRTIME (timespec)
+///        ATTR_CMN_MODTIME (timespec)
+///        ATTR_CMN_ACCTIME (timespec)
+///        ATTR_CMN_FLAGS (u32)
+///        ATTR_CMN_FILEID (u64)
+///      then fileattr-set fields in bit order:
+///        ATTR_FILE_ALLOCSIZE (i64)
+///        ATTR_FILE_DATALENGTH (i64)
 /// ```
 ///
-/// Offsets are relative to the entry payload (the byte after the length word).
+/// Name data offset is relative to the position of the attrreference_t
+/// (per the man page example: `name_ptr = attrref_field + attr_dataoffset`).
 internal enum BulkAttributeParser {
     static let commonAttr: attrgroup_t =
         attrgroup_t(ATTR_CMN_RETURNED_ATTRS)
@@ -37,8 +38,11 @@ internal enum BulkAttributeParser {
         | attrgroup_t(ATTR_CMN_ACCTIME)
         | attrgroup_t(ATTR_CMN_FLAGS)
 
+    /// File-class attributes; LINKCOUNT keeps hard links distinguishable.
     static let fileAttr: attrgroup_t =
-        attrgroup_t(ATTR_FILE_DATALENGTH) | attrgroup_t(ATTR_FILE_ALLOCSIZE)
+        attrgroup_t(ATTR_FILE_LINKCOUNT)
+        | attrgroup_t(ATTR_FILE_ALLOCSIZE)
+        | attrgroup_t(ATTR_FILE_DATALENGTH)
 
     static func makeAttrList() -> attrlist {
         var list = attrlist()
@@ -65,98 +69,106 @@ internal enum BulkAttributeParser {
             return ParseResult(items: [], entryCount: 0, bytesUsed: 0, isWellFormed: true)
         }
 
-        var offset = 0
-        var entries = 0
-        var wellFormed = true
-
         func u16(_ at: Int) -> UInt16 { base.loadUnaligned(fromByteOffset: at, as: UInt16.self) }
         func u32(_ at: Int) -> UInt32 { base.loadUnaligned(fromByteOffset: at, as: UInt32.self) }
         func u64(_ at: Int) -> UInt64 { base.loadUnaligned(fromByteOffset: at, as: UInt64.self) }
         func i64(_ at: Int) -> Int64 { base.loadUnaligned(fromByteOffset: at, as: Int64.self) }
 
-        while offset + 4 <= buffer.count {
-            let entryLength = Int(u32(offset))
-            if entryLength <= 0 || offset + 4 + entryLength > buffer.count { break }
+        var cursor = 0
+        var entries = 0
+        var wellFormed = true
+
+        while cursor + 4 <= buffer.count {
+            // Entry length INCLUDES the length word itself (man page: "step
+            // to the next by simply adding this length").
+            let entryLength = Int(u32(cursor))
+            guard entryLength >= 4 + MemoryLayout<attribute_set_t>.size,
+                  cursor + entryLength <= buffer.count else {
+                wellFormed = entries > 0
+                break
+            }
+            let entryStart = cursor
+            let entryEnd = entryStart + entryLength
             entries += 1
-            let payload = offset + 4
-            let end = payload + entryLength
-            defer { offset = end }
+            defer { cursor = entryEnd }
 
-            // Two layouts exist in the wild depending on kernel/boot:
-            //  - compact: u16 bitmapcount, u16 reserved, then the returned set at +4
-            //  - extended: u16 bitmapcount, u16 reserved, u32 mask, then the set at +8
-            // Detect by checking whether the word at +4 looks like an attribute set.
-            var fields = payload + 4
-            if entryLength >= 12 {
-                let candidate = u32(payload + 4)
-                let hasReturned = candidate & UInt32(ATTR_CMN_RETURNED_ATTRS) != 0
-                if hasReturned { fields += 4 }
-            }
-            guard Int(u16(payload)) == ATTR_BIT_MAP_COUNT else {
+            // Returned attribute set directly after the length word.
+            let setCommon = u32(entryStart + 4)
+            let setFileAttr = u32(entryStart + 4 + 3 * MemoryLayout<attrgroup_t>.size)
+            guard setCommon & UInt32(ATTR_CMN_NAME) != 0 else {
                 wellFormed = false
                 continue
             }
 
-            // ATTR_CMN_NAME reference sits right after the returned set.
-            let nameRefOffset = fields + MemoryLayout<attribute_set_t>.size
-            guard end - nameRefOffset >= MemoryLayout<attrreference_t>.size else {
+            var field = entryStart + 4 + MemoryLayout<attribute_set_t>.size
+
+            // Fields are packed SEQUENTIALLY after the returned set, in
+            // ascending attribute-bit order, at natural 4-byte packing (no
+            // extra padding — verified against live kernel buffers: timespec
+            // fields land at 4-mod-8 offsets). Sizes are multiples of 4, so
+            // the cursor stays 4-aligned without padding logic.
+
+            // ATTR_CMN_NAME — attrreference_t { u32 offset, u32 length }.
+            let nameRefAt = field
+            guard entryEnd - nameRefAt >= 8 else { wellFormed = false; continue }
+            let dataOffset = Int(u32(nameRefAt))
+            let dataLengthWords = Int(u32(nameRefAt + 4))
+            let nameStart = nameRefAt + dataOffset
+            guard dataLengthWords > 0, nameStart >= entryStart + 4, nameStart + dataLengthWords <= entryEnd else {
                 wellFormed = false
                 continue
             }
-            let refOffset = base.loadUnaligned(fromByteOffset: nameRefOffset, as: Int32.self)
-            let refLength = base.loadUnaligned(fromByteOffset: nameRefOffset + 4, as: UInt32.self)
-            let nameStart = nameRefOffset + Int(refOffset)
-            let nameLength = Int(refLength)
-            guard nameLength > 0, nameStart >= payload, nameStart + nameLength <= end else {
-                wellFormed = false
-                continue
-            }
-            let nameBytes = UnsafeRawBufferPointer(start: base + nameStart, count: nameLength)
+            let nameBytes = UnsafeRawBufferPointer(start: base + nameStart, count: dataLengthWords)
             let name = String(decoding: nameBytes.prefix { $0 != 0 }, as: UTF8.self)
-            if name.isEmpty {
-                wellFormed = false
-                continue
-            }
-
-            // Remaining fixed fields follow the name reference in attribute_set_t order.
-            var cursor = nameRefOffset + MemoryLayout<attrreference_t>.size
-            func take(_ size: Int) -> Int? {
-                guard cursor + size <= end else { return nil }
-                defer { cursor += size }
-                return cursor
-            }
+            guard !name.isEmpty, name != "." && name != ".." else { continue }
+            field = nameRefAt + 8
 
             var objType: UInt32 = 0
-            if let at = take(4), at + 4 <= end {
-                objType = u32(at)
-            }
-            var fileID: UInt64 = 0
-            if let at = take(8), at + 8 <= end {
-                fileID = u64(at)
+            if setCommon & UInt32(ATTR_CMN_OBJTYPE) != 0, entryEnd - field >= 4 {
+                objType = u32(field)
+                field += 4
             }
             var created: Date?
-            if let at = take(16), at + 16 <= end {
-                created = date(seconds: i64(at), nanos: i64(at + 8))
+            if setCommon & UInt32(ATTR_CMN_CRTIME) != 0, entryEnd - field >= 16 {
+                created = date(seconds: i64(field), nanos: i64(field + 8))
+                field += 16
             }
             var modified: Date?
-            if let at = take(16), at + 16 <= end {
-                modified = date(seconds: i64(at), nanos: i64(at + 8))
+            if setCommon & UInt32(ATTR_CMN_MODTIME) != 0, entryEnd - field >= 16 {
+                modified = date(seconds: i64(field), nanos: i64(field + 8))
+                field += 16
             }
             var accessed: Date?
-            if let at = take(16), at + 16 <= end {
-                accessed = date(seconds: i64(at), nanos: i64(at + 8))
+            if setCommon & UInt32(ATTR_CMN_ACCTIME) != 0, entryEnd - field >= 16 {
+                accessed = date(seconds: i64(field), nanos: i64(field + 8))
+                field += 16
             }
             var flags: UInt32 = 0
-            if let at = take(4), at + 4 <= end {
-                flags = u32(at)
+            if setCommon & UInt32(ATTR_CMN_FLAGS) != 0, entryEnd - field >= 4 {
+                flags = u32(field)
+                field += 4
             }
-            var dataLength: Int64 = 0
-            if let at = take(8), at + 8 <= end {
-                dataLength = i64(at)
+            var fileID: UInt64 = 0
+            if setCommon & UInt32(ATTR_CMN_FILEID) != 0, entryEnd - field >= 8 {
+                fileID = u64(field)
+                field += 8
+            }
+            // File-class fields in ascending fileattr-bit order:
+            // LINKCOUNT (0x1), ALLOCSIZE (0x4), DATALENGTH (0x200).
+            var linkCount: UInt32 = 1
+            if setFileAttr & UInt32(ATTR_FILE_LINKCOUNT) != 0, entryEnd - field >= 4 {
+                linkCount = u32(field)
+                field += 4
             }
             var allocSize: Int64 = 0
-            if let at = take(8), at + 8 <= end {
-                allocSize = i64(at)
+            if setFileAttr & UInt32(ATTR_FILE_ALLOCSIZE) != 0, entryEnd - field >= 8 {
+                allocSize = i64(field)
+                field += 8
+            }
+            var dataLengthBytes: Int64 = 0
+            if setFileAttr & UInt32(ATTR_FILE_DATALENGTH) != 0, entryEnd - field >= 8 {
+                dataLengthBytes = i64(field)
+                field += 8
             }
 
             let isDirectory = objType == UInt32(VDIR.rawValue)
@@ -166,9 +178,16 @@ internal enum BulkAttributeParser {
             if !showHidden && isHidden { continue }
 
             let url = directory.appendingPathComponent(name, isDirectory: isDirectory)
-            let id = fileID != 0
-                ? "\(directory.standardizedFileURL.path)#\(fileID)"
-                : url.standardizedFileURL.path
+            // Hard links in the same folder share an inode; the name
+            // disambiguates them (lstat pass does the same).
+            let id: String
+            if fileID != 0 {
+                id = linkCount > 1
+                    ? "\(directory.standardizedFileURL.path)#\(fileID)#\(name)"
+                    : "\(directory.standardizedFileURL.path)#\(fileID)"
+            } else {
+                id = url.standardizedFileURL.path
+            }
 
             items.append(
                 FileItem(
@@ -179,7 +198,7 @@ internal enum BulkAttributeParser {
                     isPackage: isPackage,
                     isSymlink: isSymlink,
                     isHidden: isHidden,
-                    size: isDirectory ? nil : dataLength,
+                    size: isDirectory ? nil : dataLengthBytes,
                     allocatedSize: allocSize,
                     created: created,
                     modified: modified,
@@ -189,7 +208,7 @@ internal enum BulkAttributeParser {
             )
         }
 
-        return ParseResult(items: items, entryCount: entries, bytesUsed: offset, isWellFormed: wellFormed)
+        return ParseResult(items: items, entryCount: entries, bytesUsed: cursor, isWellFormed: wellFormed)
     }
 
     private static func date(seconds: Int64, nanos: Int64) -> Date {

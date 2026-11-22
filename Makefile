@@ -14,7 +14,7 @@ build: generate
 		-derivedDataPath $(DERIVED) build
 
 test:
-	xcodebuild test -project Dora.xcodeproj -scheme $(SCHEME) \
+	set -o pipefail; xcodebuild test -project Dora.xcodeproj -scheme $(SCHEME) \
 		-destination 'platform=macOS' -derivedDataPath $(DERIVED) \
 		-skipPackagePluginValidation 2>&1 | tail -40
 	@for p in Packages/*/; do echo "== $$p"; swift test --package-path "$$p" || exit 1; done

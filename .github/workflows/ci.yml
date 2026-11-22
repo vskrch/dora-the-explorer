@@ -28,7 +28,7 @@ jobs:
 
       - name: Build app
         run: |
-          xcodebuild -project Fenestra.xcodeproj -scheme Fenestra \
+          xcodebuild -project Dora.xcodeproj -scheme Dora \
             -configuration Debug -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
 
       - name: Test packages
@@ -36,5 +36,5 @@ jobs:
 
       - name: Test app
         run: |
-          xcodebuild test -project Fenestra.xcodeproj -scheme Fenestra \
+          xcodebuild test -project Dora.xcodeproj -scheme Dora \
             -destination 'platform=macOS' -derivedDataPath build CODE_SIGNING_ALLOWED=NO

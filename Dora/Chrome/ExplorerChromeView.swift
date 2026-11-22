@@ -402,14 +402,25 @@ final class ExplorerChromeView: NSView {
     private func tabContextMenu(for id: TabState.ID) -> NSMenu {
         guard let controller = window?.windowController as? WindowController else { return NSMenu() }
         let menu = NSMenu()
+        let raw = id.uuidString
 
         menu.addItem(withTitle: "New tab", action: #selector(WindowController.menuNewTab), keyEquivalent: "").target = controller
-        menu.addItem(withTitle: "Duplicate tab", action: #selector(WindowController.menuDuplicateTab), keyEquivalent: "").target = controller
+        let duplicateItem = menu.addItem(withTitle: "Duplicate tab", action: #selector(WindowController.menuDuplicateSpecificTab(_:)), keyEquivalent: "")
+        duplicateItem.target = controller
+        duplicateItem.representedObject = raw
         menu.addItem(.separator())
-        menu.addItem(withTitle: "Close tab", action: #selector(WindowController.menuCloseTab), keyEquivalent: "").target = controller
-        menu.addItem(withTitle: "Close other tabs", action: #selector(WindowController.menuCloseOtherTabs), keyEquivalent: "").target = controller
-        menu.addItem(withTitle: "Close tabs to the right", action: #selector(WindowController.menuCloseTabsToRight), keyEquivalent: "").target = controller
-        menu.addItem(withTitle: "Move to new window", action: #selector(WindowController.menuMoveToNewWindow), keyEquivalent: "").target = controller
+        let closeItem = menu.addItem(withTitle: "Close tab", action: #selector(WindowController.menuCloseSpecificTab(_:)), keyEquivalent: "")
+        closeItem.target = controller
+        closeItem.representedObject = raw
+        let closeOthers = menu.addItem(withTitle: "Close other tabs", action: #selector(WindowController.menuCloseOtherTabsClicked(_:)), keyEquivalent: "")
+        closeOthers.target = controller
+        closeOthers.representedObject = raw
+        let closeRight = menu.addItem(withTitle: "Close tabs to the right", action: #selector(WindowController.menuCloseTabsToRightClicked(_:)), keyEquivalent: "")
+        closeRight.target = controller
+        closeRight.representedObject = raw
+        let moveOut = menu.addItem(withTitle: "Move to new window", action: #selector(WindowController.menuMoveTabToNewWindowClicked(_:)), keyEquivalent: "")
+        moveOut.target = controller
+        moveOut.representedObject = raw
         menu.addItem(.separator())
         menu.addItem(withTitle: "Reopen closed tab", action: #selector(WindowController.menuReopenClosedTab), keyEquivalent: "").target = controller
         return menu

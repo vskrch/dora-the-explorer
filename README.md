@@ -42,10 +42,9 @@ way a Mac app should be built:
 - **Selection that refuses to drift.** Rows are addressed by file ID, not index, so re-sorts
   and live FSEvents updates never shift what you have selected, and your scroll position is
   anchored across every change.
-- **Every operation undoable.** Copy/move/trash/replace all produce typed undo records
-  (`⌘Z` / `⇧⌘Z`, per window). Overwritten originals get parked in the Trash, not destroyed.
-  Trashed items remember where they came from — restore works even though macOS "Put Back" is
-  Finder-private.
+- **Every operation undoable.** Copy/move/trash produce typed undo records
+  (`⌘Z` / `⇧⌘Z`, per window). Trashed items remember where they came from —
+  restore works even though macOS "Put Back" is Finder-private.
 - **Zero third-party dependencies.** Everything ships in the box, in 8 focused Swift packages.
 
 ## Feature highlights
@@ -108,7 +107,7 @@ Dora (app) · windows · tabs · chrome · details view · menu/clipboard wiring
 ├─ FSCore         bulk enumeration (getattrlistbulk), FSEvents watcher, DirectoryModel
 ├─ FileOps        FileOperationEngine + TrashStore (typed undo records)
 ├─ DesignSystem   chrome materials + accessibility fallbacks
-├─ Thumbnails     QL pipeline (in development)
+├─ Thumbnails     QL pipeline (planned — not started)
 ├─ Search         query engine (planned)
 ├─ Archives       libarchive browsing (planned)
 └─ ShellIntegration  services, dora:// scheme, CLI (planned)

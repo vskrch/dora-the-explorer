@@ -16,10 +16,14 @@ public enum ConflictPolicy: Sendable, Hashable {
 public struct FileOperationFailure: Sendable, Error, LocalizedError {
     public let source: URL
     public let reason: String
+    /// True when the failure is just "a newer operation superseded this one"
+    /// — never worth an error sheet or a log.
+    public var isCancellation: Bool
 
-    public init(source: URL, reason: String) {
+    public init(source: URL, reason: String, isCancellation: Bool = false) {
         self.source = source
         self.reason = reason
+        self.isCancellation = isCancellation
     }
 
     public var errorDescription: String? { reason }
@@ -72,6 +76,33 @@ public actor FileOperationEngine {
 
     // MARK: - Copy
 
+    /// A folder can't be copied into itself (recursion would try to nest
+    /// forever, leaving junk trees behind).
+    private static func isDescendant(_ candidate: URL, of ancestor: URL) -> Bool {
+        let c = candidate.standardizedFileURL.path
+        let a = ancestor.standardizedFileURL.path
+        return c == a || c.hasPrefix(a + "/")
+    }
+
+    /// Restores items parked by `.replace` after the follow-up operation
+    /// failed — without this, a failed copy after a park leaves the user's
+    /// original in the Trash with no undo record and no bookkeeping.
+    private func revert(parked: [(trashURL: URL, original: URL)]) {
+        let manager = FileManager.default
+        for item in parked where manager.fileExists(atPath: item.trashURL.path) {
+            do {
+                try manager.createDirectory(
+                    at: item.original.deletingLastPathComponent(),
+                    withIntermediateDirectories: true
+                )
+                try manager.moveItem(at: item.trashURL, to: item.original)
+            } catch {
+                // The parked item stays in the Trash — recoverable manually.
+                DoraLog.fileOps.error("failed to restore parked original \(item.original.path, privacy: .public): \(error.localizedDescription, privacy: .public)")
+            }
+        }
+    }
+
     /// Copies each source into `destinationDir`.
     public func copy(
         sources: [URL],
@@ -85,10 +116,17 @@ public actor FileOperationEngine {
 
         for source in sources {
             if Task.isCancelled {
-                outcome.failures.append(FileOperationFailure(source: source, reason: "cancelled"))
+                outcome.failures.append(FileOperationFailure(source: source, reason: "cancelled", isCancellation: true))
                 break
             }
-            switch resolve(source: source, in: destinationDir, policy: policy) {
+            if source.hasDirectoryPath && Self.isDescendant(destinationDir, of: source) {
+                outcome.failures.append(FileOperationFailure(
+                    source: source,
+                    reason: "Can't copy a folder into itself."
+                ))
+                continue
+            }
+            switch resolve(source: source, in: destinationDir, policy: policy, isMove: false) {
             case .failure(let reason):
                 outcome.failures.append(FileOperationFailure(source: source, reason: reason))
             case .skip:
@@ -108,6 +146,9 @@ public actor FileOperationEngine {
                     parked.append(parkedItem)
                     outcome.succeeded.append(target)
                 } catch {
+                    // The park left the user's original in the Trash —
+                    // put it back before reporting the failure.
+                    revert(parked: [parkedItem])
                     outcome.failures.append(FileOperationFailure(source: source, reason: error.localizedDescription))
                 }
             }
@@ -139,10 +180,17 @@ public actor FileOperationEngine {
 
         for source in sources {
             if Task.isCancelled {
-                outcome.failures.append(FileOperationFailure(source: source, reason: "cancelled"))
+                outcome.failures.append(FileOperationFailure(source: source, reason: "cancelled", isCancellation: true))
                 break
             }
-            switch resolve(source: source, in: destinationDir, policy: policy) {
+            if source.hasDirectoryPath && Self.isDescendant(destinationDir, of: source) {
+                outcome.failures.append(FileOperationFailure(
+                    source: source,
+                    reason: "Can't move a folder into itself."
+                ))
+                continue
+            }
+            switch resolve(source: source, in: destinationDir, policy: policy, isMove: true) {
             case .failure(let reason):
                 outcome.failures.append(FileOperationFailure(source: source, reason: reason))
             case .skip:
@@ -164,6 +212,9 @@ public actor FileOperationEngine {
                     parked.append(parkedItem)
                     outcome.succeeded.append(target)
                 } catch {
+                    // The park left the user's original in the Trash —
+                    // put it back before reporting the failure.
+                    revert(parked: [parkedItem])
                     outcome.failures.append(FileOperationFailure(source: source, reason: error.localizedDescription))
                 }
             }
@@ -186,7 +237,7 @@ public actor FileOperationEngine {
 
         for source in sources {
             if Task.isCancelled {
-                outcome.failures.append(FileOperationFailure(source: source, reason: "cancelled"))
+                outcome.failures.append(FileOperationFailure(source: source, reason: "cancelled", isCancellation: true))
                 break
             }
             do {
@@ -216,7 +267,10 @@ public actor FileOperationEngine {
     /// *this* operation (for redo).
     public func applyUndo(_ record: UndoRecord) -> OperationOutcome {
         var outcome = OperationOutcome()
-        var redoSteps: [UndoStep] = []
+        // Inverses collected in execution order; redo replays them REVERSED —
+        // undoing [first…last] must redo [last…first] or a `.replace` park
+        // pattern collapses into "(2)" renames and re-trashed originals.
+        var stepInverses: [UndoStep] = []
 
         for step in record.steps {
             if Task.isCancelled { break }
@@ -228,7 +282,7 @@ public actor FileOperationEngine {
                         withIntermediateDirectories: true
                     )
                     try FileManager.default.moveItem(at: from, to: to)
-                    redoSteps.append(.moveBack(from: to, to: from))
+                    stepInverses.append(.moveBack(from: to, to: from))
                 } catch {
                     outcome.failures.append(FileOperationFailure(source: from, reason: error.localizedDescription))
                 }
@@ -245,7 +299,7 @@ public actor FileOperationEngine {
                     }
                 }
                 if !trashed.isEmpty {
-                    redoSteps.append(.restoreFromTrash(trashed))
+                    stepInverses.append(.restoreFromTrash(trashed))
                 }
 
             case .restoreFromTrash(let pairs):
@@ -267,13 +321,16 @@ public actor FileOperationEngine {
                     }
                 }
                 if !restored.isEmpty {
-                    redoSteps.append(.trashCreated(restored))
+                    stepInverses.append(.trashCreated(restored))
                 }
             }
         }
 
-        if !redoSteps.isEmpty {
-            outcome.undo = UndoRecord(title: "Redo: \(record.title)", steps: redoSteps)
+        if !stepInverses.isEmpty {
+            outcome.undo = UndoRecord(
+                title: "Redo: \(record.title)",
+                steps: stepInverses.reversed()
+            )
         }
         return outcome
     }
@@ -295,10 +352,18 @@ public actor FileOperationEngine {
     private func resolve(
         source: URL,
         in destinationDir: URL,
-        policy: ConflictPolicy
+        policy: ConflictPolicy,
+        isMove: Bool
     ) -> Resolution {
         let proposed = destinationDir.appendingPathComponent(source.lastPathComponent)
         let manager = FileManager.default
+
+        // Self-operation guard, BEFORE any policy: without it, `.replace`
+        // parks the SOURCE ITSELF in the Trash when the destination folder
+        // already contains the source. Same-spot moves are Finder no-ops.
+        guard proposed.standardizedFileURL != source.standardizedFileURL else {
+            return .skip
+        }
 
         guard manager.fileExists(atPath: proposed.path) else {
             return .proceed(proposed)

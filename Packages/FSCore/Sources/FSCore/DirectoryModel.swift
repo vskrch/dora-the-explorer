@@ -124,6 +124,9 @@ public final class DirectoryModel {
     /// id → index into `currentItems`; patched in O(k) on diffs.
     private var currentIdentity: [FileItem.ID: Int] = [:]
     private var loadTask: Task<Void, Never>?
+    /// In-flight watcher refreshes — cancelled alongside loads so a
+    /// superseded directory never mutates its replacement's listing.
+    private var refreshTasks: [Task<Void, Never>] = []
     private var watcher: DirectoryWatcher?
     private var generation: UInt64 = 0
 
@@ -177,10 +180,14 @@ public final class DirectoryModel {
 
                     if !publishedFirstBatch {
                         publishedFirstBatch = true
-                        // Paint the first batch immediately: sort + group
-                        // off-main, then publish the Sendable result.
-                        let prepared = await Self.prepare(loaded, settings, sorter: sorter)
                         guard let self, !Task.isCancelled else { return }
+                        // Paint the first batch immediately: sort + group
+                        // off-main with the CURRENT settings (users can change
+                        // sort mid-load; stale criteria would be re-imposed by
+                        // this publish).
+                        let freshSettings = self.settings
+                        let prepared = await Self.prepare(loaded, freshSettings, sorter: sorter)
+                        guard !Task.isCancelled else { return }
                         self.currentItems = prepared.items
                         self.currentIdentity = prepared.identity
                         self.firstBatchLatency = clock.now - start
@@ -188,7 +195,8 @@ public final class DirectoryModel {
                     }
                 }
                 guard let self, !Task.isCancelled else { return }
-                let prepared = await Self.prepare(loaded, settings, sorter: sorter)
+                let freshEndSettings = self.settings
+                let prepared = await Self.prepare(loaded, freshEndSettings, sorter: sorter)
                 self.currentItems = prepared.items
                 self.currentIdentity = prepared.identity
                 self.isLoading = false
@@ -234,6 +242,8 @@ public final class DirectoryModel {
     public func cancelLoads() {
         loadTask?.cancel()
         loadTask = nil
+        refreshTasks.forEach { $0.cancel() }
+        refreshTasks.removeAll()
         watcher?.stop()
         watcher = nil
     }
@@ -261,16 +271,23 @@ public final class DirectoryModel {
             // Names are cheap to resolve; a full metadata refresh happens anyway
             // for the affected entries only, keeping the rest of the snapshot.
             let toRefresh = Set(names)
-            Task { [weak self] in
+            let eventDirectory = directory
+            let task = Task { [weak self] in
                 guard let self else { return }
-                await self.refresh(names: toRefresh)
+                await self.refresh(names: toRefresh, for: eventDirectory)
             }
+            refreshTasks.removeAll { $0.isCancelled }
+            refreshTasks.append(task)
         case .renamed:
             reload()
         }
     }
 
-    private func refresh(names: Set<String>) async {
+    private func refresh(names: Set<String>, for eventDirectory: URL) async {
+        // Freshness gate: if the model navigated away while the detached
+        // resolve ran, these names belong to the wrong folder — drop them.
+        guard eventDirectory == directory else { return }
+
         let directory = self.directory
         let showHidden = settings.showHidden
         let resolved: [FileItem] = await Task.detached(priority: .utility) {

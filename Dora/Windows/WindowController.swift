@@ -83,6 +83,56 @@ final class WindowController: NSWindowController {
         trashSelectedItems()
     }
 
+    // MARK: - Per-tab context menu actions (act on the right-clicked tab)
+
+    private func tabStateID(from sender: NSMenuItem) -> TabState.ID? {
+        guard let raw = sender.representedObject as? String else { return nil }
+        return TabState.ID(uuidString: raw)
+    }
+
+    @objc func menuCloseSpecificTab(_ sender: NSMenuItem) {
+        guard let id = tabStateID(from: sender) else { return }
+        closeTab(id)
+    }
+
+    @objc func menuDuplicateSpecificTab(_ sender: NSMenuItem) {
+        guard let id = tabStateID(from: sender),
+              let source = state.tabs.first(where: { $0.id == id }) else { return }
+        let copy = TabState(snapshot: source.snapshot)
+        if let index = state.tabs.firstIndex(where: { $0.id == id }) {
+            state.tabs.insert(copy, at: index + 1)
+        } else {
+            state.tabs.append(copy)
+        }
+        state.selectedTabID = copy.id
+        syncChrome()
+    }
+
+    @objc func menuCloseOtherTabsClicked(_ sender: NSMenuItem) {
+        guard let id = tabStateID(from: sender) else { return }
+        for tab in state.tabs where tab.id != id {
+            _ = state.closeTab(tab.id, keepSnapshot: true)
+            chrome.contentContainer.closeTab(tab.id)
+        }
+        state.selectedTabID = id
+        syncChrome()
+    }
+
+    @objc func menuCloseTabsToRightClicked(_ sender: NSMenuItem) {
+        guard let id = tabStateID(from: sender),
+              let index = state.tabs.firstIndex(where: { $0.id == id }) else { return }
+        for tab in state.tabs[(index + 1)...] {
+            _ = state.closeTab(tab.id, keepSnapshot: true)
+            chrome.contentContainer.closeTab(tab.id)
+        }
+        syncChrome()
+    }
+
+    @objc func menuMoveTabToNewWindowClicked(_ sender: NSMenuItem) {
+        guard let id = tabStateID(from: sender) else { return }
+        tearOffTab(id, at: window?.frame.origin ?? .zero)
+    }
+
     /// Focus the content table (after path submit, tab switching, navigation).
     func focusContent() {
         chrome.contentContainer.focusTable()
@@ -155,11 +205,13 @@ final class WindowController: NSWindowController {
     }
 
     func performUndo() {
-        guard let record = undoRecords.popLast() else { return }
-        operationTask?.cancel()
-        operationTask = Task { [weak self] in
-            guard let self else { return }
-            let outcome = await self.fileEngine.applyUndo(record)
+        guard !isOperationInFlight, let record = undoRecords.last else { return }
+        runUndoTask(record) { [weak self] outcome in
+            guard let self else { return
+            }
+            // Pop only on completion; a superseded run leaves the record on
+            // the stack so the undo promise can't evaporate on cancel.
+            self.undoRecords.removeLast()
             if let redo = outcome.undo {
                 self.redoRecords.append(redo)
             }
@@ -168,15 +220,33 @@ final class WindowController: NSWindowController {
     }
 
     func performRedo() {
-        guard let record = redoRecords.popLast() else { return }
-        operationTask?.cancel()
-        operationTask = Task { [weak self] in
+        guard !isOperationInFlight, let record = redoRecords.last else { return }
+        runUndoTask(record) { [weak self] outcome in
             guard let self else { return }
-            let outcome = await self.fileEngine.applyUndo(record)
+            self.redoRecords.removeLast()
             if let undo = outcome.undo {
                 self.undoRecords.append(undo)
             }
             self.reportFailures(outcome.failures)
+        }
+    }
+
+    private var isOperationInFlight = false
+
+    private func runUndoTask(
+        _ record: UndoRecord,
+        completion: @escaping (OperationOutcome) -> Void
+    ) {
+        isOperationInFlight = true
+        operationTask?.cancel()
+        operationTask = Task { [weak self] in
+            guard let self else { return }
+            let outcome = await self.fileEngine.applyUndo(record)
+            self.isOperationInFlight = false
+            if Task.isCancelled && outcome.undo == nil && outcome.failures.isEmpty {
+                return // superseded before completion; record stays queued
+            }
+            completion(outcome)
         }
     }
 
@@ -192,7 +262,7 @@ final class WindowController: NSWindowController {
     }
 
     private func reportFailures(_ failures: [FileOperationFailure]) {
-        guard let failure = failures.first else { return }
+        guard let failure = failures.first, !failure.isCancellation else { return }
         DoraLog.fileOps.error("operation failed for \(failure.source.lastPathComponent, privacy: .public): \(failure.reason, privacy: .public)")
         _ = NSApp.presentError(failure)
     }
@@ -280,6 +350,9 @@ final class WindowController: NSWindowController {
         if state.selectedTabID == id {
             state.selectedTabID = state.tabs[min(index, state.tabs.count - 1)].id
         }
+        // Release the torn tab's model + watcher in THIS window; the new
+        // window builds its own.
+        chrome.contentContainer.closeTab(id)
         syncChrome()
 
         let newWindowState = WindowState(tabs: [tab])

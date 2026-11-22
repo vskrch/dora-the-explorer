@@ -107,7 +107,7 @@ enum MainMenu {
         back.target = nil
         let forward = goMenu.addItem(withTitle: "Forward", action: #selector(WindowController.menuForward), keyEquivalent: "]")
         forward.target = nil
-        let up = goMenu.addItem(withTitle: "Enclosing Folder", action: #selector(WindowController.menuUp), keyEquivalent: "^")
+        let up = goMenu.addItem(withTitle: "Enclosing Folder", action: #selector(WindowController.menuUp), keyEquivalent: String(UnicodeScalar(NSUpArrowFunctionKey)!))
         up.keyEquivalentModifierMask = [.command, .shift]
         goMenu.addItem(.separator())
         let editPath = goMenu.addItem(withTitle: "Go to Folder…", action: #selector(WindowController.menuEditPath), keyEquivalent: "l")

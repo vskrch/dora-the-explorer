@@ -70,7 +70,11 @@ final class FileTableView: NSTableView {
     /// Trash the selection (File menu / Delete key semantics).
     @objc func performDelete(_ sender: Any?) { controller?.trashSelectedItems() }
 
-    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    /// Explorer-grade validation: Cut/Copy/Trash need a selection, Paste a
+    /// clipboard with files, Undo/Redo their stacks. Exposed @objc so AppKit's
+    /// menu validation actually reaches it (probe-verified: a plain Swift
+    /// method with this exact shape is invisible to respondsToSelector:).
+    @objc func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard let controller else { return false }
         switch menuItem.action {
         case #selector(copy(_:)), #selector(cut(_:)):

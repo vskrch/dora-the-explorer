@@ -129,11 +129,35 @@ public struct FileItem: Identifiable, Hashable, Sendable {
         .fileResourceIdentifierKey,
     ]
 
+    /// Stable identity used by every enumeration and refresh path:
+    /// `<parentDirectoryPath>#<st_ino>`. The base is ALWAYS the parent
+    /// directory (never the file's own path — the bulk pass keys ids on the
+    /// enumerated directory), and the serial number is the POSIX inode
+    /// (`getattrlistbulk` vends exactly `st_ino` for ATTR_CMN_FILEID;
+    /// single-file `getattrlist` returns a different catalog id for the
+    /// same bit and must not be used). Hard links (nlink > 1) share an id,
+    /// so the name disambiguates them.
+    public static func resolveID(for url: URL) -> String {
+        let standardized = url.standardizedFileURL
+        // Standardize the parent independently: deleting a component first
+        // would let a symlinked parent leave the standardized file's base
+        // and the enumerated directory disagree.
+        let parent = standardized.deletingLastPathComponent()
+        let base = parent.standardizedFileURL.path
+        var info = stat()
+        let ok = url.withUnsafeFileSystemRepresentation { rep -> Bool in
+            guard let rep else { return false }
+            return lstat(rep, &info) == 0
+        }
+        guard ok else { return url.standardizedFileURL.path }
+        if info.st_nlink > 1 {
+            return "\(base)#\(info.st_ino)#\(url.lastPathComponent)"
+        }
+        return "\(base)#\(info.st_ino)"
+    }
+
     /// Fallback identity when `getattrlistbulk` did not provide one.
     public static func makeID(url: URL, values: URLResourceValues?) -> String {
-        if let resourceID = values?.fileResourceIdentifier as? NSObject {
-            return "\(url.deletingLastPathComponent().path.hashValue)-\(resourceID.hash)"
-        }
-        return url.standardizedFileURL.path
+        resolveID(for: url)
     }
 }

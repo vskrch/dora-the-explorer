@@ -192,12 +192,16 @@ final class DetailsViewController: NSViewController {
         let oldRows = rowSpace.rows
         let newSpace = FileRowSpace(snapshot: snapshot, collapsedGroupIDs: collapsedGroupIDs)
 
-        applyRowTransition(from: oldRows, to: newSpace.rows)
+        // Swap the row space BEFORE touching the table: endUpdates() posts
+        // selection change synchronously, and remapping through a stale row
+        // space corrupts the tab's selection set (probe-verified order).
         rowSpace = newSpace
 
-        // Selection is applied by ID; NSTableView has already adjusted its
-        // own row bookkeeping through insert/remove, so this never flickers.
+        // Selection bookkeeping runs inside this bracket — splice, reload and
+        // reapply all adjust selection, and none of those notifications may
+        // write back an intermediate state.
         isSyncingSelection = true
+        applyRowTransition(from: oldRows, to: newSpace.rows)
         let rows = rowSpace.indexes(ofItems: itemIDs)
         if table.selectedRowIndexes != rows {
             table.selectRowIndexes(rows, byExtendingSelection: false)

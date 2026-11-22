@@ -179,9 +179,17 @@ public actor DirectoryEnumerator {
             let modified = Date(timeIntervalSince1970: TimeInterval(info.st_mtimespec.tv_sec))
             let accessed = Date(timeIntervalSince1970: TimeInterval(info.st_atimespec.tv_sec))
 
+            // Identity: `getattrlistbulk` vends the POSIX inode for
+            // ATTR_CMN_FILEID, so this matches the bulk pass and
+            // `FileItem.resolveID` exactly. Hard links disambiguate with a
+            // name suffix (nlink > 1).
+            let id = info.st_nlink > 1
+                ? "\(directory.standardizedFileURL.path)#\(info.st_ino)#\(name)"
+                : "\(directory.standardizedFileURL.path)#\(info.st_ino)"
+
             batch.append(
                 FileItem(
-                    id: "\(directory.standardizedFileURL.path)#\(info.st_ino)",
+                    id: id,
                     url: url,
                     name: name,
                     isDirectory: isDirectory,

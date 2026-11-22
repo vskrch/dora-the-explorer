@@ -88,6 +88,9 @@ public final class TabStripView: NSView {
     }
 
     private func rebuild() {
+        // Remove from the stack's arranged list FIRST, then drop the views —
+        // removeFromSuperview alone leaves stale arranged entries.
+        stack.arrangedSubviews.forEach { stack.removeArrangedSubview($0) }
         tabViews.forEach { $0.removeFromSuperview() }
         tabViews.removeAll()
         trackingIndex = nil
@@ -99,9 +102,10 @@ public final class TabStripView: NSView {
             view.onSelect = { [weak self] id in self?.onSelect?(id) }
             view.onClose = { [weak self] id in self?.onClose?(id) }
             view.onMiddleClick = { [weak self] id in self?.onMiddleClickClose?(id) }
-            view.onRightClick = { [weak self] id, point in
-                guard let self, let menu = self.contextMenuProvider?(id) else { return }
-                menu.popUp(positioning: nil, at: point, in: view)
+            view.onRightClick = { [weak self, weak view] id, point in
+                guard let self, let anchor = view,
+                      let menu = self.contextMenuProvider?(id) else { return }
+                menu.popUp(positioning: nil, at: point, in: anchor)
             }
             view.onDragOut = { [weak self] id, point in self?.onDragOut?(id, point) }
             stack.addArrangedSubview(view)
@@ -110,6 +114,11 @@ public final class TabStripView: NSView {
         }
         updateSelection(animated: false)
         needsLayout = true
+        // Frames are zero until the next layout pass; re-scroll once the
+        // strip has actually laid out so the selected tab is always visible.
+        DispatchQueue.main.async { [weak self] in
+            self?.scrollSelectedIntoView()
+        }
     }
 
     private func updateSelection(animated: Bool) {

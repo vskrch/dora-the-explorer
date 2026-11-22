@@ -139,18 +139,104 @@ struct FileOperationEngineTests {
         #expect(restored == "bye")
     }
 
-    @Test func copyIntoDirectoryWithSameSubfolderReportsConflictFail() async throws {
+    @Test func replaceRedoRestoresExactPaths() async throws {
         let dir = try makeTempDir()
         defer { try? FileManager.default.removeItem(at: dir) }
-        // destination dir is inside the source dir; copying dir into itself
-        // must not recurse or hang — either succeed or record a clear failure.
-        let source = dir.appendingPathComponent("folder", isDirectory: true)
-        try FileManager.default.createDirectory(at: source, withIntermediateDirectories: true)
-        _ = try makeFile(source, "inner.txt")
+        let destination = dir.appendingPathComponent("dest", isDirectory: true)
+        try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: true)
+        try "old".write(to: destination.appendingPathComponent("a.txt"), atomically: true, encoding: .utf8)
+        let source = try makeFile(dir, "a.txt", content: "new")
 
         let engine = FileOperationEngine()
-        let outcome = await engine.copy(sources: [source], to: source, policy: .keepBoth)
-        #expect(!outcome.failures.isEmpty || !outcome.succeeded.isEmpty)
+        let outcome = await engine.copy(sources: [source], to: destination, policy: .replace)
+        let undo = try #require(outcome.undo)
+
+        // Undo puts the original back at a.txt.
+        let afterUndo = try await engine.applyUndo(undo)
+        let postUndo = try String(contentsOf: destination.appendingPathComponent("a.txt"), encoding: .utf8)
+        #expect(postUndo == "old")
+        #expect(afterUndo.failures.isEmpty)
+
+        // Redo (reverse step order) puts the new copy back at a.txt — not at
+        // "a (2).txt" — and re-parks the original.
+        let redo = try #require(afterUndo.undo)
+        let afterRedo = try await engine.applyUndo(redo)
+        #expect(afterRedo.failures.isEmpty)
+        let postRedo = try String(contentsOf: destination.appendingPathComponent("a.txt"), encoding: .utf8)
+        #expect(postRedo == "new")
+        #expect(!FileManager.default.fileExists(atPath: destination.appendingPathComponent("a (2).txt").path))
+    }
+
+    @Test func moveReplaceRedoRestoresBothSides() async throws {
+        let dir = try makeTempDir()
+        defer { try? FileManager.default.removeItem(at: dir) }
+        let srcDir = dir.appendingPathComponent("src", isDirectory: true)
+        let destination = dir.appendingPathComponent("dest", isDirectory: true)
+        try FileManager.default.createDirectory(at: srcDir, withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: true)
+        try "old".write(to: destination.appendingPathComponent("a.txt"), atomically: true, encoding: .utf8)
+        let source = try makeFile(srcDir, "a.txt", content: "new")
+
+        let engine = FileOperationEngine()
+        let outcome = await engine.move(sources: [source], to: destination, policy: .replace)
+        let undo = try #require(outcome.undo)
+
+        let afterUndo = try await engine.applyUndo(undo)
+        #expect(afterUndo.failures.isEmpty)
+        #expect(try String(contentsOf: destination.appendingPathComponent("a.txt"), encoding: .utf8) == "old")
+        #expect(FileManager.default.fileExists(atPath: source.path))
+
+        let redo = try #require(afterUndo.undo)
+        let afterRedo = try await engine.applyUndo(redo)
+        #expect(afterRedo.failures.isEmpty)
+        #expect(try String(contentsOf: destination.appendingPathComponent("a.txt"), encoding: .utf8) == "new")
+        #expect(!FileManager.default.fileExists(atPath: source.path))
+    }
+
+    @Test func sameFolderMoveReplaceNeverTrashesTheSource() async throws {
+        let dir = try makeTempDir()
+        defer { try? FileManager.default.removeItem(at: dir) }
+        let source = try makeFile(dir, "victim.txt", content: "precious")
+
+        let engine = FileOperationEngine()
+        let outcome = await engine.move(sources: [source], to: dir, policy: .replace)
+        #expect(outcome.skipped.contains(source))
+        #expect(outcome.succeeded.isEmpty)
+        // The source must still exist on disk with the exact name and content.
+        #expect(try String(contentsOf: source, encoding: .utf8) == "precious")
+    }
+
+    @Test func replaceCopyFailureRestoresTheParkedOriginal() async throws {
+        let dir = try makeTempDir()
+        defer { try? FileManager.default.removeItem(at: dir) }
+        let destination = dir.appendingPathComponent("dest", isDirectory: true)
+        try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: true)
+        try "old".write(to: destination.appendingPathComponent("a.txt"), atomically: true, encoding: .utf8)
+
+        let engine = FileOperationEngine()
+        // Source doesn't exist: the park happens first, the copy then fails —
+        // the parked original must be reverted to its exact path.
+        let outcome = await engine.copy(sources: [dir.appendingPathComponent("ghost.txt")], to: destination, policy: .replace)
+        #expect(outcome.succeeded.isEmpty)
+        #expect(!outcome.failures.isEmpty)
+        let restored = try String(contentsOf: destination.appendingPathComponent("a.txt"), encoding: .utf8)
+        #expect(restored == "old")
+    }
+
+    @Test func folderIntoItselfIsRejectedWithoutJunkTrees() async throws {
+        let dir = try makeTempDir()
+        defer { try? FileManager.default.removeItem(at: dir) }
+        let folder = dir.appendingPathComponent("folder", isDirectory: true)
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let inner = folder.appendingPathComponent("inner", isDirectory: true)
+        try FileManager.default.createDirectory(at: inner, withIntermediateDirectories: true)
+
+        let engine = FileOperationEngine()
+        let outcome = await engine.copy(sources: [folder], to: inner, policy: .keepBoth)
+        #expect(outcome.failures.count == 1)
+        #expect(outcome.succeeded.isEmpty)
+        // No nested folder/… junk tree was created.
+        #expect(!FileManager.default.fileExists(atPath: inner.appendingPathComponent("folder").path))
     }
 }
 

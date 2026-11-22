@@ -48,19 +48,33 @@ public final class DirectoryWatcher: @unchecked Sendable {
         defer { lock.unlock() }
         guard stream == nil, !stopped else { return }
 
+        // passRetained + a matching release callback: FSEvents callbacks run
+        // on the watcher's private queue while stop() may have already run on
+        // the main actor — without FSEvents holding its own reference, an
+        // in-flight callback can race the watcher's deallocation and
+        // use-after-free. FSEvents balances the retain through the release
+        // callback at invalidation.
         var context = FSEventStreamContext(
             version: 0,
-            info: Unmanaged.passUnretained(self).toOpaque(),
+            info: Unmanaged.passRetained(self).toOpaque(),
             retain: nil,
-            release: nil,
+            release: { info in
+                if let info {
+                    Unmanaged<DirectoryWatcher>.fromOpaque(info).release()
+                }
+            },
             copyDescription: nil
         )
 
+        // WatchRoot is NOT about recursion, it's root-change signaling:
+        // without it, deleting the watched directory or unmounting its
+        // volume never delivers RootChanged and the stream silently goes
+        // stale on a listing of a folder that no longer exists.
         let flags = FSEventStreamCreateFlags(
             kFSEventStreamCreateFlagFileEvents
                 | kFSEventStreamCreateFlagUseCFTypes
                 | kFSEventStreamCreateFlagNoDefer
-                | (recursive ? kFSEventStreamCreateFlagWatchRoot : 0)
+                | kFSEventStreamCreateFlagWatchRoot
         )
 
         let paths = [directory.path] as CFArray
@@ -82,13 +96,17 @@ public final class DirectoryWatcher: @unchecked Sendable {
             flags
         ) else {
             DoraLog.fsCore.error("FSEventStreamCreate failed for \(self.directory.path, privacy: .public)")
+            // Balance the passRetained that never reached FSEvents.
+            if let info = context.info {
+                Unmanaged<DirectoryWatcher>.fromOpaque(info).release()
+            }
             return
         }
 
         FSEventStreamSetDispatchQueue(stream, queue)
         if !FSEventStreamStart(stream) {
             DoraLog.fsCore.error("FSEventStreamStart failed for \(self.directory.path, privacy: .public)")
-            FSEventStreamInvalidate(stream)
+            FSEventStreamInvalidate(stream) // balances the FSEvents-held retain via the release callback
             FSEventStreamRelease(stream)
             return
         }

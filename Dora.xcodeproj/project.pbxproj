@@ -29,7 +29,6 @@
 		838BB0ED63CFBF9DD1F4A1EA /* BreadcrumbBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D384C1C186CA0DF13D4329B6 /* BreadcrumbBar.swift */; };
 		93CC773AA19A5D4F0A0CE250 /* BreadcrumbChildLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54395BC625C3C9898389EAC8 /* BreadcrumbChildLoader.swift */; };
 		96C714E0A305BA0875D05340 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB5A5298B936ACA700754C0 /* AppDelegate.swift */; };
-		9F7229B23794DE71BF818C7A /* GlassHostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF24AABB902719AE75360FC /* GlassHostView.swift */; };
 		B0CA77AC15237AD255CEA3C9 /* Archives in Frameworks */ = {isa = PBXBuildFile; productRef = C3CDD525249BE56E762221B9 /* Archives */; };
 		B1BB4F026873C16713B1A249 /* DetailsLogicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95119AEA5F61D8C2E5D053B1 /* DetailsLogicTests.swift */; };
 		B46ACCA5A6B96560D798883A /* DoraSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21994B901B4AFDEF809753BF /* DoraSmokeTests.swift */; };
@@ -93,7 +92,6 @@
 		E8A8A6F5E9DE2DBA2B341BB7 /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		ECE24E1539F1AB8C3CE5A325 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
 		ED490041DBDCB45B59E66B50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		FAF24AABB902719AE75360FC /* GlassHostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassHostView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,7 +230,6 @@
 				54395BC625C3C9898389EAC8 /* BreadcrumbChildLoader.swift */,
 				5909912F0C4608D131B2EF12 /* CommandBarView.swift */,
 				46C43DCA723BD623993ED874 /* ExplorerChromeView.swift */,
-				FAF24AABB902719AE75360FC /* GlassHostView.swift */,
 				44682C7481D19DFF783B99BF /* NavigationBarView.swift */,
 				4B03AAE4115AC9C822527BFC /* PanePlaceholders.swift */,
 				73260C9E8C997F9FB997A4A5 /* StatusBarView.swift */,
@@ -369,7 +366,6 @@
 				001F352606BBE73E19A3E9FF /* FileColumns.swift in Sources */,
 				F4B4CA0F22F492C58875A5B1 /* FileRowSpace.swift in Sources */,
 				557A120AB0FB35A59D56B14F /* FolderViewStore.swift in Sources */,
-				9F7229B23794DE71BF818C7A /* GlassHostView.swift in Sources */,
 				7F73AEA804451C32198DEDA0 /* InlineRename.swift in Sources */,
 				BD6B652CCC2C374E2BB023F3 /* MainMenu.swift in Sources */,
 				D468C8D548851BB8F10E4B18 /* MainWindow.swift in Sources */,

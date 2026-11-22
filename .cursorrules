@@ -11,7 +11,7 @@
 - Add debug information to stderr while keeping the main output clean in stdout for better pipeline integration
 - When using seaborn styles in matplotlib, use 'seaborn-v0_8' instead of 'seaborn' as the style name due to recent seaborn version changes
 - Use 'gpt-4o' as the model name for OpenAI's GPT-4 with vision capabilities
-- Dora (legacy, `Dora/`) is the old SwiftUI prototype; Fenestra (`Fenestra/` + `Packages/`) is the real app. Build Fenestra with `make build` / `xcodegen generate`.
+- Dora the Explorer: the app lives in `Dora/` + `Packages/` (scheme `Dora`). Build with `make build` / `xcodegen generate`. If a Fenestra path ever appears in an instruction, it predates the rename.
 - File explorer apps keep App Sandbox off for free filesystem browse.
 - KeyCatcherView/NSView must not steal firstResponder from NSTextField/NSTextView.
 - **Package.swift platform**: `.macOS(.v26)` does not exist in PackageDescription here; use `.macOS("26.0")`.
@@ -28,7 +28,7 @@
 # Scratchpad
 
 ## Current task
-Fenestra — native macOS 26 file explorer (Windows 11 Explorer parity). Prompt-by-prompt.
+Dora the Explorer — native macOS 26 file explorer (Windows 11 Explorer parity).
 
 ## Plan (prompts 0–19)
 [X] P0 scaffold — 8 SPM packages, AppKit app, tests, CI, Makefile
@@ -38,7 +38,7 @@ Fenestra — native macOS 26 file explorer (Windows 11 Explorer parity). Prompt-
 [ ] Review pass 0–3
 
 ## Decisions
-- Bundle ID `com.dorasoft.fenestra`, ad-hoc signing until a team ID is supplied.
+- Bundle ID `com.dorasoft.dora`, ad-hoc signing until a team ID is supplied.
 - Keep `Dora/` as reference; do not delete.
 - macOS 26 + arm64 only. Timing-sensitive perf tests are local-only.
 - F2 on 1 item = inline rename; F2 on 2+ = PowerRename sheet (resolves prompt 3 vs 16 conflict).
