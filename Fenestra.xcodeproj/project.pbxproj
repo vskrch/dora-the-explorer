@@ -1,0 +1,570 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0752361EB26A87D318671E61 /* FileOps in Frameworks */ = {isa = PBXBuildFile; productRef = C55C7254DA5A43880C6C74F0 /* FileOps */; };
+		4072297082B43B33DCDA8164 /* FenestraSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25C94619B3774C5E5795760 /* FenestraSmokeTests.swift */; };
+		51F53F47746435C08AE14EFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1513A951243C23A275C326 /* AppDelegate.swift */; };
+		5B0C701BC256EC2896AA418B /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 9489EEE62B00E1210950AADB /* DesignSystem */; };
+		684F0340F4F6495B56BE45AD /* Search in Frameworks */ = {isa = PBXBuildFile; productRef = D49D97795455D2549647F1EA /* Search */; };
+		8AC507BDB325AA2A11AB2972 /* Archives in Frameworks */ = {isa = PBXBuildFile; productRef = DB25EBD56D9D147E8E4640FC /* Archives */; };
+		92334AA7F9ADEACB6347EFA2 /* ShellIntegration in Frameworks */ = {isa = PBXBuildFile; productRef = F538095A281A2EA049B479F2 /* ShellIntegration */; };
+		A16A5320FCB82D706C3D8311 /* Thumbnails in Frameworks */ = {isa = PBXBuildFile; productRef = 204DA5902639157A4AF3381C /* Thumbnails */; };
+		CC34250A89EF99A67FBE7DF9 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E823FF0E78441608F7FA3096 /* MainWindow.swift */; };
+		D8F7F3EF9EF1DA40D4686961 /* FSCore in Frameworks */ = {isa = PBXBuildFile; productRef = 48C84541363E16137EDC7A7E /* FSCore */; };
+		E731A35F7E66F6A2EE56EC9F /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3A9303B398904C50AB663A97 /* AppCore */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B626F685BD00872869E4E9E6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A665EE32C18C69046A6E0ECE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EF4463422D82667575F4AA0C;
+			remoteInfo = Fenestra;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		17AFD18709C40F98A595EA2B /* Thumbnails */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Thumbnails; path = Packages/Thumbnails; sourceTree = SOURCE_ROOT; };
+		1AE74BAAB216C884867CD452 /* Search */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Search; path = Packages/Search; sourceTree = SOURCE_ROOT; };
+		31E9A9583AE1E378A8B062FC /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DesignSystem; path = Packages/DesignSystem; sourceTree = SOURCE_ROOT; };
+		360C0BA6B45169C4894B367F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		38E25068E6F551DC38DBF096 /* ShellIntegration */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ShellIntegration; path = Packages/ShellIntegration; sourceTree = SOURCE_ROOT; };
+		3C0263F4DFE696DCAE0EA394 /* AppCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AppCore; path = Packages/AppCore; sourceTree = SOURCE_ROOT; };
+		51A72F266408295FE2887662 /* FenestraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FenestraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5B6D703258A906895518E5D /* FSCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FSCore; path = Packages/FSCore; sourceTree = SOURCE_ROOT; };
+		A967A98D30A281C2A656DDA1 /* Archives */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Archives; path = Packages/Archives; sourceTree = SOURCE_ROOT; };
+		B25C94619B3774C5E5795760 /* FenestraSmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FenestraSmokeTests.swift; sourceTree = "<group>"; };
+		B6CA531CC7733FFF68EC87B3 /* Fenestra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fenestra.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEB0A6B95775D7DAA8036BCA /* Fenestra.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fenestra.entitlements; sourceTree = "<group>"; };
+		D217DD67CAC2A92BE2D59B48 /* FileOps */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FileOps; path = Packages/FileOps; sourceTree = SOURCE_ROOT; };
+		DA1513A951243C23A275C326 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E823FF0E78441608F7FA3096 /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DDCEA7229CEB997BA711A249 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8F7F3EF9EF1DA40D4686961 /* FSCore in Frameworks */,
+				0752361EB26A87D318671E61 /* FileOps in Frameworks */,
+				A16A5320FCB82D706C3D8311 /* Thumbnails in Frameworks */,
+				684F0340F4F6495B56BE45AD /* Search in Frameworks */,
+				8AC507BDB325AA2A11AB2972 /* Archives in Frameworks */,
+				92334AA7F9ADEACB6347EFA2 /* ShellIntegration in Frameworks */,
+				5B0C701BC256EC2896AA418B /* DesignSystem in Frameworks */,
+				E731A35F7E66F6A2EE56EC9F /* AppCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		14C6A7D5123491D08B28C4F8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B6CA531CC7733FFF68EC87B3 /* Fenestra.app */,
+				51A72F266408295FE2887662 /* FenestraTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		80CD6D4C041C55855D83D943 = {
+			isa = PBXGroup;
+			children = (
+				876314DBF3532C452D2300A8 /* Fenestra */,
+				C67F83E6462AD150CDE5FE3D /* FenestraTests */,
+				BC9378CCA0C82B4208912F40 /* Packages */,
+				14C6A7D5123491D08B28C4F8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		876314DBF3532C452D2300A8 /* Fenestra */ = {
+			isa = PBXGroup;
+			children = (
+				DED6A7569B3A136F6448666A /* App */,
+				CBB50B1256EEB2B72AE01941 /* Windows */,
+				BEB0A6B95775D7DAA8036BCA /* Fenestra.entitlements */,
+				360C0BA6B45169C4894B367F /* Info.plist */,
+			);
+			path = Fenestra;
+			sourceTree = "<group>";
+		};
+		BC9378CCA0C82B4208912F40 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				3C0263F4DFE696DCAE0EA394 /* AppCore */,
+				A967A98D30A281C2A656DDA1 /* Archives */,
+				31E9A9583AE1E378A8B062FC /* DesignSystem */,
+				D217DD67CAC2A92BE2D59B48 /* FileOps */,
+				A5B6D703258A906895518E5D /* FSCore */,
+				1AE74BAAB216C884867CD452 /* Search */,
+				38E25068E6F551DC38DBF096 /* ShellIntegration */,
+				17AFD18709C40F98A595EA2B /* Thumbnails */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		C67F83E6462AD150CDE5FE3D /* FenestraTests */ = {
+			isa = PBXGroup;
+			children = (
+				B25C94619B3774C5E5795760 /* FenestraSmokeTests.swift */,
+			);
+			path = FenestraTests;
+			sourceTree = "<group>";
+		};
+		CBB50B1256EEB2B72AE01941 /* Windows */ = {
+			isa = PBXGroup;
+			children = (
+				E823FF0E78441608F7FA3096 /* MainWindow.swift */,
+			);
+			path = Windows;
+			sourceTree = "<group>";
+		};
+		DED6A7569B3A136F6448666A /* App */ = {
+			isa = PBXGroup;
+			children = (
+				DA1513A951243C23A275C326 /* AppDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2D70FB77B7BD055E73CCA16D /* FenestraTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BF5ABC660606338D996B33D1 /* Build configuration list for PBXNativeTarget "FenestraTests" */;
+			buildPhases = (
+				DC7495F27D8440E9DCFCC5F6 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2B120A7328807A56D9115D6D /* PBXTargetDependency */,
+			);
+			name = FenestraTests;
+			productName = FenestraTests;
+			productReference = 51A72F266408295FE2887662 /* FenestraTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		EF4463422D82667575F4AA0C /* Fenestra */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 42906951E973536EE10664E3 /* Build configuration list for PBXNativeTarget "Fenestra" */;
+			buildPhases = (
+				1FA94EC67257C8B2B1A6A151 /* Sources */,
+				DDCEA7229CEB997BA711A249 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Fenestra;
+			packageProductDependencies = (
+				48C84541363E16137EDC7A7E /* FSCore */,
+				C55C7254DA5A43880C6C74F0 /* FileOps */,
+				204DA5902639157A4AF3381C /* Thumbnails */,
+				D49D97795455D2549647F1EA /* Search */,
+				DB25EBD56D9D147E8E4640FC /* Archives */,
+				F538095A281A2EA049B479F2 /* ShellIntegration */,
+				9489EEE62B00E1210950AADB /* DesignSystem */,
+				3A9303B398904C50AB663A97 /* AppCore */,
+			);
+			productName = Fenestra;
+			productReference = B6CA531CC7733FFF68EC87B3 /* Fenestra.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A665EE32C18C69046A6E0ECE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					2D70FB77B7BD055E73CCA16D = {
+						ProvisioningStyle = Automatic;
+					};
+					EF4463422D82667575F4AA0C = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 53072D1E020E048EB0B32D9E /* Build configuration list for PBXProject "Fenestra" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 80CD6D4C041C55855D83D943;
+			packageReferences = (
+				674BD04272E7B5AF419298FB /* XCLocalSwiftPackageReference "Packages/AppCore" */,
+				34312F9896685C8F71F4F37A /* XCLocalSwiftPackageReference "Packages/Archives" */,
+				34AF5CE0A1237C259807981E /* XCLocalSwiftPackageReference "Packages/DesignSystem" */,
+				258782EC3D6AD07AF6488FBB /* XCLocalSwiftPackageReference "Packages/FSCore" */,
+				8545CD9FF7B8D08EBF193B51 /* XCLocalSwiftPackageReference "Packages/FileOps" */,
+				285BA1E0CECC35D2F48A414E /* XCLocalSwiftPackageReference "Packages/Search" */,
+				4C1C7FED8EFB62CE7D86DFB0 /* XCLocalSwiftPackageReference "Packages/ShellIntegration" */,
+				B697BC9C143CD9652F5CFDC3 /* XCLocalSwiftPackageReference "Packages/Thumbnails" */,
+			);
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EF4463422D82667575F4AA0C /* Fenestra */,
+				2D70FB77B7BD055E73CCA16D /* FenestraTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1FA94EC67257C8B2B1A6A151 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				51F53F47746435C08AE14EFA /* AppDelegate.swift in Sources */,
+				CC34250A89EF99A67FBE7DF9 /* MainWindow.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DC7495F27D8440E9DCFCC5F6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4072297082B43B33DCDA8164 /* FenestraSmokeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2B120A7328807A56D9115D6D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EF4463422D82667575F4AA0C /* Fenestra */;
+			targetProxy = B626F685BD00872869E4E9E6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		184EAA91C0314A448CD6DBC7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Fenestra/Fenestra.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
+				INFOPLIST_FILE = Fenestra/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dorasoft.fenestra;
+				PRODUCT_NAME = Fenestra;
+				SDKROOT = macosx;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
+				SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY = YES;
+			};
+			name = Release;
+		};
+		1F35154DCF07E2983E9D5C2A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dorasoft.fenestra.tests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fenestra.app/Contents/MacOS/Fenestra";
+			};
+			name = Release;
+		};
+		2DEF759F156B885813876959 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		AEC3879D18E65108E7680B50 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Fenestra/Fenestra.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
+				INFOPLIST_FILE = Fenestra/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dorasoft.fenestra;
+				PRODUCT_NAME = Fenestra;
+				SDKROOT = macosx;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
+				SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY = YES;
+			};
+			name = Debug;
+		};
+		B8A15D8001D33C832AFD1392 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		D68E96EEF59E7B477B0CD7D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dorasoft.fenestra.tests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fenestra.app/Contents/MacOS/Fenestra";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		42906951E973536EE10664E3 /* Build configuration list for PBXNativeTarget "Fenestra" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AEC3879D18E65108E7680B50 /* Debug */,
+				184EAA91C0314A448CD6DBC7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		53072D1E020E048EB0B32D9E /* Build configuration list for PBXProject "Fenestra" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2DEF759F156B885813876959 /* Debug */,
+				B8A15D8001D33C832AFD1392 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BF5ABC660606338D996B33D1 /* Build configuration list for PBXNativeTarget "FenestraTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D68E96EEF59E7B477B0CD7D1 /* Debug */,
+				1F35154DCF07E2983E9D5C2A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		258782EC3D6AD07AF6488FBB /* XCLocalSwiftPackageReference "Packages/FSCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/FSCore;
+		};
+		285BA1E0CECC35D2F48A414E /* XCLocalSwiftPackageReference "Packages/Search" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/Search;
+		};
+		34312F9896685C8F71F4F37A /* XCLocalSwiftPackageReference "Packages/Archives" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/Archives;
+		};
+		34AF5CE0A1237C259807981E /* XCLocalSwiftPackageReference "Packages/DesignSystem" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/DesignSystem;
+		};
+		4C1C7FED8EFB62CE7D86DFB0 /* XCLocalSwiftPackageReference "Packages/ShellIntegration" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/ShellIntegration;
+		};
+		674BD04272E7B5AF419298FB /* XCLocalSwiftPackageReference "Packages/AppCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/AppCore;
+		};
+		8545CD9FF7B8D08EBF193B51 /* XCLocalSwiftPackageReference "Packages/FileOps" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/FileOps;
+		};
+		B697BC9C143CD9652F5CFDC3 /* XCLocalSwiftPackageReference "Packages/Thumbnails" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/Thumbnails;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		204DA5902639157A4AF3381C /* Thumbnails */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Thumbnails;
+		};
+		3A9303B398904C50AB663A97 /* AppCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppCore;
+		};
+		48C84541363E16137EDC7A7E /* FSCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FSCore;
+		};
+		9489EEE62B00E1210950AADB /* DesignSystem */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DesignSystem;
+		};
+		C55C7254DA5A43880C6C74F0 /* FileOps */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FileOps;
+		};
+		D49D97795455D2549647F1EA /* Search */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Search;
+		};
+		DB25EBD56D9D147E8E4640FC /* Archives */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Archives;
+		};
+		F538095A281A2EA049B479F2 /* ShellIntegration */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ShellIntegration;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = A665EE32C18C69046A6E0ECE /* Project object */;
+}

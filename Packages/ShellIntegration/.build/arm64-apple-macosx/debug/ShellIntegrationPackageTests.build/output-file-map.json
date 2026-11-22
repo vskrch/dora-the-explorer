@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/ShellIntegration/.build/arm64-apple-macosx/debug/ShellIntegrationPackageTests.build/primary.swiftdeps"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/ShellIntegration/.build/arm64-apple-macosx/debug/ShellIntegrationPackageTests.derived/runner.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/ShellIntegration/.build/arm64-apple-macosx/debug/ShellIntegrationPackageTests.build/runner.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/ShellIntegration/.build/arm64-apple-macosx/debug/ShellIntegrationPackageTests.build/runner.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/ShellIntegration/.build/arm64-apple-macosx/debug/ShellIntegrationPackageTests.build/runner~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/ShellIntegration/.build/arm64-apple-macosx/debug/ShellIntegrationPackageTests.build/runner.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/ShellIntegration/.build/arm64-apple-macosx/debug/ShellIntegrationPackageTests.build/runner.dia"
+  }
+}

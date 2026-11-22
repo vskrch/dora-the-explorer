@@ -1,0 +1,47 @@
+{
+  "": {
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/primary.swiftdeps"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/AssertNotMainThreadForIO.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/AssertNotMainThreadForIO.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/AssertNotMainThreadForIO.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/AssertNotMainThreadForIO~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/AssertNotMainThreadForIO.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/AssertNotMainThreadForIO.dia"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FSCoreDiagnostics.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/FSCoreDiagnostics.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/FSCoreDiagnostics.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/FSCoreDiagnostics~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/FSCoreDiagnostics.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/FSCoreDiagnostics.dia"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FenestraLog.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/FenestraLog.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/FenestraLog.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/FenestraLog~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/FenestraLog.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/FenestraLog.dia"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FileItem.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/FileItem.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/FileItem.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/FileItem~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/FileItem.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/FileItem.dia"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/GroupingKey.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/GroupingKey.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/GroupingKey.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/GroupingKey~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/GroupingKey.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/GroupingKey.dia"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/Signposter.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/Signposter.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/Signposter.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/Signposter~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/Signposter.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/FSCore.build/Signposter.dia"
+  }
+}

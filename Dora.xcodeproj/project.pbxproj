@@ -1,0 +1,390 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		06A5657A5E971886ADD92716 /* NavigationPaneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2356C0F2D293FA5D24AE6737 /* NavigationPaneView.swift */; };
+		2161EDF088EB7DFE0717BBEF /* ExplorerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41296C9544CA22A3C20D6DBF /* ExplorerViewModel.swift */; };
+		255FC8C76E926ADA0F6AC4AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED490041DBDCB45B59E66B50 /* Assets.xcassets */; };
+		31CC6DFDC69058FCA3723772 /* FileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C65F7782D367D46226716F /* FileListView.swift */; };
+		3AA4684E09212251F3581CC6 /* StatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660678B2D391FCDF6537A54D /* StatusBarView.swift */; };
+		3EDC25C6F5DC8A8A50BBB27C /* FileItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F6D10EF452DF04D79B53BA /* FileItem.swift */; };
+		452989C4637E78B70305C2DD /* DoraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC51F5317D8FD0BAE5C4B73 /* DoraApp.swift */; };
+		5D637A4DE7C1013BF7E8A75C /* AddressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40592EC9009E42D3EEA1448 /* AddressBarView.swift */; };
+		7CC03E237D4C6E18ED9FFD23 /* ExplorerRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057CD9B53CA2E72641B2C4AF /* ExplorerRootView.swift */; };
+		86ED3E7C2DF1EEC9C4C1C9E9 /* ClipboardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEBCB512AEDC166E59F1388 /* ClipboardService.swift */; };
+		BAE4AFFA1512BE7E84EB0D9F /* FileIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BCD09AD0970868BBD37AFE /* FileIconView.swift */; };
+		DB8238593ACCBE75037291B2 /* FileSystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BD75BAE7131336832C182B /* FileSystemService.swift */; };
+		E7B184621495BFE15D971D70 /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C05041DCCA12B317E49973 /* ToolbarView.swift */; };
+		F3ADA272094C0E5E01CF7736 /* ExplorerTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DCDC553335A2FE9794172A /* ExplorerTheme.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		057CD9B53CA2E72641B2C4AF /* ExplorerRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorerRootView.swift; sourceTree = "<group>"; };
+		201386E2DF32319D9E1BB7B1 /* Dora.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dora.entitlements; sourceTree = "<group>"; };
+		2356C0F2D293FA5D24AE6737 /* NavigationPaneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationPaneView.swift; sourceTree = "<group>"; };
+		41296C9544CA22A3C20D6DBF /* ExplorerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorerViewModel.swift; sourceTree = "<group>"; };
+		48BCD09AD0970868BBD37AFE /* FileIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIconView.swift; sourceTree = "<group>"; };
+		56929F3078A82A5433A68185 /* Dora.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dora.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		660678B2D391FCDF6537A54D /* StatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
+		8BEBCB512AEDC166E59F1388 /* ClipboardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardService.swift; sourceTree = "<group>"; };
+		90C05041DCCA12B317E49973 /* ToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarView.swift; sourceTree = "<group>"; };
+		A2DCDC553335A2FE9794172A /* ExplorerTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorerTheme.swift; sourceTree = "<group>"; };
+		BF1432DD01368727B3F7169B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C40592EC9009E42D3EEA1448 /* AddressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBarView.swift; sourceTree = "<group>"; };
+		C5C65F7782D367D46226716F /* FileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListView.swift; sourceTree = "<group>"; };
+		E3BD75BAE7131336832C182B /* FileSystemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemService.swift; sourceTree = "<group>"; };
+		EAC51F5317D8FD0BAE5C4B73 /* DoraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraApp.swift; sourceTree = "<group>"; };
+		ED490041DBDCB45B59E66B50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F8F6D10EF452DF04D79B53BA /* FileItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileItem.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		046BA0CAEEF821E42C0305EA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				56929F3078A82A5433A68185 /* Dora.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2096150FC4C4BD83ED4CE8A5 = {
+			isa = PBXGroup;
+			children = (
+				AEB5BBF9FF55C72C0B198D4D /* Dora */,
+				046BA0CAEEF821E42C0305EA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2C313E8674585C9FEA77FBCB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C40592EC9009E42D3EEA1448 /* AddressBarView.swift */,
+				057CD9B53CA2E72641B2C4AF /* ExplorerRootView.swift */,
+				48BCD09AD0970868BBD37AFE /* FileIconView.swift */,
+				C5C65F7782D367D46226716F /* FileListView.swift */,
+				2356C0F2D293FA5D24AE6737 /* NavigationPaneView.swift */,
+				660678B2D391FCDF6537A54D /* StatusBarView.swift */,
+				90C05041DCCA12B317E49973 /* ToolbarView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8061A88E9B62E05BCCF39563 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				41296C9544CA22A3C20D6DBF /* ExplorerViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		9CD0AE806101FF7AD966E8AF /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				A2DCDC553335A2FE9794172A /* ExplorerTheme.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		AEB5BBF9FF55C72C0B198D4D /* Dora */ = {
+			isa = PBXGroup;
+			children = (
+				ED490041DBDCB45B59E66B50 /* Assets.xcassets */,
+				201386E2DF32319D9E1BB7B1 /* Dora.entitlements */,
+				EAC51F5317D8FD0BAE5C4B73 /* DoraApp.swift */,
+				BF1432DD01368727B3F7169B /* Info.plist */,
+				F44B84D9379FEC2918F77269 /* Models */,
+				BAB23BDE01FB66868BAE52E5 /* Services */,
+				9CD0AE806101FF7AD966E8AF /* Theme */,
+				8061A88E9B62E05BCCF39563 /* ViewModels */,
+				2C313E8674585C9FEA77FBCB /* Views */,
+			);
+			path = Dora;
+			sourceTree = "<group>";
+		};
+		BAB23BDE01FB66868BAE52E5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				8BEBCB512AEDC166E59F1388 /* ClipboardService.swift */,
+				E3BD75BAE7131336832C182B /* FileSystemService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		F44B84D9379FEC2918F77269 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F8F6D10EF452DF04D79B53BA /* FileItem.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		36C8A04996B2E2486F31DD27 /* Dora */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 33C5E54FEC5368E1129D5935 /* Build configuration list for PBXNativeTarget "Dora" */;
+			buildPhases = (
+				B66319935F861E7AC7381F49 /* Sources */,
+				C9849210AD692A3C300E6A1B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Dora;
+			productName = Dora;
+			productReference = 56929F3078A82A5433A68185 /* Dora.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C55EDFEBA6DE212581C6C63E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					36C8A04996B2E2486F31DD27 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 9A73B58064A95AFF7565BED9 /* Build configuration list for PBXProject "Dora" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 2096150FC4C4BD83ED4CE8A5;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				36C8A04996B2E2486F31DD27 /* Dora */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C9849210AD692A3C300E6A1B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				255FC8C76E926ADA0F6AC4AA /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B66319935F861E7AC7381F49 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5D637A4DE7C1013BF7E8A75C /* AddressBarView.swift in Sources */,
+				86ED3E7C2DF1EEC9C4C1C9E9 /* ClipboardService.swift in Sources */,
+				452989C4637E78B70305C2DD /* DoraApp.swift in Sources */,
+				7CC03E237D4C6E18ED9FFD23 /* ExplorerRootView.swift in Sources */,
+				F3ADA272094C0E5E01CF7736 /* ExplorerTheme.swift in Sources */,
+				2161EDF088EB7DFE0717BBEF /* ExplorerViewModel.swift in Sources */,
+				BAE4AFFA1512BE7E84EB0D9F /* FileIconView.swift in Sources */,
+				3EDC25C6F5DC8A8A50BBB27C /* FileItem.swift in Sources */,
+				31CC6DFDC69058FCA3723772 /* FileListView.swift in Sources */,
+				DB8238593ACCBE75037291B2 /* FileSystemService.swift in Sources */,
+				06A5657A5E971886ADD92716 /* NavigationPaneView.swift in Sources */,
+				3AA4684E09212251F3581CC6 /* StatusBarView.swift in Sources */,
+				E7B184621495BFE15D971D70 /* ToolbarView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4847A483688D09D9609F95AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		6C395AC41E8485A7B7D6503A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		922BB46DF37686AE3361D241 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Dora/Dora.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Dora/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dora.explorer;
+				PRODUCT_NAME = Dora;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		A316D8FB2A008ABA96A978C3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Dora/Dora.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Dora/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dora.explorer;
+				PRODUCT_NAME = Dora;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		33C5E54FEC5368E1129D5935 /* Build configuration list for PBXNativeTarget "Dora" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				922BB46DF37686AE3361D241 /* Debug */,
+				A316D8FB2A008ABA96A978C3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9A73B58064A95AFF7565BED9 /* Build configuration list for PBXProject "Dora" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6C395AC41E8485A7B7D6503A /* Debug */,
+				4847A483688D09D9609F95AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C55EDFEBA6DE212581C6C63E /* Project object */;
+}

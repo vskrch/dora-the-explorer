@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOps.build/primary.swiftdeps"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/Sources/FileOps/FileOps.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOps.build/FileOps.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOps.build/FileOps.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOps.build/FileOps~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOps.build/FileOps.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOps.build/FileOps.dia"
+  }
+}

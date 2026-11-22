@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCorePackageTests.build/primary.swiftdeps"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCorePackageTests.derived/runner.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCorePackageTests.build/runner.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCorePackageTests.build/runner.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCorePackageTests.build/runner~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCorePackageTests.build/runner.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCorePackageTests.build/runner.dia"
+  }
+}

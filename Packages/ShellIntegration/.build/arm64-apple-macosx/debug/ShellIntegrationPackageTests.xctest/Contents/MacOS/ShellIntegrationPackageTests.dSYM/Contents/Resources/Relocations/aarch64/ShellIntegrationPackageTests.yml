@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/venkatasai/Dora - The Explorer/Packages/ShellIntegration/.build/arm64-apple-macosx/debug/ShellIntegrationPackageTests.xctest/Contents/MacOS/ShellIntegrationPackageTests'
+relocations:     []
+...

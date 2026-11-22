@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/AppCore.build/primary.swiftdeps"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/Sources/AppCore/AppCore.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/AppCore.build/AppCore.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/AppCore.build/AppCore.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/AppCore.build/AppCore~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/AppCore.build/AppCore.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/AppCore/.build/arm64-apple-macosx/debug/AppCore.build/AppCore.dia"
+  }
+}

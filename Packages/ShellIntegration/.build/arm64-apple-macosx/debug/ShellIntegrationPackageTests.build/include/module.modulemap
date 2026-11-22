@@ -1,0 +1,3 @@
+module ShellIntegrationPackageTests {
+    header "/Users/venkatasai/Dora - The Explorer/Packages/ShellIntegration/.build/arm64-apple-macosx/debug/ShellIntegrationPackageTests.build/include/ShellIntegrationPackageTests-Swift.h"
+}

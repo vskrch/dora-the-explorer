@@ -1,0 +1,21 @@
+# Build products
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcworkspace/xcshareddata/swiftpm/
+.swiftpm/
+Package.resolved
+
+# macOS
+.DS_Store
+
+# Old prototype build directory (Dora)
+Dora/build/
+
+# Tooling
+*.moved-aside
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3

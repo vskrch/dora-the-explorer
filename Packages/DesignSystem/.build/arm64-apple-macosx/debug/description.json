@@ -1,0 +1,606 @@
+{
+  "builtTestProducts" : [
+    {
+      "binaryPath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.xctest/Contents/MacOS/DesignSystemPackageTests",
+      "packagePath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem",
+      "productName" : "DesignSystemPackageTests"
+    }
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.DesignSystem-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/sources",
+      "importPath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/Sources/DesignSystem/DesignSystem.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "DesignSystem",
+      "moduleOutputPath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/Modules/DesignSystem.swiftmodule",
+      "objects" : [
+        "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DesignSystem.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx26.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j12",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/include/DesignSystem-Swift.h",
+        "-swift-version",
+        "6",
+        "-enable-upcoming-feature",
+        "ExistentialAny",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "designsystem"
+      ],
+      "outputFileMapPath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DesignSystem.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/Modules/DesignSystem.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/Sources/DesignSystem/DesignSystem.swift"
+      ],
+      "tempsPath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.DesignSystemPackageTests-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.build/sources",
+      "importPath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.derived/runner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/Modules/DesignSystemTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "DesignSystemPackageTests",
+      "moduleOutputPath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/Modules/DesignSystemPackageTests.swiftmodule",
+      "objects" : [
+        "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.build/runner.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx26.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j12",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.build/include/DesignSystemPackageTests-Swift.h",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "designsystem"
+      ],
+      "outputFileMapPath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/Modules/DesignSystemPackageTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.derived/runner.swift"
+      ],
+      "tempsPath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.DesignSystemTests-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemTests.build/sources",
+      "importPath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/Tests/DesignSystemTests/DesignSystemTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/Modules/DesignSystem.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "DesignSystemTests",
+      "moduleOutputPath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/Modules/DesignSystemTests.swiftmodule",
+      "objects" : [
+        "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemTests.build/DesignSystemTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx26.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j12",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "6",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "designsystem"
+      ],
+      "outputFileMapPath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemTests.build/DesignSystemTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/Modules/DesignSystemTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/Tests/DesignSystemTests/DesignSystemTests.swift"
+      ],
+      "tempsPath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemTests.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "DesignSystem" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "DesignSystem",
+      "-package-name",
+      "designsystem",
+      "-c",
+      "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/Sources/DesignSystem/DesignSystem.swift",
+      "-I",
+      "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx26.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j12",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/include/DesignSystem-Swift.h",
+      "-swift-version",
+      "6",
+      "-enable-upcoming-feature",
+      "ExistentialAny",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "designsystem",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "DesignSystemPackageTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "DesignSystemPackageTests",
+      "-package-name",
+      "designsystem",
+      "-c",
+      "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.derived/runner.swift",
+      "-I",
+      "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx26.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j12",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.build/include/DesignSystemPackageTests-Swift.h",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "designsystem",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "DesignSystemTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "DesignSystemTests",
+      "-package-name",
+      "designsystem",
+      "-c",
+      "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/Tests/DesignSystemTests/DesignSystemTests.swift",
+      "-I",
+      "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx26.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j12",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "6",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "designsystem",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "DesignSystem" : [
+
+    ],
+    "DesignSystemPackageTests" : [
+      "DesignSystemTests",
+      "DesignSystem"
+    ],
+    "DesignSystemTests" : [
+      "DesignSystem"
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+    "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.derived/runner.swift" : {
+      "inputs" : [
+
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.derived/runner.swift"
+        }
+      ]
+    }
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/Sources/DesignSystem/DesignSystem.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/sources"
+    },
+    "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.derived/runner.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.build/sources"
+    },
+    "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DesignSystem.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemTests.build/DesignSystemTests.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemPackageTests.product/Objects.LinkFileList"
+    },
+    "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/Tests/DesignSystemTests/DesignSystemTests.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystemTests.build/sources"
+    },
+    "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/venkatasai/Dora - The Explorer/Packages/DesignSystem/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}

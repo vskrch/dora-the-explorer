@@ -1,0 +1,74 @@
+---
+description: Fenestra project rules — architecture, concurrency, performance and API discipline for a native macOS 26 file explorer.
+globs:
+  - "**/*.swift"
+  - "**/*.yml"
+alwaysApply: true
+---
+
+# Fenestra — project rules
+
+Fenestra is a native macOS 26 file explorer (Windows 11 File Explorer parity where the platform allows).
+AppKit lifecycle app (`NSApplicationDelegate`, `@main` on `AppDelegate`, no SwiftUI `App` struct), Swift 6 language mode, strict concurrency. Bundle ID `com.dorasoft.fenestra`. Hardened Runtime on, App Sandbox OFF.
+
+## 1. Hard architecture rules
+
+1. **No disk I/O, metadata fetch, directory enumeration, sort of >5k items, or thumbnail decode on the main thread.** All of it in `actor` or `nonisolated` code handing back `Sendable` values. FSCore calls `assertNotMainThreadForIO()` at the top of every enumeration/stat/metadata entry point.
+2. **No SwiftUI `List`, `LazyVGrid`, `LazyVStack`, `ForEach` for directory contents.** Directory contents render in AppKit collection views: `NSTableView` (Details) and `NSCollectionView` (Icons/List/Tiles/Content) with reuse and prefetching, wrapped by `NSViewRepresentable` only where needed.
+3. **One selection model, one controller.** Every content view implements `FileListController`; selection, keyboard, drag/drop, rename and grouping live there, not per view.
+4. **Layered:** App (windows/tabs/chrome) → AppCore (state, commands) → feature packages. Packages never import the app target. Feature packages never import each other except through `FSCore` models and `DesignSystem`.
+5. **Lazy metadata.** `FileItem` is a small `Sendable` struct (ids, url, name, flags, size, dates). Anything expensive (EXIF, ID3, dimensions, git status) is fetched by a separate async service keyed by item and cached.
+6. **No third-party dependency without a note in `docs/ARCHITECTURE.md`**, and none for things in the standard library/frameworks. Planned exceptions only: Sparkle (Phase 19) and libarchive (Phase 15), both justified.
+
+## 2. Swift 6 concurrency
+
+- `swiftLanguageMode(.v6)`, strict concurrency in every package and the app target.
+- All cross-actor types `Sendable`. No `@unchecked Sendable` without a comment explaining the invariant.
+- All `Task`s that outlive their scope are stored and cancelled; no orphan `Task.detached` without a stored handle.
+- Actors for shared mutable state; `@MainActor` + `@Observable` for UI models. Never block the main thread on an actor.
+- Subsystem loggers: `Logger(subsystem: "com.dorasoft.fenestra", category: <feature>)`.
+
+## 3. Performance budgets (verifiable, not vibes)
+
+| Operation | Budget |
+|---|---|
+| First batch of a 100k-file folder | < 100 ms (Apple Silicon, local APFS) |
+| Details view scroll, 100k items | 120 fps, 0 animation hitches in 10 s |
+| Sort switch, 100k items | < 150 ms |
+| Tab switch | < 16 ms |
+| View switch | < 50 ms |
+| Home first paint (cached) | < 200 ms |
+| Search first result, indexed home | < 150 ms |
+| Command bar / context menu open | < 50 ms |
+
+Every budget gets an `OSSignposter` interval and an XCTest performance test. CI fails on >15% regression only for deterministic tests; timing-sensitive tests are local-only.
+
+## 4. Correctness rules
+
+- **Unicode**: compare and group on NFC.
+- **Paths**: use `URL`, never string concatenation. Handle `:` and `/` in names and long paths.
+- **Errors surface**: every failure is handled, retried, or shown. No `try?` that swallows a recoverable error. Log with the error attached.
+- **Destructive ops** (trash, delete, overwrite, extract) go through `FileOps` and are undoable or confirmed.
+- **Zip-slip / traversal / symlink escape / decompression bombs** are rejected, each with a test fixture.
+
+## 5. API discipline
+
+- Only use Apple APIs that exist in the installed SDK. If a symbol is uncertain, verify in the SDK before writing code. Never invent APIs.
+- Glass on macOS 26: SwiftUI `.glassEffect(_:in:)` / `GlassEffectContainer` / `.glassEffectID` hosted in an `NSHostingView`, or `NSVisualEffectView` materials with solid fallbacks. `NSGlassEffectView` does not exist.
+- Respect Reduce Transparency, Increase Contrast and Reduce Motion. Text-bearing surfaces use opaque backgrounds.
+
+## 6. Accessibility & localization
+
+- Every interactive control has an accessibility label and value; rows announce name, kind, size, date.
+- No hard-coded user-facing strings: use the String Catalog. Layout must survive 30% string expansion and RTL.
+
+## 7. Tests
+
+- Each package ships unit tests; each phase adds tests for its acceptance criteria plus perf tests where a budget exists.
+- Deterministic temp-directory fixtures. No network in unit tests.
+- `make test` must pass before any phase is reported done.
+
+## 8. Commits
+
+- One commit per phase, message prefixed `[Cursor] `, tests green at commit.
+- Never commit `build/`, `DerivedData/`, or `.DS_Store`.

@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/Search/.build/arm64-apple-macosx/debug/SearchPackageTests.build/primary.swiftdeps"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/Search/.build/arm64-apple-macosx/debug/SearchPackageTests.derived/runner.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/Search/.build/arm64-apple-macosx/debug/SearchPackageTests.build/runner.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/Search/.build/arm64-apple-macosx/debug/SearchPackageTests.build/runner.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/Search/.build/arm64-apple-macosx/debug/SearchPackageTests.build/runner~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/Search/.build/arm64-apple-macosx/debug/SearchPackageTests.build/runner.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/Search/.build/arm64-apple-macosx/debug/SearchPackageTests.build/runner.dia"
+  }
+}

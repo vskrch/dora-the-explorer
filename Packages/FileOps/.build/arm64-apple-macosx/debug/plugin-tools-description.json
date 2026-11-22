@@ -1,0 +1,883 @@
+{
+  "builtTestProducts" : [
+    {
+      "binaryPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.xctest/Contents/MacOS/FileOpsPackageTests",
+      "packagePath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps",
+      "productName" : "FileOpsPackageTests"
+    }
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.FSCore-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/sources",
+      "importPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/AssertNotMainThreadForIO.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FSCoreDiagnostics.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FenestraLog.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FileItem.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/GroupingKey.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/Signposter.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FSCore",
+      "moduleOutputPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules/FSCore.swiftmodule",
+      "objects" : [
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/AssertNotMainThreadForIO.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/FSCoreDiagnostics.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/FenestraLog.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/FileItem.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/GroupingKey.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/Signposter.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx26.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j12",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/include/FSCore-Swift.h",
+        "-swift-version",
+        "6",
+        "-enable-upcoming-feature",
+        "ExistentialAny",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "fscore"
+      ],
+      "outputFileMapPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/AssertNotMainThreadForIO.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/FSCoreDiagnostics.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/FenestraLog.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/FileItem.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/GroupingKey.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/Signposter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules/FSCore.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/AssertNotMainThreadForIO.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FSCoreDiagnostics.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FenestraLog.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FileItem.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/GroupingKey.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/Signposter.swift"
+      ],
+      "tempsPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.FileOps-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOps.build/sources",
+      "importPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/Sources/FileOps/FileOps.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules/FSCore.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOps.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FileOps",
+      "moduleOutputPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules/FileOps.swiftmodule",
+      "objects" : [
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOps.build/FileOps.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx26.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j12",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOps.build/include/FileOps-Swift.h",
+        "-swift-version",
+        "6",
+        "-enable-upcoming-feature",
+        "ExistentialAny",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "fileops"
+      ],
+      "outputFileMapPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOps.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOps.build/FileOps.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules/FileOps.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/Sources/FileOps/FileOps.swift"
+      ],
+      "tempsPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOps.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.FileOpsPackageTests-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.build/sources",
+      "importPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.derived/runner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules/FileOpsTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FileOpsPackageTests",
+      "moduleOutputPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules/FileOpsPackageTests.swiftmodule",
+      "objects" : [
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.build/runner.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx26.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j12",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.build/include/FileOpsPackageTests-Swift.h",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "fileops"
+      ],
+      "outputFileMapPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules/FileOpsPackageTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.derived/runner.swift"
+      ],
+      "tempsPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.FileOpsTests-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsTests.build/sources",
+      "importPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/Tests/FileOpsTests/FileOpsTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules/FileOps.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FileOpsTests",
+      "moduleOutputPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules/FileOpsTests.swiftmodule",
+      "objects" : [
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsTests.build/FileOpsTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx26.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j12",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "6",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "fileops"
+      ],
+      "outputFileMapPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsTests.build/FileOpsTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules/FileOpsTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/Tests/FileOpsTests/FileOpsTests.swift"
+      ],
+      "tempsPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsTests.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "FSCore" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "FSCore",
+      "-package-name",
+      "fscore",
+      "-c",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/AssertNotMainThreadForIO.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FSCoreDiagnostics.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FenestraLog.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FileItem.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/GroupingKey.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/Signposter.swift",
+      "-I",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx26.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j12",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/include/FSCore-Swift.h",
+      "-swift-version",
+      "6",
+      "-enable-upcoming-feature",
+      "ExistentialAny",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "fscore",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "FileOps" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "FileOps",
+      "-package-name",
+      "fileops",
+      "-c",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/Sources/FileOps/FileOps.swift",
+      "-I",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx26.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j12",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOps.build/include/FileOps-Swift.h",
+      "-swift-version",
+      "6",
+      "-enable-upcoming-feature",
+      "ExistentialAny",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "fileops",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "FileOpsPackageTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "FileOpsPackageTests",
+      "-package-name",
+      "fileops",
+      "-c",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.derived/runner.swift",
+      "-I",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx26.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j12",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.build/include/FileOpsPackageTests-Swift.h",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "fileops",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "FileOpsTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "FileOpsTests",
+      "-package-name",
+      "fileops",
+      "-c",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/Tests/FileOpsTests/FileOpsTests.swift",
+      "-I",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx26.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j12",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "6",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "fileops",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "FSCore" : [
+
+    ],
+    "FileOps" : [
+      "FSCore"
+    ],
+    "FileOpsPackageTests" : [
+      "FileOpsTests",
+      "FileOps",
+      "FSCore"
+    ],
+    "FileOpsTests" : [
+      "FileOps",
+      "FSCore"
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+    "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.derived/runner.swift" : {
+      "inputs" : [
+
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.derived/runner.swift"
+        }
+      ]
+    }
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/AssertNotMainThreadForIO.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FSCoreDiagnostics.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FenestraLog.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FileItem.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/GroupingKey.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/Signposter.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/sources"
+    },
+    "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOps.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/Sources/FileOps/FileOps.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOps.build/sources"
+    },
+    "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.derived/runner.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.build/sources"
+    },
+    "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/AssertNotMainThreadForIO.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/FSCoreDiagnostics.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/FenestraLog.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/FileItem.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/GroupingKey.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FSCore.build/Signposter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOps.build/FileOps.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsTests.build/FileOpsTests.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.product/Objects.LinkFileList"
+    },
+    "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/Tests/FileOpsTests/FileOpsTests.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsTests.build/sources"
+    },
+    "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}

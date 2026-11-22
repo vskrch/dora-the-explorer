@@ -1,0 +1,38 @@
+# Lessons
+
+## User Specified Lessons
+- You have a python venv in ./venv. Use it.
+- Include info useful for debugging in the program output.
+- Read the file before you try to edit it.
+- Due to Cursor's limit, when you use `git` and `gh` and need to submit a multiline commit message, first write the message in a file, and then use `git commit -F <filename>` or similar command to commit. And then remove the file. Include "[Cursor] " in the commit message and PR title.
+
+## Cursor learned
+- For search results, ensure proper handling of different character encodings (UTF-8) for international queries
+- Add debug information to stderr while keeping the main output clean in stdout for better pipeline integration
+- When using seaborn styles in matplotlib, use 'seaborn-v0_8' instead of 'seaborn' as the style name due to recent seaborn version changes
+- Use 'gpt-4o' as the model name for OpenAI's GPT-4 with vision capabilities
+- Dora is a native Swift/SwiftUI macOS File Explorer clone (Windows Explorer–like MVP)
+- Use XcodeGen (`project.yml`) for Dora; rebuild with `xcodegen generate && xcodebuild -scheme Dora -derivedDataPath build build`
+- File explorer apps should keep App Sandbox off for free filesystem browse
+- KeyCatcherView must not steal firstResponder from NSTextField/NSTextView
+
+# Scratchpad
+
+## Current task
+Build Dora — Windows Explorer–like Mac app (Swift/SwiftUI MVP)
+
+## Plan
+[X] scaffold — XcodeGen project + folder structure
+[X] layout — nav pane, toolbar, address bar, details list, status bar
+[X] fs-core — FileManager browse, history, open via NSWorkspace
+[X] file-ops — new folder, rename, delete, cut/copy/paste, drag-drop
+[X] views-sort — Details/Icons + column sort
+[X] polish — icons, shortcuts, empty/error, entitlements
+
+## Run
+```
+cd "/Users/venkatasai/Dora - The Explorer"
+xcodegen generate
+open Dora.xcodeproj
+# or: open build/Build/Products/Debug/Dora.app
+```

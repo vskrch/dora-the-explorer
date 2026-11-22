@@ -1,0 +1,27 @@
+{
+  "object" : {
+    "artifacts" : [
+
+    ],
+    "dependencies" : [
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "fscore",
+          "kind" : "fileSystem",
+          "location" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore",
+          "name" : "FSCore"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore"
+        },
+        "subpath" : "fscore"
+      }
+    ],
+    "prebuilts" : [
+
+    ]
+  },
+  "version" : 7
+}

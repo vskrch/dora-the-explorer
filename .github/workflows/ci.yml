@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-test:
+    # NOTE: GitHub has no `macos-26` hosted image label yet. Fall back to macos-latest
+    # (currently macOS 15) — the macOS 26 SDK is required, so this job will fail on
+    # Xcode builds until the runner ships the SDK. Switch to macos-26 when available.
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: |
+          sw_vers
+          xcodebuild -version
+          swift --version
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate project
+        run: make generate
+
+      - name: Build app
+        run: |
+          xcodebuild -project Fenestra.xcodeproj -scheme Fenestra \
+            -configuration Debug -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+
+      - name: Test packages
+        run: make test-packages
+
+      - name: Test app
+        run: |
+          xcodebuild test -project Fenestra.xcodeproj -scheme Fenestra \
+            -destination 'platform=macOS' -derivedDataPath build CODE_SIGNING_ALLOWED=NO
