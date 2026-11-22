@@ -1,5 +1,0 @@
----
-triple:          'arm64-apple-darwin'
-binary-path:     '/Users/venkatasai/Dora - The Explorer/Packages/FileOps/.build/arm64-apple-macosx/debug/FileOpsPackageTests.xctest/Contents/MacOS/FileOpsPackageTests'
-relocations:     []
-...

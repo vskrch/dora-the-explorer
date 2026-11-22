@@ -1,5 +1,0 @@
----
-triple:          'arm64-apple-darwin'
-binary-path:     '/Users/venkatasai/Dora - The Explorer/Packages/Archives/.build/arm64-apple-macosx/debug/ArchivesPackageTests.xctest/Contents/MacOS/ArchivesPackageTests'
-relocations:     []
-...
