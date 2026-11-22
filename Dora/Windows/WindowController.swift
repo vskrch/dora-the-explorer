@@ -41,6 +41,30 @@ final class WindowController: NSWindowController {
 
     var windowState: WindowState { state }
 
+    /// Status bar summary comes from the content container: enumerated count,
+    /// selection count, selected bytes.
+    var contentSelectionBytes: Int64 { chrome.selectionBytes }
+
+    /// Route an open request from the content area: same tab by default,
+    /// new tab when requested (⌘+open, middle-click).
+    func open(url: URL, inNewTab: Bool) {
+        if inNewTab {
+            _ = state.addTab(directory: url)
+        } else if let tab = state.selectedTab {
+            tab.navigate(to: url)
+        }
+        ChromeCaches.persist(state)
+        syncChrome()
+    }
+
+    @objc func menuRename() {
+        chrome.contentContainer.beginRenameOfFirstSelection()
+    }
+
+    @objc func menuNewFolder() {
+        chrome.contentContainer.newFolder()
+    }
+
     /// Rebuilds chrome from `state`. Called on every tab/bookmark change.
     func syncChrome() {
         let tabs = state.tabs.map { tab in
@@ -71,7 +95,7 @@ final class WindowController: NSWindowController {
         chrome.statusBar.update(
             itemCount: chrome.itemCount,
             selectedCount: tab.selectedItemIDs.count,
-            selectedBytes: nil,
+            selectedBytes: chrome.selectionBytes,
             detailsVisible: tab.showsDetailsPane,
             previewVisible: tab.showsPreviewPane
         )

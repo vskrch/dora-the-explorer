@@ -64,6 +64,10 @@ public final class DirectoryModel {
     public private(set) var loadError: (any Error)?
     public private(set) var firstBatchLatency: Duration?
 
+    /// Fired on the main actor after every published snapshot change
+    /// (first batch, completed load, live-update regroup).
+    public var onPublish: (@MainActor () -> Void)?
+
     public var directory: URL { didSet { reload() } }
     public var settings: ViewSettings {
         didSet {
@@ -245,11 +249,24 @@ public final class DirectoryModel {
             groups: resolvedGroups,
             totalCount: itemsByID.count
         )
+        onPublish?()
     }
 
     // MARK: - Introspection for the UI
 
     public var items: [FileItem] { snapshot.flatItems }
+
+    public func item(withID id: FileItem.ID) -> FileItem? {
+        itemsByID[id]
+    }
+
+    /// Sums file sizes for a selection.Folders report nil (`FileItem.size`), so
+    /// they contribute nothing — matching Explorer's status bar for mixed selections.
+    public func size(ofIDs ids: Set<FileItem.ID>) -> Int64 {
+        var total: Int64 = 0
+        for id in ids { total += itemsByID[id]?.size ?? 0 }
+        return total
+    }
 
     /// Total bytes of a selection, computed off-main for large sets.
     public func totalSize() async -> Int64 {

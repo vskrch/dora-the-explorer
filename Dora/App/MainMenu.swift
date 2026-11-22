@@ -68,7 +68,11 @@ enum MainMenu {
         fileMenu.addItem(withTitle: "New Window", action: #selector(AppDelegate.newWindow(_:)), keyEquivalent: "n")
         let newTab = fileMenu.addItem(withTitle: "New Tab", action: #selector(WindowController.menuNewTab), keyEquivalent: "t")
         newTab.target = nil
-        fileMenu.addItem(withTitle: "New Folder", action: #selector(AppDelegate.menuNewFolder(_:)), keyEquivalent: "N")
+        let newFolder = fileMenu.addItem(withTitle: "New Folder", action: #selector(AppDelegate.menuNewFolder(_:)), keyEquivalent: "N")
+        newFolder.keyEquivalentModifierMask = [.command, .shift]
+        let renameItem = fileMenu.addItem(withTitle: "Rename", action: #selector(WindowController.menuRename), keyEquivalent: String(UnicodeScalar(NSF2FunctionKey)!))
+        renameItem.keyEquivalentModifierMask = []
+        renameItem.target = nil
         fileMenu.addItem(.separator())
         let closeTab = fileMenu.addItem(withTitle: "Close Tab", action: #selector(WindowController.menuCloseTab), keyEquivalent: "w")
         closeTab.target = nil

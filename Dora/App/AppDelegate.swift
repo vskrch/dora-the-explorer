@@ -38,7 +38,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc func menuNewFolder(_ sender: Any?) {
-        DoraLog.ui.info("New folder command received (wired in Phase 3)")
+        keyController?.menuNewFolder()
     }
 
     @objc func toggleDetailsPane(_ sender: Any?) {

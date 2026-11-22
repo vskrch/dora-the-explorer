@@ -20,7 +20,7 @@ protocol ExplorerChromeViewDelegate: AnyObject {
 /// body using manual layout so resizing never triggers a SwiftUI pass.
 @MainActor
 final class ExplorerChromeView: NSView {
-    weak var delegate: ExplorerChromeViewDelegate?
+    weak var delegate: (any ExplorerChromeViewDelegate)?
 
     let tabStrip = TabStripView()
     private let navigationBar = NavigationBarView()
@@ -29,13 +29,14 @@ final class ExplorerChromeView: NSView {
 
     private let splitView = NSSplitView()
     private let sidebar = SidebarPlaceholderView()
-    private let contentHost = ContentPlaceholderView()
+    let contentContainer = ContentViewContainer()
     private let detailsPane = DetailsPlaceholderView()
 
     private let tabStripBackground = ChromeBackgroundView(material: .toolbar)
-    private var model: DirectoryModel?
-    /// Item count of the last completed enumeration of the visible tab.
-    private(set) var itemCount = 0
+    /// Item count of the visible tab's last completed enumeration.
+    var itemCount: Int { contentContainer.itemCount }
+    /// Bytes of the visible tab's current selection.
+    var selectionBytes: Int64 { contentContainer.selectionBytes }
 
     private let tabStripHeight: CGFloat = 38
     private let navigationBarHeight: CGFloat = 40
@@ -75,10 +76,10 @@ final class ExplorerChromeView: NSView {
         splitView.delegate = self
 
         sidebar.translatesAutoresizingMaskIntoConstraints = false
-        contentHost.translatesAutoresizingMaskIntoConstraints = false
+        contentContainer.translatesAutoresizingMaskIntoConstraints = false
         detailsPane.translatesAutoresizingMaskIntoConstraints = false
         splitView.addArrangedSubview(sidebar)
-        splitView.addArrangedSubview(contentHost)
+        splitView.addArrangedSubview(contentContainer)
         splitView.addArrangedSubview(detailsPane)
 
         for view in [tabStrip, navigationBar, commandBar, splitView, statusBar] {
@@ -167,6 +168,24 @@ final class ExplorerChromeView: NSView {
         navigationBar.onRefresh = { [weak self] in self?.delegate?.chromeDidRequestRefresh() }
         navigationBar.onPathSubmitted = { [weak self] path in self?.delegate?.chromeDidRequestPath(path) }
 
+        contentContainer.onOpenURL = { [weak self] url, inNewTab in
+            guard let self, let controller = self.window?.windowController as? WindowController else { return }
+            controller.open(url: url, inNewTab: inNewTab)
+        }
+        contentContainer.onCountsChanged = { [weak self] in
+            self?.delegate?.chromeDidChangeCounts()
+        }
+
+        commandBar.onNew = { [weak self] in
+            self?.presentNewMenu()
+        }
+        commandBar.onSort = { [weak self] in
+            self?.presentSortMenu()
+        }
+        commandBar.onView = { [weak self] in
+            self?.presentViewMenu()
+        }
+
         statusBar.onToggleDetails = { [weak self] in self?.delegate?.chromeDidToggleDetailsPane() }
         statusBar.onTogglePreview = { [weak self] in self?.delegate?.chromeDidTogglePreviewPane() }
     }
@@ -185,19 +204,7 @@ final class ExplorerChromeView: NSView {
         detailsPane.isHidden = !tab.showsDetailsPane
         splitView.setPosition(tab.showsDetailsPane ? splitView.frame.width - detailsWidth : splitView.frame.width, ofDividerAt: 1)
 
-        let model = DirectoryModel(directory: tab.directory)
-        self.model = model
-        itemCount = 0
-        model.reload()
-
-        Task { [weak self] in
-            try? await Task.sleep(for: .milliseconds(120))
-            guard let self, self.model === model else { return }
-            let snapshot = model.snapshot
-            self.itemCount = snapshot.totalCount
-            self.contentHost.update(directory: tab.directory, itemCount: snapshot.totalCount)
-            self.delegate?.chromeDidChangeCounts()
-        }
+        contentContainer.activate(tab: tab)
     }
 
     var currentDirectory: URL? {
@@ -205,7 +212,7 @@ final class ExplorerChromeView: NSView {
     }
 
     func reloadDirectory() {
-        model?.reload()
+        contentContainer.reload()
     }
 
     func layoutChrome() {
@@ -223,6 +230,120 @@ final class ExplorerChromeView: NSView {
         guard let controller = window?.windowController as? WindowController else { return }
         controller.state.selectedTabID = id
         controller.syncChrome()
+    }
+
+    // MARK: - Command bar menus
+
+    private func presentNewMenu() {
+        let menu = NSMenu()
+        let folderItem = NSMenuItem(title: "New Folder", action: #selector(newFolderAction), keyEquivalent: "")
+        folderItem.target = self
+        menu.addItem(folderItem)
+        popBelowCommandBar(menu)
+    }
+
+    @objc private func newFolderAction() {
+        contentContainer.newFolder()
+    }
+
+    private func presentSortMenu() {
+        guard let tab = (window?.windowController as? WindowController)?.state.selectedTab else { return }
+        let menu = NSMenu(title: "Sort")
+
+        let keys: [(String, SortCriterion.Key)] = [
+            ("Name", .name),
+            ("Date Modified", .dateModified),
+            ("Type", .type),
+            ("Size", .size),
+        ]
+        let primary = tab.sortCriteria.first ?? .nameAscending
+        for (title, key) in keys {
+            let item = NSMenuItem(title: title, action: #selector(sortByAction(_:)), keyEquivalent: "")
+            item.target = self
+            item.state = primary.key == key ? .on : .off
+            item.representedObject = key.rawValue
+            menu.addItem(item)
+        }
+
+        menu.addItem(.separator())
+        let ascendingItem = NSMenuItem(title: "Ascending", action: #selector(sortDirectionAction(_:)), keyEquivalent: "")
+        ascendingItem.target = self
+        ascendingItem.state = primary.ascending ? .on : .off
+        menu.addItem(ascendingItem)
+
+        menu.addItem(.separator())
+        let groupMenu = NSMenu(title: "Group by")
+        let groupings: [(String, GroupingKey)] = [
+            ("None", .none),
+            ("Type", .type),
+            ("Date Modified", .dateModified),
+            ("Size", .size),
+        ]
+        for (title, grouping) in groupings {
+            let item = NSMenuItem(title: title, action: #selector(groupByAction(_:)), keyEquivalent: "")
+            item.target = self
+            item.state = tab.grouping == grouping ? .on : .off
+            item.representedObject = grouping.rawValue
+            groupMenu.addItem(item)
+        }
+        menu.setSubmenu(groupMenu, for: menu.addItem(withTitle: "Group by", action: nil, keyEquivalent: ""))
+
+        popBelowCommandBar(menu)
+    }
+
+    @objc private func sortByAction(_ sender: NSMenuItem) {
+        guard let rawValue = sender.representedObject as? String,
+              let key = SortCriterion.Key(rawValue: rawValue),
+              let tab = (window?.windowController as? WindowController)?.state.selectedTab else { return }
+        let current = tab.sortCriteria.first ?? .nameAscending
+        let criteria = current.key == key
+            ? [SortCriterion(key: key, ascending: !current.ascending)] + tab.sortCriteria.dropFirst().filter { $0.key != key }
+            : [SortCriterion(key: key, ascending: true)]
+        applySort(criteria, to: tab)
+    }
+
+    @objc private func sortDirectionAction(_ sender: NSMenuItem) {
+        guard let tab = (window?.windowController as? WindowController)?.state.selectedTab,
+              let primary = tab.sortCriteria.first else { return }
+        var criteria = tab.sortCriteria
+        criteria[0] = SortCriterion(key: primary.key, ascending: !primary.ascending)
+        applySort(criteria, to: tab)
+    }
+
+    @objc private func groupByAction(_ sender: NSMenuItem) {
+        guard let rawValue = sender.representedObject as? String,
+              let grouping = GroupingKey(rawValue: rawValue),
+              let tab = (window?.windowController as? WindowController)?.state.selectedTab else { return }
+        tab.grouping = grouping
+        contentContainer.applyGrouping(grouping)
+    }
+
+    private func applySort(_ criteria: [SortCriterion], to tab: TabState) {
+        tab.sortCriteria = criteria
+        contentContainer.applySort(criteria)
+    }
+
+    private func presentViewMenu() {
+        guard let tab = (window?.windowController as? WindowController)?.state.selectedTab else { return }
+        let menu = NSMenu(title: "View")
+
+        let hiddenItem = NSMenuItem(title: "Show Hidden Items", action: #selector(toggleHiddenAction), keyEquivalent: "")
+        hiddenItem.target = self
+        hiddenItem.state = tab.showHidden ? .on : .off
+        menu.addItem(hiddenItem)
+
+        popBelowCommandBar(menu)
+    }
+
+    @objc private func toggleHiddenAction() {
+        guard let tab = (window?.windowController as? WindowController)?.state.selectedTab else { return }
+        tab.showHidden.toggle()
+        contentContainer.applyShowHidden(tab.showHidden)
+    }
+
+    private func popBelowCommandBar(_ menu: NSMenu) {
+        guard let contentView = window?.contentView else { return }
+        menu.popUp(positioning: nil, at: NSPoint(x: 8, y: commandBar.frame.minY + 4), in: contentView)
     }
 
     private func tabContextMenu(for id: TabState.ID) -> NSMenu {
