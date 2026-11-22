@@ -12,6 +12,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         DoraLog.ui.info("Dora the Explorer launched")
         NSApp.setActivationPolicy(.regular)
+        BreadcrumbVolumeName.warmCache()
 
         if !WindowRegistry.shared.restoreWorkspaceIfEnabled() {
             WindowRegistry.shared.openWindow()

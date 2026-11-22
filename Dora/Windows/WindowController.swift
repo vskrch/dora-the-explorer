@@ -195,6 +195,12 @@ extension WindowController: ExplorerChromeViewDelegate {
         refreshStatus()
     }
 
+    func chromeDidRequestNavigate(to url: URL) {
+        navigate { tab in
+            tab.navigate(to: url)
+        }
+    }
+
     private func navigate(_ action: (TabState) -> Void) {
         guard let tab = state.selectedTab else { return }
         action(tab)

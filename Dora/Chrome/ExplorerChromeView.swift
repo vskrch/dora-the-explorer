@@ -10,6 +10,8 @@ protocol ExplorerChromeViewDelegate: AnyObject {
     func chromeDidRequestUp()
     func chromeDidRequestRefresh()
     func chromeDidRequestPath(_ path: String)
+    /// In-place navigation to a URL (breadcrumb segment or chevron child).
+    func chromeDidRequestNavigate(to url: URL)
     func chromeDidToggleDetailsPane()
     func chromeDidTogglePreviewPane()
     /// Enumerated item count changed; the status bar should refresh.
@@ -167,6 +169,27 @@ final class ExplorerChromeView: NSView {
         navigationBar.onUp = { [weak self] in self?.delegate?.chromeDidRequestUp() }
         navigationBar.onRefresh = { [weak self] in self?.delegate?.chromeDidRequestRefresh() }
         navigationBar.onPathSubmitted = { [weak self] path in self?.delegate?.chromeDidRequestPath(path) }
+
+        navigationBar.breadcrumbBar.onNavigate = { [weak self] url in
+            self?.delegate?.chromeDidRequestNavigate(to: url)
+        }
+        navigationBar.breadcrumbBar.onOpenInNewTab = { [weak self] url in
+            guard let self, let controller = self.window?.windowController as? WindowController else { return }
+            _ = controller.state.addTab(directory: url)
+            controller.syncChrome()
+        }
+        navigationBar.breadcrumbBar.onOpenInNewWindow = { [weak self] url in
+            guard self?.window?.windowController != nil else { return }
+            WindowRegistry.shared.openWindow(
+                state: WindowState(tabs: [TabState(directory: url)])
+            )
+        }
+        navigationBar.breadcrumbBar.onEditAddress = { [weak self] in
+            self?.navigationBar.focusPathField()
+        }
+        navigationBar.breadcrumbBar.childFolderProvider = { url, completion in
+            BreadcrumbChildLoader.load(url: url, completion: completion)
+        }
 
         contentContainer.onOpenURL = { [weak self] url, inNewTab in
             guard let self, let controller = self.window?.windowController as? WindowController else { return }

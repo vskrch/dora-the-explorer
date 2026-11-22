@@ -14,7 +14,7 @@ final class NavigationBarView: NSView {
     private let forwardButton = NSButton()
     private let upButton = NSButton()
     private let refreshButton = NSButton()
-    private let breadcrumbLabel = NSTextField(labelWithString: "")
+    let breadcrumbBar = BreadcrumbBar()
     private let pathField = NSTextField()
     private let searchField = NSSearchField()
     private var isEditingPath = false
@@ -48,10 +48,7 @@ final class NavigationBarView: NSView {
             button.heightAnchor.constraint(equalToConstant: 26).isActive = true
         }
 
-        breadcrumbLabel.font = .systemFont(ofSize: 12)
-        breadcrumbLabel.lineBreakMode = .byTruncatingMiddle
-        breadcrumbLabel.isSelectable = false
-        breadcrumbLabel.translatesAutoresizingMaskIntoConstraints = false
+        breadcrumbBar.translatesAutoresizingMaskIntoConstraints = false
 
         pathField.font = .monospacedSystemFont(ofSize: 12, weight: .regular)
         pathField.isBordered = false
@@ -70,7 +67,7 @@ final class NavigationBarView: NSView {
 
         let addressBackground = AddressFieldBackground()
         addressBackground.translatesAutoresizingMaskIntoConstraints = false
-        addressBackground.addSubview(breadcrumbLabel)
+        addressBackground.addSubview(breadcrumbBar)
         addressBackground.addSubview(pathField)
 
         let leadingStack = NSStackView(views: [backButton, forwardButton, upButton, refreshButton])
@@ -90,9 +87,10 @@ final class NavigationBarView: NSView {
             addressBackground.centerYAnchor.constraint(equalTo: centerYAnchor),
             addressBackground.heightAnchor.constraint(equalToConstant: 26),
 
-            breadcrumbLabel.leadingAnchor.constraint(equalTo: addressBackground.leadingAnchor, constant: 8),
-            breadcrumbLabel.trailingAnchor.constraint(equalTo: addressBackground.trailingAnchor, constant: -8),
-            breadcrumbLabel.centerYAnchor.constraint(equalTo: addressBackground.centerYAnchor),
+            breadcrumbBar.leadingAnchor.constraint(equalTo: addressBackground.leadingAnchor, constant: 4),
+            breadcrumbBar.trailingAnchor.constraint(equalTo: addressBackground.trailingAnchor, constant: -6),
+            breadcrumbBar.centerYAnchor.constraint(equalTo: addressBackground.centerYAnchor),
+            breadcrumbBar.heightAnchor.constraint(equalTo: addressBackground.heightAnchor),
 
             pathField.leadingAnchor.constraint(equalTo: addressBackground.leadingAnchor, constant: 8),
             pathField.trailingAnchor.constraint(equalTo: addressBackground.trailingAnchor, constant: -8),
@@ -103,15 +101,13 @@ final class NavigationBarView: NSView {
             searchField.centerYAnchor.constraint(equalTo: centerYAnchor),
             searchField.widthAnchor.constraint(equalToConstant: 220),
         ])
-
-        let click = NSClickGestureRecognizer(target: self, action: #selector(beginPathEditing))
-        click.numberOfClicksRequired = 1
-        addressBackground.addGestureRecognizer(click)
     }
 
     func update(path: String, canGoBack: Bool, canGoForward: Bool, canGoUp: Bool) {
-        breadcrumbLabel.stringValue = Self.displayPath(path)
-        pathField.stringValue = path
+        breadcrumbBar.update(path: path)
+        if !isEditingPath {
+            pathField.stringValue = URL(fileURLWithPath: path).path
+        }
         backButton.isEnabled = canGoBack
         forwardButton.isEnabled = canGoForward
         upButton.isEnabled = canGoUp
@@ -128,17 +124,17 @@ final class NavigationBarView: NSView {
         pathField.currentEditor()?.selectAll(nil)
     }
 
-    private static func displayPath(_ path: String) -> String {
-        if path == "/" { return "Macintosh HD" }
-        return path
+    /// The bar hands its current path back on edit-mode entry.
+    var currentDisplayedPath: String {
+        pathField.stringValue
     }
 
-    @objc private func beginPathEditing() {
+    private func beginPathEditing() {
         guard !isEditingPath else { return }
         isEditingPath = true
-        breadcrumbLabel.isHidden = true
+        breadcrumbBar.isHidden = true
         pathField.isHidden = false
-        pathField.stringValue = breadcrumbLabel.stringValue
+        pathField.stringValue = currentDisplayedPath
         window?.makeFirstResponder(pathField)
         pathField.currentEditor()?.selectAll(nil)
     }
@@ -146,7 +142,7 @@ final class NavigationBarView: NSView {
     private func endPathEditing() {
         isEditingPath = false
         pathField.isHidden = true
-        breadcrumbLabel.isHidden = false
+        breadcrumbBar.isHidden = false
     }
 
     @objc private func pathSubmitted() {
