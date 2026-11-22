@@ -18,7 +18,7 @@ public final class ChromeBackgroundView: NSVisualEffectView {
         self.preferred = material
         super.init(frame: .zero)
         apply(material: material)
-        blendsBehindWindow = true
+        blendingMode = .behindWindow
         state = .followsWindowActiveState
         observeAccessibility()
     }

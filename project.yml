@@ -72,3 +72,4 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.dorasoft.fenestra.tests
         CODE_SIGN_IDENTITY: "-"
+        GENERATE_INFOPLIST_FILE: YES

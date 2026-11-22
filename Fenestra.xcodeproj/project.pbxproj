@@ -8,16 +8,27 @@
 
 /* Begin PBXBuildFile section */
 		0752361EB26A87D318671E61 /* FileOps in Frameworks */ = {isa = PBXBuildFile; productRef = C55C7254DA5A43880C6C74F0 /* FileOps */; };
+		25BA49C4B60E25034F444B06 /* GlassHostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375679D1BAD93816E676D866 /* GlassHostView.swift */; };
+		3BE2C7287FB799DA1BE07138 /* ExplorerChromeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD65EA053599B68F9D5E0C1E /* ExplorerChromeView.swift */; };
 		4072297082B43B33DCDA8164 /* FenestraSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25C94619B3774C5E5795760 /* FenestraSmokeTests.swift */; };
+		478A50B903D79A51DD794DE9 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6942E91665D00E79DDA1B298 /* NavigationBarView.swift */; };
 		51F53F47746435C08AE14EFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1513A951243C23A275C326 /* AppDelegate.swift */; };
+		5392B26DD479E09B50B17142 /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD1CB86B4F86FFA4D22DA4E /* WindowController.swift */; };
 		5B0C701BC256EC2896AA418B /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 9489EEE62B00E1210950AADB /* DesignSystem */; };
 		684F0340F4F6495B56BE45AD /* Search in Frameworks */ = {isa = PBXBuildFile; productRef = D49D97795455D2549647F1EA /* Search */; };
+		79A15A8EA60796AD03476605 /* WindowRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F89697D42999021674881937 /* WindowRegistry.swift */; };
+		880C02734149219508B114BE /* TabStripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AC68C4C44ADCFADB24DECC /* TabStripView.swift */; };
 		8AC507BDB325AA2A11AB2972 /* Archives in Frameworks */ = {isa = PBXBuildFile; productRef = DB25EBD56D9D147E8E4640FC /* Archives */; };
 		92334AA7F9ADEACB6347EFA2 /* ShellIntegration in Frameworks */ = {isa = PBXBuildFile; productRef = F538095A281A2EA049B479F2 /* ShellIntegration */; };
 		A16A5320FCB82D706C3D8311 /* Thumbnails in Frameworks */ = {isa = PBXBuildFile; productRef = 204DA5902639157A4AF3381C /* Thumbnails */; };
+		C9AD11B0B7032E5297622FF3 /* CommandBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F48CE74D9EE666E90B11D5 /* CommandBarView.swift */; };
 		CC34250A89EF99A67FBE7DF9 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E823FF0E78441608F7FA3096 /* MainWindow.swift */; };
+		D64E3D698237C9FAD7540B63 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883026CB0C85FC3F5ED04F1F /* MainMenu.swift */; };
+		D878EED65F396B8AF067BBCC /* ContentPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7191667F172896D82BDE5 /* ContentPlaceholderView.swift */; };
 		D8F7F3EF9EF1DA40D4686961 /* FSCore in Frameworks */ = {isa = PBXBuildFile; productRef = 48C84541363E16137EDC7A7E /* FSCore */; };
+		E09FC2047B67D2D7B3933934 /* PanePlaceholders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF2FCB69A5F8E1389A27220 /* PanePlaceholders.swift */; };
 		E731A35F7E66F6A2EE56EC9F /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3A9303B398904C50AB663A97 /* AppCore */; };
+		F3B1B4106224DCD857F4EAC7 /* StatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F3350C0A0953EB4A738153 /* StatusBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,19 +44,30 @@
 /* Begin PBXFileReference section */
 		17AFD18709C40F98A595EA2B /* Thumbnails */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Thumbnails; path = Packages/Thumbnails; sourceTree = SOURCE_ROOT; };
 		1AE74BAAB216C884867CD452 /* Search */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Search; path = Packages/Search; sourceTree = SOURCE_ROOT; };
+		26F7191667F172896D82BDE5 /* ContentPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentPlaceholderView.swift; sourceTree = "<group>"; };
+		2BD1CB86B4F86FFA4D22DA4E /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 		31E9A9583AE1E378A8B062FC /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DesignSystem; path = Packages/DesignSystem; sourceTree = SOURCE_ROOT; };
 		360C0BA6B45169C4894B367F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		375679D1BAD93816E676D866 /* GlassHostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassHostView.swift; sourceTree = "<group>"; };
 		38E25068E6F551DC38DBF096 /* ShellIntegration */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ShellIntegration; path = Packages/ShellIntegration; sourceTree = SOURCE_ROOT; };
 		3C0263F4DFE696DCAE0EA394 /* AppCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AppCore; path = Packages/AppCore; sourceTree = SOURCE_ROOT; };
 		51A72F266408295FE2887662 /* FenestraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FenestraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EF2FCB69A5F8E1389A27220 /* PanePlaceholders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanePlaceholders.swift; sourceTree = "<group>"; };
+		6942E91665D00E79DDA1B298 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
+		883026CB0C85FC3F5ED04F1F /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
+		97AC68C4C44ADCFADB24DECC /* TabStripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabStripView.swift; sourceTree = "<group>"; };
+		97F3350C0A0953EB4A738153 /* StatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
+		A2F48CE74D9EE666E90B11D5 /* CommandBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarView.swift; sourceTree = "<group>"; };
 		A5B6D703258A906895518E5D /* FSCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FSCore; path = Packages/FSCore; sourceTree = SOURCE_ROOT; };
 		A967A98D30A281C2A656DDA1 /* Archives */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Archives; path = Packages/Archives; sourceTree = SOURCE_ROOT; };
 		B25C94619B3774C5E5795760 /* FenestraSmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FenestraSmokeTests.swift; sourceTree = "<group>"; };
 		B6CA531CC7733FFF68EC87B3 /* Fenestra.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fenestra.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD65EA053599B68F9D5E0C1E /* ExplorerChromeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorerChromeView.swift; sourceTree = "<group>"; };
 		BEB0A6B95775D7DAA8036BCA /* Fenestra.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fenestra.entitlements; sourceTree = "<group>"; };
 		D217DD67CAC2A92BE2D59B48 /* FileOps */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FileOps; path = Packages/FileOps; sourceTree = SOURCE_ROOT; };
 		DA1513A951243C23A275C326 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E823FF0E78441608F7FA3096 /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
+		F89697D42999021674881937 /* WindowRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRegistry.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +89,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		114DFE3DEF8291855B475F33 /* ContentView */ = {
+			isa = PBXGroup;
+			children = (
+				26F7191667F172896D82BDE5 /* ContentPlaceholderView.swift */,
+			);
+			path = ContentView;
+			sourceTree = "<group>";
+		};
 		14C6A7D5123491D08B28C4F8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -74,6 +104,27 @@
 				51A72F266408295FE2887662 /* FenestraTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		6D82DB325DD3D4038E881AD4 /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				97AC68C4C44ADCFADB24DECC /* TabStripView.swift */,
+			);
+			path = Tabs;
+			sourceTree = "<group>";
+		};
+		6FF1A55CFC3DCC3BF8764A2E /* Chrome */ = {
+			isa = PBXGroup;
+			children = (
+				A2F48CE74D9EE666E90B11D5 /* CommandBarView.swift */,
+				BD65EA053599B68F9D5E0C1E /* ExplorerChromeView.swift */,
+				375679D1BAD93816E676D866 /* GlassHostView.swift */,
+				6942E91665D00E79DDA1B298 /* NavigationBarView.swift */,
+				5EF2FCB69A5F8E1389A27220 /* PanePlaceholders.swift */,
+				97F3350C0A0953EB4A738153 /* StatusBarView.swift */,
+			);
+			path = Chrome;
 			sourceTree = "<group>";
 		};
 		80CD6D4C041C55855D83D943 = {
@@ -90,6 +141,9 @@
 			isa = PBXGroup;
 			children = (
 				DED6A7569B3A136F6448666A /* App */,
+				6FF1A55CFC3DCC3BF8764A2E /* Chrome */,
+				114DFE3DEF8291855B475F33 /* ContentView */,
+				6D82DB325DD3D4038E881AD4 /* Tabs */,
 				CBB50B1256EEB2B72AE01941 /* Windows */,
 				BEB0A6B95775D7DAA8036BCA /* Fenestra.entitlements */,
 				360C0BA6B45169C4894B367F /* Info.plist */,
@@ -124,6 +178,8 @@
 			isa = PBXGroup;
 			children = (
 				E823FF0E78441608F7FA3096 /* MainWindow.swift */,
+				2BD1CB86B4F86FFA4D22DA4E /* WindowController.swift */,
+				F89697D42999021674881937 /* WindowRegistry.swift */,
 			);
 			path = Windows;
 			sourceTree = "<group>";
@@ -132,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				DA1513A951243C23A275C326 /* AppDelegate.swift */,
+				883026CB0C85FC3F5ED04F1F /* MainMenu.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -232,7 +289,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				51F53F47746435C08AE14EFA /* AppDelegate.swift in Sources */,
+				C9AD11B0B7032E5297622FF3 /* CommandBarView.swift in Sources */,
+				D878EED65F396B8AF067BBCC /* ContentPlaceholderView.swift in Sources */,
+				3BE2C7287FB799DA1BE07138 /* ExplorerChromeView.swift in Sources */,
+				25BA49C4B60E25034F444B06 /* GlassHostView.swift in Sources */,
+				D64E3D698237C9FAD7540B63 /* MainMenu.swift in Sources */,
 				CC34250A89EF99A67FBE7DF9 /* MainWindow.swift in Sources */,
+				478A50B903D79A51DD794DE9 /* NavigationBarView.swift in Sources */,
+				E09FC2047B67D2D7B3933934 /* PanePlaceholders.swift in Sources */,
+				F3B1B4106224DCD857F4EAC7 /* StatusBarView.swift in Sources */,
+				880C02734149219508B114BE /* TabStripView.swift in Sources */,
+				5392B26DD479E09B50B17142 /* WindowController.swift in Sources */,
+				79A15A8EA60796AD03476605 /* WindowRegistry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +352,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -453,6 +522,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

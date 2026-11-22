@@ -1,18 +1,20 @@
 import AppKit
-import FSCore
 
 enum MainWindow {
-    /// Phase 0 placeholder window: chrome arrives in Phase 2.
     @MainActor
-    static func makeEmpty() -> NSWindow {
+    static func make() -> NSWindow {
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 1100, height: 700),
+            contentRect: NSRect(x: 0, y: 0, width: 1180, height: 760),
             styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
             backing: .buffered,
             defer: false
         )
         window.title = "Fenestra"
+        window.titleVisibility = .hidden
         window.titlebarAppearsTransparent = true
+        window.styleMask.insert(.fullSizeContentView)
+        window.isMovableByWindowBackground = false
+        window.minSize = NSSize(width: 900, height: 520)
         window.center()
         window.setFrameAutosaveName("Fenestra.MainWindow")
         return window

@@ -1,4 +1,5 @@
 import Foundation
+import FSCore
 import Observation
 
 /// Everything a tab remembers between visits.
@@ -279,6 +280,11 @@ public final class WorkspaceStore {
     public struct PersistedWorkspace: Codable, Sendable {
         public var windows: [WindowState.PersistedWindow]
         public var isEnabled: Bool
+
+        public init(windows: [WindowState.PersistedWindow], isEnabled: Bool) {
+            self.windows = windows
+            self.isEnabled = isEnabled
+        }
     }
 
     private let url: URL
