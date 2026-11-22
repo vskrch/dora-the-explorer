@@ -294,7 +294,7 @@ public final class WorkspaceStore {
     public init(
         url: URL = FileManager.default
             .urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("Fenestra", isDirectory: true)
+            .appendingPathComponent("Dora the Explorer", isDirectory: true)
             .appendingPathComponent("workspace.json")
     ) {
         self.url = url
@@ -306,7 +306,7 @@ public final class WorkspaceStore {
         do {
             return try decoder.decode(PersistedWorkspace.self, from: data)
         } catch {
-            FenestraLog.shell.error("workspace decode failed: \(error.localizedDescription, privacy: .public)")
+            DoraLog.shell.error("workspace decode failed: \(error.localizedDescription, privacy: .public)")
             return nil
         }
     }
@@ -320,7 +320,7 @@ public final class WorkspaceStore {
             let data = try encoder.encode(workspace)
             try data.write(to: url, options: .atomic)
         } catch {
-            FenestraLog.shell.error("workspace save failed: \(error.localizedDescription, privacy: .public)")
+            DoraLog.shell.error("workspace save failed: \(error.localizedDescription, privacy: .public)")
         }
     }
 }

@@ -1,4 +1,4 @@
-# Fenestra
+# Dora the Explorer
 
 Native macOS 26 file explorer with Windows 11 File Explorer's structure: tabbed windows,
 breadcrumb address bar, command bar, Details/Icons/List/Tiles/Content views, thumbnails,
@@ -15,20 +15,20 @@ AppKit lifecycle app, Swift 6 (strict concurrency), local SPM packages.
 ## Build
 
 ```sh
-make generate      # regenerate Fenestra.xcodeproj from project.yml
+make generate      # regenerate Dora.xcodeproj from project.yml
 make build         # Debug build into build/
 make run           # build and open the app
 make test          # app tests + every package's tests
 make test-packages # package tests only (fast)
 ```
 
-Or from Xcode: `xcodegen generate && open Fenestra.xcodeproj`.
+Or from Xcode: `xcodegen generate && open Dora.xcodeproj`.
 
 ## Layout
 
 ```
-Fenestra/            AppKit app target (windows, tabs, chrome, content views)
-FenestraTests/       app-level tests
+Dora/                AppKit app target (windows, tabs, chrome, content views)
+DoraTests/           app-level tests
 Packages/
   FSCore/            FileItem, bulk enumeration, FSEvents watcher, DirectoryModel, volumes
   FileOps/           copy/move/trash/undo engine (Phase 9)
@@ -43,9 +43,11 @@ FEATURES.md          feature inventory with build status
 .cursor/rules/       project rules applied to every edit
 ```
 
-Old SwiftUI prototype lives in `Dora/` (kept as reference until Fenestra supersedes it).
+## Identity
 
-## Bundle ID
+- App name: **Dora the Explorer** (`Dora the Explorer.app`)
+- Bundle ID: `com.dorasoft.dora`, module/scheme: `Dora`
+- URL scheme: `dora://`, CLI: `dora`
 
-`com.dorasoft.fenestra`. Local builds sign ad-hoc (`CODE_SIGN_IDENTITY = "-"`); set your
-Developer ID team in `project.yml` for distribution.
+Local builds sign ad-hoc (`CODE_SIGN_IDENTITY = "-"`); set your Developer ID team in
+`project.yml` for distribution.

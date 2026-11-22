@@ -118,7 +118,7 @@ public final class VolumeService: @unchecked Sendable {
             options: [.allPartitionsAndEjectDisk, .withoutUI]
         ) { error in
             if let error {
-                FenestraLog.fsCore.error(
+                DoraLog.fsCore.error(
                     "eject failed for \(volume.name, privacy: .public): \(error.localizedDescription, privacy: .public)"
                 )
             }

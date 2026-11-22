@@ -5,7 +5,7 @@ import Testing
 @Suite("Bulk request decode")
 struct BulkRequestDebugTests {
     @Test func parsesAllEntriesOfSmallDirectory() async throws {
-        let fixture = try Fixture(name: "fenestra-req")
+        let fixture = try Fixture(name: "dora-req")
         defer { fixture.cleanup() }
         try fixture.write("alpha.txt", bytes: 10)
         try fixture.write("beta.md", bytes: 20)

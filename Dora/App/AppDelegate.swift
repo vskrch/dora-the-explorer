@@ -10,7 +10,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        FenestraLog.ui.info("Fenestra launched")
+        DoraLog.ui.info("Dora the Explorer launched")
         NSApp.setActivationPolicy(.regular)
 
         if !WindowRegistry.shared.restoreWorkspaceIfEnabled() {
@@ -38,7 +38,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc func menuNewFolder(_ sender: Any?) {
-        FenestraLog.ui.info("New folder command received (wired in Phase 3)")
+        DoraLog.ui.info("New folder command received (wired in Phase 3)")
     }
 
     @objc func toggleDetailsPane(_ sender: Any?) {

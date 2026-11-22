@@ -258,7 +258,7 @@ final class ExplorerChromeView: NSView {
     // MARK: - Accessibility
 
     override func accessibilityRole() -> NSAccessibility.Role? { .group }
-    override func accessibilityLabel() -> String? { "Fenestra window" }
+    override func accessibilityLabel() -> String? { "Dora the Explorer window" }
 }
 
 extension ExplorerChromeView: NSSplitViewDelegate {

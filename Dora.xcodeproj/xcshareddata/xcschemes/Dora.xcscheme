@@ -15,10 +15,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EF4463422D82667575F4AA0C"
-               BuildableName = "Fenestra.app"
-               BlueprintName = "Fenestra"
-               ReferencedContainer = "container:Fenestra.xcodeproj">
+               BlueprintIdentifier = "36C8A04996B2E2486F31DD27"
+               BuildableName = "Dora.app"
+               BlueprintName = "Dora"
+               ReferencedContainer = "container:Dora.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EF4463422D82667575F4AA0C"
-            BuildableName = "Fenestra.app"
-            BlueprintName = "Fenestra"
-            ReferencedContainer = "container:Fenestra.xcodeproj">
+            BlueprintIdentifier = "36C8A04996B2E2486F31DD27"
+            BuildableName = "Dora.app"
+            BlueprintName = "Dora"
+            ReferencedContainer = "container:Dora.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -43,10 +43,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2D70FB77B7BD055E73CCA16D"
-               BuildableName = "FenestraTests.xctest"
-               BlueprintName = "FenestraTests"
-               ReferencedContainer = "container:Fenestra.xcodeproj">
+               BlueprintIdentifier = "0A99FDBFCE3C42871A0901EA"
+               BuildableName = "DoraTests.xctest"
+               BlueprintName = "DoraTests"
+               ReferencedContainer = "container:Dora.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -67,10 +67,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EF4463422D82667575F4AA0C"
-            BuildableName = "Fenestra.app"
-            BlueprintName = "Fenestra"
-            ReferencedContainer = "container:Fenestra.xcodeproj">
+            BlueprintIdentifier = "36C8A04996B2E2486F31DD27"
+            BuildableName = "Dora.app"
+            BlueprintName = "Dora"
+            ReferencedContainer = "container:Dora.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -86,10 +86,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EF4463422D82667575F4AA0C"
-            BuildableName = "Fenestra.app"
-            BlueprintName = "Fenestra"
-            ReferencedContainer = "container:Fenestra.xcodeproj">
+            BlueprintIdentifier = "36C8A04996B2E2486F31DD27"
+            BuildableName = "Dora.app"
+            BlueprintName = "Dora"
+            ReferencedContainer = "container:Dora.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>

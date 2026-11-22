@@ -6,7 +6,7 @@ import Testing
 struct Fixture {
     let root: URL
 
-    init(name: String = "fenestra-tests") throws {
+    init(name: String = "dora-tests") throws {
         let base = FileManager.default.temporaryDirectory
             .appendingPathComponent("\(name)-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: base, withIntermediateDirectories: true)

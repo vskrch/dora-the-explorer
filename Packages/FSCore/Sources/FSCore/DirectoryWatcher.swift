@@ -32,7 +32,7 @@ public final class DirectoryWatcher: @unchecked Sendable {
     private let directory: URL
     private let recursive: Bool
     private let handler: Handler
-    private let queue = DispatchQueue(label: "com.dorasoft.fenestra.fsevents", qos: .utility)
+    private let queue = DispatchQueue(label: "com.dorasoft.dora.fsevents", qos: .utility)
     private var stream: FSEventStreamRef?
     private let lock = NSLock()
     private var stopped = false
@@ -81,13 +81,13 @@ public final class DirectoryWatcher: @unchecked Sendable {
             0.1,
             flags
         ) else {
-            FenestraLog.fsCore.error("FSEventStreamCreate failed for \(self.directory.path, privacy: .public)")
+            DoraLog.fsCore.error("FSEventStreamCreate failed for \(self.directory.path, privacy: .public)")
             return
         }
 
         FSEventStreamSetDispatchQueue(stream, queue)
         if !FSEventStreamStart(stream) {
-            FenestraLog.fsCore.error("FSEventStreamStart failed for \(self.directory.path, privacy: .public)")
+            DoraLog.fsCore.error("FSEventStreamStart failed for \(self.directory.path, privacy: .public)")
             FSEventStreamInvalidate(stream)
             FSEventStreamRelease(stream)
             return

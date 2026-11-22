@@ -1,15 +1,15 @@
 ---
-description: Fenestra project rules — architecture, concurrency, performance and API discipline for a native macOS 26 file explorer.
+description: Dora the Explorer project rules — architecture, concurrency, performance and API discipline for a native macOS 26 file explorer.
 globs:
   - "**/*.swift"
   - "**/*.yml"
 alwaysApply: true
 ---
 
-# Fenestra — project rules
+# Dora the Explorer — project rules
 
-Fenestra is a native macOS 26 file explorer (Windows 11 File Explorer parity where the platform allows).
-AppKit lifecycle app (`NSApplicationDelegate`, `@main` on `AppDelegate`, no SwiftUI `App` struct), Swift 6 language mode, strict concurrency. Bundle ID `com.dorasoft.fenestra`. Hardened Runtime on, App Sandbox OFF.
+Dora the Explorer is a native macOS 26 file explorer (Windows 11 File Explorer parity where the platform allows).
+AppKit lifecycle app (`NSApplicationDelegate`, `@main` on `AppDelegate`, no SwiftUI `App` struct), Swift 6 language mode, strict concurrency. Bundle ID `com.dorasoft.dora`. Hardened Runtime on, App Sandbox OFF.
 
 ## 1. Hard architecture rules
 
@@ -26,7 +26,7 @@ AppKit lifecycle app (`NSApplicationDelegate`, `@main` on `AppDelegate`, no Swif
 - All cross-actor types `Sendable`. No `@unchecked Sendable` without a comment explaining the invariant.
 - All `Task`s that outlive their scope are stored and cancelled; no orphan `Task.detached` without a stored handle.
 - Actors for shared mutable state; `@MainActor` + `@Observable` for UI models. Never block the main thread on an actor.
-- Subsystem loggers: `Logger(subsystem: "com.dorasoft.fenestra", category: <feature>)`.
+- Subsystem loggers: `Logger(subsystem: "com.dorasoft.dora", category: <feature>)`.
 
 ## 3. Performance budgets (verifiable, not vibes)
 

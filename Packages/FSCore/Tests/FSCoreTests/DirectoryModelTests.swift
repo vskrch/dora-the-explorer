@@ -38,7 +38,7 @@ struct DirectoryModelTests {
 
     @Test func loadErrorIsSurfaced() async throws {
         let missing = FileManager.default.temporaryDirectory
-            .appendingPathComponent("fenestra-missing-\(UUID().uuidString)")
+            .appendingPathComponent("dora-missing-\(UUID().uuidString)")
         let model = DirectoryModel(directory: missing)
         model.reload()
         try await waitUntil { model.loadError != nil }

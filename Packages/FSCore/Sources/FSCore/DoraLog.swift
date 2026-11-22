@@ -2,8 +2,8 @@ import Foundation
 import os
 
 /// Loggers, one per feature area, all on the app's subsystem.
-public enum FenestraLog {
-    public static let subsystem = "com.dorasoft.fenestra"
+public enum DoraLog {
+    public static let subsystem = "com.dorasoft.dora"
 
     public static func make(_ category: String) -> Logger {
         Logger(subsystem: subsystem, category: category)

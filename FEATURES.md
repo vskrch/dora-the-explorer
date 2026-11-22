@@ -1,4 +1,4 @@
-# Fenestra — feature inventory
+# Dora the Explorer — feature inventory
 
 Derived from the build prompts. Each line is a concrete, checkable behaviour. Phases are the build order.
 
@@ -162,8 +162,8 @@ Status legend: `[ ]` unbuilt, `[x]` built and tested.
 - [ ] Full Windows preset listed in the prompt; warn on conflicts with macOS-reserved combos.
 
 ## 17. System integration (Phase 17)
-- [ ] Services: Open in Fenestra, Open in Fenestra (new tab), Reveal in Fenestra.
-- [ ] `fenestra://open?path=…&tab=new` and `fen` CLI helper.
+- [ ] Services: Open in Dora the Explorer, Open in Dora the Explorer (new tab), Reveal in Dora the Explorer.
+- [ ] `dora://open?path=…&tab=new` and `dora` CLI helper.
 - [ ] App Intents: Open folder, Search, New folder, Compress, Extract.
 - [ ] Dock menu (recent folders, New window); optional menu bar extra.
 - [ ] Open in Terminal/iTerm/Warp/VS Code/Cursor (setting).

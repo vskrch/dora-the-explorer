@@ -6,7 +6,7 @@ import Testing
 struct DirectoryEnumeratorPerformanceTests {
     /// Budget: first batch for a 100k-file directory under 100 ms on Apple Silicon.
     @Test func firstBatchOf100kFilesUnderBudget() async throws {
-        let fixture = try Fixture(name: "fenestra-perf")
+        let fixture = try Fixture(name: "dora-perf")
         defer { fixture.cleanup() }
         try fixture.generateFiles(count: 100_000)
 

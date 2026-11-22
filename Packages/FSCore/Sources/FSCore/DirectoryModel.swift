@@ -148,7 +148,7 @@ public final class DirectoryModel {
                 self.loadError = error
                 self.isLoading = false
                 self.publish()
-                FenestraLog.fsCore.error("load failed for \(directory.path, privacy: .public): \(error.localizedDescription, privacy: .public)")
+                DoraLog.fsCore.error("load failed for \(directory.path, privacy: .public): \(error.localizedDescription, privacy: .public)")
             }
         }
     }

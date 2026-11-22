@@ -221,7 +221,7 @@ final class EnumerationSignpost: @unchecked Sendable {
 
     init(name: StaticString) {
         self.name = name
-        self.signpostID = OSSignpostID(log: OSSignposter.loggerForCategory(FenestraLog.subsystem, "perf"))
+        self.signpostID = OSSignpostID(log: OSSignposter.loggerForCategory(DoraLog.subsystem, "perf"))
         self.state = Signposter.performance.beginInterval(name, id: signpostID)
     }
 

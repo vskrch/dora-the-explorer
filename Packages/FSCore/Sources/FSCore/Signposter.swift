@@ -9,7 +9,7 @@ extension OSSignposter {
 
 /// Signpost helpers for the project's performance budgets.
 public enum Signposter {
-    public static let logger = FenestraLog.perf
+    public static let logger = DoraLog.perf
     public static let performance = OSSignposter(logger: logger)
 
     /// Runs `work` in a signpost interval named `name`.

@@ -7,137 +7,233 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		06A5657A5E971886ADD92716 /* NavigationPaneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2356C0F2D293FA5D24AE6737 /* NavigationPaneView.swift */; };
-		2161EDF088EB7DFE0717BBEF /* ExplorerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41296C9544CA22A3C20D6DBF /* ExplorerViewModel.swift */; };
-		255FC8C76E926ADA0F6AC4AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED490041DBDCB45B59E66B50 /* Assets.xcassets */; };
-		31CC6DFDC69058FCA3723772 /* FileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C65F7782D367D46226716F /* FileListView.swift */; };
-		3AA4684E09212251F3581CC6 /* StatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660678B2D391FCDF6537A54D /* StatusBarView.swift */; };
-		3EDC25C6F5DC8A8A50BBB27C /* FileItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F6D10EF452DF04D79B53BA /* FileItem.swift */; };
-		452989C4637E78B70305C2DD /* DoraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC51F5317D8FD0BAE5C4B73 /* DoraApp.swift */; };
-		5D637A4DE7C1013BF7E8A75C /* AddressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40592EC9009E42D3EEA1448 /* AddressBarView.swift */; };
-		7CC03E237D4C6E18ED9FFD23 /* ExplorerRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057CD9B53CA2E72641B2C4AF /* ExplorerRootView.swift */; };
-		86ED3E7C2DF1EEC9C4C1C9E9 /* ClipboardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEBCB512AEDC166E59F1388 /* ClipboardService.swift */; };
-		BAE4AFFA1512BE7E84EB0D9F /* FileIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BCD09AD0970868BBD37AFE /* FileIconView.swift */; };
-		DB8238593ACCBE75037291B2 /* FileSystemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BD75BAE7131336832C182B /* FileSystemService.swift */; };
-		E7B184621495BFE15D971D70 /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C05041DCCA12B317E49973 /* ToolbarView.swift */; };
-		F3ADA272094C0E5E01CF7736 /* ExplorerTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DCDC553335A2FE9794172A /* ExplorerTheme.swift */; };
+		0DF8AF05A9A3E5ED5CC36CDF /* FileOps in Frameworks */ = {isa = PBXBuildFile; productRef = BACAFD7C0C898D9A22B5A02B /* FileOps */; };
+		1D6C3951DD093017422ADB1A /* WindowRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8084547C80D7DB030279170 /* WindowRegistry.swift */; };
+		1EA68D04A3311BCFBD93169E /* CommandBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5909912F0C4608D131B2EF12 /* CommandBarView.swift */; };
+		20F8B941D9F1CCFF9BBB2851 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = E588BD8794EC9A913CC19DA7 /* DesignSystem */; };
+		287CE821A4DFF1F02C8B9231 /* FSCore in Frameworks */ = {isa = PBXBuildFile; productRef = D00652610503E04ACBC2E46C /* FSCore */; };
+		4F414C320B9C92178B431D30 /* ShellIntegration in Frameworks */ = {isa = PBXBuildFile; productRef = BC405251AE65F1FE4E0DF45A /* ShellIntegration */; };
+		55A21EBBC3A307369B81E0C3 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44682C7481D19DFF783B99BF /* NavigationBarView.swift */; };
+		6392744935F90098C025B219 /* Search in Frameworks */ = {isa = PBXBuildFile; productRef = 01D655339FB01E164A358529 /* Search */; };
+		67EA4E4FECABF0DA1D3A36C8 /* ContentPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6484F001CCC5B204E38230C /* ContentPlaceholderView.swift */; };
+		7CF39A93DC3F22ED39F77505 /* StatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73260C9E8C997F9FB997A4A5 /* StatusBarView.swift */; };
+		7D4B6250B56B41705A648078 /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = 208BAB90E0C200B9302E1FB1 /* AppCore */; };
+		96C714E0A305BA0875D05340 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB5A5298B936ACA700754C0 /* AppDelegate.swift */; };
+		9F7229B23794DE71BF818C7A /* GlassHostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF24AABB902719AE75360FC /* GlassHostView.swift */; };
+		B0CA77AC15237AD255CEA3C9 /* Archives in Frameworks */ = {isa = PBXBuildFile; productRef = C3CDD525249BE56E762221B9 /* Archives */; };
+		B46ACCA5A6B96560D798883A /* DoraSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21994B901B4AFDEF809753BF /* DoraSmokeTests.swift */; };
+		BAB2A07730A0C513F899D0FE /* PanePlaceholders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B03AAE4115AC9C822527BFC /* PanePlaceholders.swift */; };
+		BB12B94540FCB4C974D07917 /* TabStripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF1FBFEC3FDCBCE4970343E /* TabStripView.swift */; };
+		BD6B652CCC2C374E2BB023F3 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F79A20BACC53AE50E457060 /* MainMenu.swift */; };
+		CE3D4F6A1BAE6C74B961C267 /* Thumbnails in Frameworks */ = {isa = PBXBuildFile; productRef = 83307DFAC74233F8350ECDC1 /* Thumbnails */; };
+		D468C8D548851BB8F10E4B18 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A8A6F5E9DE2DBA2B341BB7 /* MainWindow.swift */; };
+		F408C24DAD7D1D692ADF7158 /* ExplorerChromeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C43DCA723BD623993ED874 /* ExplorerChromeView.swift */; };
+		F894257AC105EC4782E8365C /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A994DDF8492CDF7524975D53 /* WindowController.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		63D65A6A10FFC74F059F09E1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C55EDFEBA6DE212581C6C63E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 36C8A04996B2E2486F31DD27;
+			remoteInfo = Dora;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		057CD9B53CA2E72641B2C4AF /* ExplorerRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorerRootView.swift; sourceTree = "<group>"; };
+		09D7A8C2EDE211A6EEE2C601 /* Search */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Search; path = Packages/Search; sourceTree = SOURCE_ROOT; };
+		18F80B80B26E843D13DF1FE9 /* DoraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		201386E2DF32319D9E1BB7B1 /* Dora.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dora.entitlements; sourceTree = "<group>"; };
-		2356C0F2D293FA5D24AE6737 /* NavigationPaneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationPaneView.swift; sourceTree = "<group>"; };
-		41296C9544CA22A3C20D6DBF /* ExplorerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorerViewModel.swift; sourceTree = "<group>"; };
-		48BCD09AD0970868BBD37AFE /* FileIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIconView.swift; sourceTree = "<group>"; };
+		21994B901B4AFDEF809753BF /* DoraSmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraSmokeTests.swift; sourceTree = "<group>"; };
+		28070CAAEA1E54AE7D4FC55F /* FileOps */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FileOps; path = Packages/FileOps; sourceTree = SOURCE_ROOT; };
+		3F79A20BACC53AE50E457060 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
+		44682C7481D19DFF783B99BF /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
+		46C43DCA723BD623993ED874 /* ExplorerChromeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorerChromeView.swift; sourceTree = "<group>"; };
+		4B03AAE4115AC9C822527BFC /* PanePlaceholders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanePlaceholders.swift; sourceTree = "<group>"; };
+		4EB5A5298B936ACA700754C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4F0787474E25204DE969C2A4 /* AppCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AppCore; path = Packages/AppCore; sourceTree = SOURCE_ROOT; };
 		56929F3078A82A5433A68185 /* Dora.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dora.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		660678B2D391FCDF6537A54D /* StatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
-		8BEBCB512AEDC166E59F1388 /* ClipboardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardService.swift; sourceTree = "<group>"; };
-		90C05041DCCA12B317E49973 /* ToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarView.swift; sourceTree = "<group>"; };
-		A2DCDC553335A2FE9794172A /* ExplorerTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorerTheme.swift; sourceTree = "<group>"; };
+		5909912F0C4608D131B2EF12 /* CommandBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarView.swift; sourceTree = "<group>"; };
+		6F20214427186666236103D0 /* Archives */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Archives; path = Packages/Archives; sourceTree = SOURCE_ROOT; };
+		73260C9E8C997F9FB997A4A5 /* StatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
+		8A1ADAA3A85C80A40305A151 /* FSCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FSCore; path = Packages/FSCore; sourceTree = SOURCE_ROOT; };
+		8FF1FBFEC3FDCBCE4970343E /* TabStripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabStripView.swift; sourceTree = "<group>"; };
+		98DBFA66C1A3FE952450904B /* Thumbnails */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Thumbnails; path = Packages/Thumbnails; sourceTree = SOURCE_ROOT; };
+		9F4494DD92BED0C1CD9CC4E0 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DesignSystem; path = Packages/DesignSystem; sourceTree = SOURCE_ROOT; };
+		A6484F001CCC5B204E38230C /* ContentPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentPlaceholderView.swift; sourceTree = "<group>"; };
+		A994DDF8492CDF7524975D53 /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 		BF1432DD01368727B3F7169B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		C40592EC9009E42D3EEA1448 /* AddressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBarView.swift; sourceTree = "<group>"; };
-		C5C65F7782D367D46226716F /* FileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListView.swift; sourceTree = "<group>"; };
-		E3BD75BAE7131336832C182B /* FileSystemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemService.swift; sourceTree = "<group>"; };
-		EAC51F5317D8FD0BAE5C4B73 /* DoraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraApp.swift; sourceTree = "<group>"; };
-		ED490041DBDCB45B59E66B50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F8F6D10EF452DF04D79B53BA /* FileItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileItem.swift; sourceTree = "<group>"; };
+		E7ED106C0A28213F9A30B568 /* ShellIntegration */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ShellIntegration; path = Packages/ShellIntegration; sourceTree = SOURCE_ROOT; };
+		E8084547C80D7DB030279170 /* WindowRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRegistry.swift; sourceTree = "<group>"; };
+		E8A8A6F5E9DE2DBA2B341BB7 /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
+		FAF24AABB902719AE75360FC /* GlassHostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassHostView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F19FEBBBC2B595FB1996F336 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				287CE821A4DFF1F02C8B9231 /* FSCore in Frameworks */,
+				0DF8AF05A9A3E5ED5CC36CDF /* FileOps in Frameworks */,
+				CE3D4F6A1BAE6C74B961C267 /* Thumbnails in Frameworks */,
+				6392744935F90098C025B219 /* Search in Frameworks */,
+				B0CA77AC15237AD255CEA3C9 /* Archives in Frameworks */,
+				4F414C320B9C92178B431D30 /* ShellIntegration in Frameworks */,
+				20F8B941D9F1CCFF9BBB2851 /* DesignSystem in Frameworks */,
+				7D4B6250B56B41705A648078 /* AppCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		046BA0CAEEF821E42C0305EA /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				56929F3078A82A5433A68185 /* Dora.app */,
+				18F80B80B26E843D13DF1FE9 /* DoraTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		1190FD49FF00693FE0CBF230 /* Windows */ = {
+			isa = PBXGroup;
+			children = (
+				E8A8A6F5E9DE2DBA2B341BB7 /* MainWindow.swift */,
+				A994DDF8492CDF7524975D53 /* WindowController.swift */,
+				E8084547C80D7DB030279170 /* WindowRegistry.swift */,
+			);
+			path = Windows;
 			sourceTree = "<group>";
 		};
 		2096150FC4C4BD83ED4CE8A5 = {
 			isa = PBXGroup;
 			children = (
 				AEB5BBF9FF55C72C0B198D4D /* Dora */,
+				9862F08BCAA814ED4C64BC0B /* DoraTests */,
+				69FB9EC2A5A927A96D56C3E8 /* Packages */,
 				046BA0CAEEF821E42C0305EA /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		2C313E8674585C9FEA77FBCB /* Views */ = {
+		33EE0B8098020B0C407B5A91 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				C40592EC9009E42D3EEA1448 /* AddressBarView.swift */,
-				057CD9B53CA2E72641B2C4AF /* ExplorerRootView.swift */,
-				48BCD09AD0970868BBD37AFE /* FileIconView.swift */,
-				C5C65F7782D367D46226716F /* FileListView.swift */,
-				2356C0F2D293FA5D24AE6737 /* NavigationPaneView.swift */,
-				660678B2D391FCDF6537A54D /* StatusBarView.swift */,
-				90C05041DCCA12B317E49973 /* ToolbarView.swift */,
+				4EB5A5298B936ACA700754C0 /* AppDelegate.swift */,
+				3F79A20BACC53AE50E457060 /* MainMenu.swift */,
 			);
-			path = Views;
+			path = App;
 			sourceTree = "<group>";
 		};
-		8061A88E9B62E05BCCF39563 /* ViewModels */ = {
+		69FB9EC2A5A927A96D56C3E8 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				41296C9544CA22A3C20D6DBF /* ExplorerViewModel.swift */,
+				4F0787474E25204DE969C2A4 /* AppCore */,
+				6F20214427186666236103D0 /* Archives */,
+				9F4494DD92BED0C1CD9CC4E0 /* DesignSystem */,
+				28070CAAEA1E54AE7D4FC55F /* FileOps */,
+				8A1ADAA3A85C80A40305A151 /* FSCore */,
+				09D7A8C2EDE211A6EEE2C601 /* Search */,
+				E7ED106C0A28213F9A30B568 /* ShellIntegration */,
+				98DBFA66C1A3FE952450904B /* Thumbnails */,
 			);
-			path = ViewModels;
+			path = Packages;
 			sourceTree = "<group>";
 		};
-		9CD0AE806101FF7AD966E8AF /* Theme */ = {
+		9862F08BCAA814ED4C64BC0B /* DoraTests */ = {
 			isa = PBXGroup;
 			children = (
-				A2DCDC553335A2FE9794172A /* ExplorerTheme.swift */,
+				21994B901B4AFDEF809753BF /* DoraSmokeTests.swift */,
 			);
-			path = Theme;
+			path = DoraTests;
 			sourceTree = "<group>";
 		};
 		AEB5BBF9FF55C72C0B198D4D /* Dora */ = {
 			isa = PBXGroup;
 			children = (
-				ED490041DBDCB45B59E66B50 /* Assets.xcassets */,
+				33EE0B8098020B0C407B5A91 /* App */,
+				EFC6984AA8BB33E85B82B2AA /* Chrome */,
+				D44C3715A13329E68E89B753 /* ContentView */,
+				DE2A10B32234ED247A8A611F /* Tabs */,
+				1190FD49FF00693FE0CBF230 /* Windows */,
 				201386E2DF32319D9E1BB7B1 /* Dora.entitlements */,
-				EAC51F5317D8FD0BAE5C4B73 /* DoraApp.swift */,
 				BF1432DD01368727B3F7169B /* Info.plist */,
-				F44B84D9379FEC2918F77269 /* Models */,
-				BAB23BDE01FB66868BAE52E5 /* Services */,
-				9CD0AE806101FF7AD966E8AF /* Theme */,
-				8061A88E9B62E05BCCF39563 /* ViewModels */,
-				2C313E8674585C9FEA77FBCB /* Views */,
 			);
 			path = Dora;
 			sourceTree = "<group>";
 		};
-		BAB23BDE01FB66868BAE52E5 /* Services */ = {
+		D44C3715A13329E68E89B753 /* ContentView */ = {
 			isa = PBXGroup;
 			children = (
-				8BEBCB512AEDC166E59F1388 /* ClipboardService.swift */,
-				E3BD75BAE7131336832C182B /* FileSystemService.swift */,
+				A6484F001CCC5B204E38230C /* ContentPlaceholderView.swift */,
 			);
-			path = Services;
+			path = ContentView;
 			sourceTree = "<group>";
 		};
-		F44B84D9379FEC2918F77269 /* Models */ = {
+		DE2A10B32234ED247A8A611F /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
-				F8F6D10EF452DF04D79B53BA /* FileItem.swift */,
+				8FF1FBFEC3FDCBCE4970343E /* TabStripView.swift */,
 			);
-			path = Models;
+			path = Tabs;
+			sourceTree = "<group>";
+		};
+		EFC6984AA8BB33E85B82B2AA /* Chrome */ = {
+			isa = PBXGroup;
+			children = (
+				5909912F0C4608D131B2EF12 /* CommandBarView.swift */,
+				46C43DCA723BD623993ED874 /* ExplorerChromeView.swift */,
+				FAF24AABB902719AE75360FC /* GlassHostView.swift */,
+				44682C7481D19DFF783B99BF /* NavigationBarView.swift */,
+				4B03AAE4115AC9C822527BFC /* PanePlaceholders.swift */,
+				73260C9E8C997F9FB997A4A5 /* StatusBarView.swift */,
+			);
+			path = Chrome;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0A99FDBFCE3C42871A0901EA /* DoraTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 521A12E85FE30A0439521625 /* Build configuration list for PBXNativeTarget "DoraTests" */;
+			buildPhases = (
+				06F2D4B41F703EEBA379187E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9B6558E1B54D6368521267B1 /* PBXTargetDependency */,
+			);
+			name = DoraTests;
+			productName = DoraTests;
+			productReference = 18F80B80B26E843D13DF1FE9 /* DoraTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		36C8A04996B2E2486F31DD27 /* Dora */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 33C5E54FEC5368E1129D5935 /* Build configuration list for PBXNativeTarget "Dora" */;
 			buildPhases = (
 				B66319935F861E7AC7381F49 /* Sources */,
-				C9849210AD692A3C300E6A1B /* Resources */,
+				F19FEBBBC2B595FB1996F336 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Dora;
+			packageProductDependencies = (
+				D00652610503E04ACBC2E46C /* FSCore */,
+				BACAFD7C0C898D9A22B5A02B /* FileOps */,
+				83307DFAC74233F8350ECDC1 /* Thumbnails */,
+				01D655339FB01E164A358529 /* Search */,
+				C3CDD525249BE56E762221B9 /* Archives */,
+				BC405251AE65F1FE4E0DF45A /* ShellIntegration */,
+				E588BD8794EC9A913CC19DA7 /* DesignSystem */,
+				208BAB90E0C200B9302E1FB1 /* AppCore */,
+			);
 			productName = Dora;
 			productReference = 56929F3078A82A5433A68185 /* Dora.app */;
 			productType = "com.apple.product-type.application";
@@ -149,8 +245,11 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					0A99FDBFCE3C42871A0901EA = {
+						ProvisioningStyle = Automatic;
+					};
 					36C8A04996B2E2486F31DD27 = {
 						ProvisioningStyle = Automatic;
 					};
@@ -165,47 +264,63 @@
 				en,
 			);
 			mainGroup = 2096150FC4C4BD83ED4CE8A5;
+			packageReferences = (
+				170897B3A2FC611B4C1D808E /* XCLocalSwiftPackageReference "Packages/AppCore" */,
+				3D36BA459517C158E2ADA404 /* XCLocalSwiftPackageReference "Packages/Archives" */,
+				C0771A0516494A7DB058781C /* XCLocalSwiftPackageReference "Packages/DesignSystem" */,
+				C75C238BC2883C851341B8DA /* XCLocalSwiftPackageReference "Packages/FSCore" */,
+				23808A3E8A69734E31D29D03 /* XCLocalSwiftPackageReference "Packages/FileOps" */,
+				64006EBB0C6F7895456126F1 /* XCLocalSwiftPackageReference "Packages/Search" */,
+				09353DBFB3610DF31119440A /* XCLocalSwiftPackageReference "Packages/ShellIntegration" */,
+				F8355FBF9F7A0E3996D4743D /* XCLocalSwiftPackageReference "Packages/Thumbnails" */,
+			);
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				36C8A04996B2E2486F31DD27 /* Dora */,
+				0A99FDBFCE3C42871A0901EA /* DoraTests */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		C9849210AD692A3C300E6A1B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
+/* Begin PBXSourcesBuildPhase section */
+		06F2D4B41F703EEBA379187E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				255FC8C76E926ADA0F6AC4AA /* Assets.xcassets in Resources */,
+				B46ACCA5A6B96560D798883A /* DoraSmokeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
 		B66319935F861E7AC7381F49 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D637A4DE7C1013BF7E8A75C /* AddressBarView.swift in Sources */,
-				86ED3E7C2DF1EEC9C4C1C9E9 /* ClipboardService.swift in Sources */,
-				452989C4637E78B70305C2DD /* DoraApp.swift in Sources */,
-				7CC03E237D4C6E18ED9FFD23 /* ExplorerRootView.swift in Sources */,
-				F3ADA272094C0E5E01CF7736 /* ExplorerTheme.swift in Sources */,
-				2161EDF088EB7DFE0717BBEF /* ExplorerViewModel.swift in Sources */,
-				BAE4AFFA1512BE7E84EB0D9F /* FileIconView.swift in Sources */,
-				3EDC25C6F5DC8A8A50BBB27C /* FileItem.swift in Sources */,
-				31CC6DFDC69058FCA3723772 /* FileListView.swift in Sources */,
-				DB8238593ACCBE75037291B2 /* FileSystemService.swift in Sources */,
-				06A5657A5E971886ADD92716 /* NavigationPaneView.swift in Sources */,
-				3AA4684E09212251F3581CC6 /* StatusBarView.swift in Sources */,
-				E7B184621495BFE15D971D70 /* ToolbarView.swift in Sources */,
+				96C714E0A305BA0875D05340 /* AppDelegate.swift in Sources */,
+				1EA68D04A3311BCFBD93169E /* CommandBarView.swift in Sources */,
+				67EA4E4FECABF0DA1D3A36C8 /* ContentPlaceholderView.swift in Sources */,
+				F408C24DAD7D1D692ADF7158 /* ExplorerChromeView.swift in Sources */,
+				9F7229B23794DE71BF818C7A /* GlassHostView.swift in Sources */,
+				BD6B652CCC2C374E2BB023F3 /* MainMenu.swift in Sources */,
+				D468C8D548851BB8F10E4B18 /* MainWindow.swift in Sources */,
+				55A21EBBC3A307369B81E0C3 /* NavigationBarView.swift in Sources */,
+				BAB2A07730A0C513F899D0FE /* PanePlaceholders.swift in Sources */,
+				7CF39A93DC3F22ED39F77505 /* StatusBarView.swift in Sources */,
+				BB12B94540FCB4C974D07917 /* TabStripView.swift in Sources */,
+				F894257AC105EC4782E8365C /* WindowController.swift in Sources */,
+				1D6C3951DD093017422ADB1A /* WindowRegistry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9B6558E1B54D6368521267B1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 36C8A04996B2E2486F31DD27 /* Dora */;
+			targetProxy = 63D65A6A10FFC74F059F09E1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		4847A483688D09D9609F95AB /* Release */ = {
@@ -241,10 +356,14 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -253,16 +372,35 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.9;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
+		};
+		600C2EDBA2C23DE278F1B18A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dorasoft.dora.tests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dora the Explorer.app/Contents/MacOS/Dora the Explorer";
+			};
+			name = Debug;
 		};
 		6C395AC41E8485A7B7D6503A /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -297,10 +435,14 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -315,7 +457,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -323,7 +465,8 @@
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.9;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -332,16 +475,22 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Dora/Dora.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				INFOPLIST_FILE = Dora/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dora.explorer;
-				PRODUCT_NAME = Dora;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dorasoft.dora;
+				PRODUCT_MODULE_NAME = Dora;
+				PRODUCT_NAME = "Dora the Explorer";
 				SDKROOT = macosx;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
+				SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY = YES;
 			};
 			name = Debug;
 		};
@@ -350,16 +499,40 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Dora/Dora.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				INFOPLIST_FILE = Dora/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dora.explorer;
-				PRODUCT_NAME = Dora;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dorasoft.dora;
+				PRODUCT_MODULE_NAME = Dora;
+				PRODUCT_NAME = "Dora the Explorer";
 				SDKROOT = macosx;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
+				SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY = YES;
+			};
+			name = Release;
+		};
+		EA6CBCAB1E92534C474913B7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dorasoft.dora.tests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dora the Explorer.app/Contents/MacOS/Dora the Explorer";
 			};
 			name = Release;
 		};
@@ -375,6 +548,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		521A12E85FE30A0439521625 /* Build configuration list for PBXNativeTarget "DoraTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				600C2EDBA2C23DE278F1B18A /* Debug */,
+				EA6CBCAB1E92534C474913B7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		9A73B58064A95AFF7565BED9 /* Build configuration list for PBXProject "Dora" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -385,6 +567,76 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		09353DBFB3610DF31119440A /* XCLocalSwiftPackageReference "Packages/ShellIntegration" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/ShellIntegration;
+		};
+		170897B3A2FC611B4C1D808E /* XCLocalSwiftPackageReference "Packages/AppCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/AppCore;
+		};
+		23808A3E8A69734E31D29D03 /* XCLocalSwiftPackageReference "Packages/FileOps" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/FileOps;
+		};
+		3D36BA459517C158E2ADA404 /* XCLocalSwiftPackageReference "Packages/Archives" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/Archives;
+		};
+		64006EBB0C6F7895456126F1 /* XCLocalSwiftPackageReference "Packages/Search" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/Search;
+		};
+		C0771A0516494A7DB058781C /* XCLocalSwiftPackageReference "Packages/DesignSystem" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/DesignSystem;
+		};
+		C75C238BC2883C851341B8DA /* XCLocalSwiftPackageReference "Packages/FSCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/FSCore;
+		};
+		F8355FBF9F7A0E3996D4743D /* XCLocalSwiftPackageReference "Packages/Thumbnails" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/Thumbnails;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		01D655339FB01E164A358529 /* Search */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Search;
+		};
+		208BAB90E0C200B9302E1FB1 /* AppCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppCore;
+		};
+		83307DFAC74233F8350ECDC1 /* Thumbnails */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Thumbnails;
+		};
+		BACAFD7C0C898D9A22B5A02B /* FileOps */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FileOps;
+		};
+		BC405251AE65F1FE4E0DF45A /* ShellIntegration */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ShellIntegration;
+		};
+		C3CDD525249BE56E762221B9 /* Archives */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Archives;
+		};
+		D00652610503E04ACBC2E46C /* FSCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FSCore;
+		};
+		E588BD8794EC9A913CC19DA7 /* DesignSystem */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DesignSystem;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C55EDFEBA6DE212581C6C63E /* Project object */;
 }
