@@ -6,45 +6,50 @@ Status legend: `[ ]` unbuilt, `[x]` built and tested.
 
 ## 1. Filesystem core (Phase 1)
 - [ ] `FileItem` Sendable struct: volume/file ID, url, name, displayName, isDirectory, isPackage, isSymlink, isAlias, isHidden, size, allocatedSize, created/modified/accessed/added, UTType, permissions, flags, tags.
-- [ ] Bulk directory enumeration via `getattrlistbulk(2)`, batched `AsyncStream<[FileItem]>` (~500), first batch < 100 ms for 100k files on APFS.
-- [ ] Fallback to `FileManager.enumerator` with prefetched resource keys when bulk fails (network FS).
-- [ ] Cancellation of in-flight enumeration; "show hidden" respect; hidden filtering.
-- [ ] FSEvents watcher: file-events flag, cf-types, no-defer, 0.1 s latency; coalesced diffs by file ID (insert/remove/modify/rename).
-- [ ] Volume mount/unmount detection via `NSWorkspace` notifications.
-- [ ] `DirectoryModel` (`@MainActor @Observable`): incremental sort/grouping, diff application preserving selection and scroll, stable snapshot for the table.
-- [ ] `VolumeService`: name, icon, capacity, `volumeAvailableCapacityForImportantUsage`, fs name, removable/ejectable/network/internal.
-- [ ] Tests: 50k-file enumeration correctness + order; watcher create/delete/rename within 1 s; sort stability; hidden filtering.
+- [x] Bulk directory enumeration via `getattrlistbulk(2)`, batched `AsyncStream<[FileItem]>` (~500), first batch < 100 ms for 100k files on APFS.
+- [x] Fallback to `FileManager.enumerator` with prefetched resource keys when bulk fails (network FS).
+- [x] Cancellation of in-flight enumeration; "show hidden" respect; hidden filtering.
+- [x] FSEvents watcher: file-events flag, cf-types, no-defer, 0.1 s latency; coalesced diffs by file ID (insert/remove/modify/rename).
+- [x] Volume mount/unmount detection via `NSWorkspace` notifications.
+- [x] `DirectoryModel` (`@MainActor @Observable`): incremental sort/grouping, diff application preserving selection and scroll, stable snapshot for the table.
+- [x] `VolumeService`: name, icon, capacity, `volumeAvailableCapacityForImportantUsage`, fs name, removable/ejectable/network/internal.
+- [x] Tests: 50k-file enumeration correctness + order; watcher create/delete/rename within 1 s; sort stability; hidden filtering.
 
 ## 2. Shell: windows, tabs, chrome (Phase 2)
-- [ ] AppKit `NSWindow` with traffic lights, transparent title bar, full-size content.
-- [ ] Tab strip in the title bar: icon, title, close on hover, `+`, overflow scroll, middle-click close.
-- [ ] Tab context menu: New, Duplicate, Close, Close others, Close to the right, Move to new window, Reopen closed tab.
-- [ ] Drag to reorder tabs; tear off into a new window; drop onto another window's strip.
-- [ ] Navigation bar row: Back, Forward, Up, Refresh, breadcrumb (placeholder), search field.
-- [ ] Command bar row (placeholder in Phase 2).
-- [ ] `NSSplitView` body: nav pane | content | details/preview pane, collapsible, remembered widths.
-- [ ] Status bar: "N items | M selected  X MB" + view toggles on the right.
-- [ ] Liquid glass on tab strip, nav bar, command bar, status bar as one grouped container; system sidebar glass; opaque content area.
-- [ ] Reduce Transparency and Increase Contrast fall back to solid fills.
-- [ ] Per-tab state: navigation history, view settings, selection. Restore tabs and windows on launch (setting).
-- [ ] Shortcuts: ⌘T, ⌘W, ⌘⇧T, ⌃Tab, ⌃⇧Tab, ⌘1…9, ⌘N.
+- [x] AppKit `NSWindow` with traffic lights, transparent title bar, full-size content.
+- [x] Tab strip in the title bar: icon, title, close on hover, `+`, overflow scroll, middle-click close.
+- [x] Tab context menu: New, Duplicate, Close, Close others, Close to the right, Move to new window, Reopen closed tab.
+- [x] Tear off a tab into a new window (single-fire drag out, correct screen coordinates).
+- [ ] Drag to reorder tabs; drop onto another window's strip.
+- [x] Navigation bar row: Back, Forward, Up, Refresh, breadcrumb (placeholder), search field.
+- [x] Command bar: New / Sort / View menus anchored under their buttons, wired to the live model.
+- [x] `NSSplitView` body: nav pane | content | details pane, collapsible, remembered widths.
+- [x] Status bar: item count, selection count, selected bytes, pane toggles.
+- [x] Chrome surfaces use NSVisualEffectView materials (titlebar/toolbar strip, sidebar) — the only real AppKit glass; grouped Liquid Glass container still pending `.glassEffect` hosting.
+- [x] Reduce Transparency and Increase Contrast fall back to solid fills.
+- [x] Per-tab state: navigation history, view settings, selection. Restore tabs and windows on launch (setting).
+- [x] Shortcuts: ⌘T, ⌘W, ⌘⇧T, ⌃Tab, ⌃⇧Tab, ⌘1…9, ⌘N.
 - [ ] Acceptance: 20 tabs, switch < 16 ms; tear-off/merge; restore after relaunch.
 
 ## 3. Details view (Phase 3)
-- [ ] `NSTableView`, view-based, cell reuse, 32 px rows (24 px compact).
-- [ ] Columns: Name, Date modified, Type, Size; optional columns (Created, Added, Tags, Kind, Dimensions, Duration, Version, Comments, Git status).
-- [ ] Header right-click column chooser with "More…" sheet listing all metadata columns with search.
-- [ ] Reorder/resize columns; "Size all columns to fit".
-- [ ] Sort by header click, asc/desc indicator, secondary sort by name.
-- [ ] Groups: None / Type / Date modified (Today, Yesterday, Earlier this week, Last week, Earlier this month, Last month, Earlier this year, A long time ago) / Size (Empty, Tiny, Small, Medium, Large, Huge, Gigantic); collapsible headers.
-- [ ] Selection: click, Shift, ⌘, rubber band, type-to-select, select all/none/invert, checkbox column.
-- [ ] Inline rename: F2, name-without-extension pre-selected, Tab next item, Esc cancel, illegal chars/duplicates rejected.
-- [ ] Double-click/Enter: folder navigates in the same tab, file opens via `NSWorkspace`. ⌘+double-click or middle-click on a folder opens a new tab.
-- [ ] Icons via `NSWorkspace.icon(forFile:)` cached by UTType; thumbnails deferred to Phase 6.
-- [ ] Per-folder view memory (sort, columns, grouping) keyed by folder file ID, JSON/SQLite store; folder-type templates (General, Documents, Pictures, Music, Videos) with "Apply to all folders".
-- [ ] Empty state "This folder is empty."; error state for unreadable folders.
-- [ ] Status bar counts + total size computed off-main.
-- [ ] Acceptance: 100k items scroll at 120 fps, 0 hitches; sort switch < 150 ms; live FS changes without losing selection or scroll.
+- [x] `NSTableView`, view-based, cell reuse, O(1) row space; 32 px rows (24 px compact pending setting).
+- [x] Columns: Name, Date modified, Type, Size, plus Date created, Date added, Tags via chooser.
+- [ ] Metadata columns needing lazy services: Kind, Dimensions, Duration, Version, Comments, Git status.
+- [x] Header right-click column chooser (Name column pinned).
+- [ ] “More…” sheet with search (ship with lazy-metadata columns).
+- [x] Reorder/resize columns; "Size all columns to fit".
+- [x] Sort by header click, asc/desc indicator, name always the tiebreaker.
+- [x] Groups: None / Type / Date modified / Size with collapsible headers (ids stable across regroup).
+- [x] Selection: click, Shift, ⌘, type-to-select (from any column), Select All — ID-addressed across live updates.
+- [ ] Rubber band selection, Invert selection, item checkbox column.
+- [x] Inline rename: F2, basename pre-selected (prefix-anchored), Tab rolls to next item, Esc cancels; empty/separator/dot/overlong/duplicate names rejected inline (no modal).
+- [x] Double-click/Enter: folder navigates in the same tab, file opens via `NSWorkspace`; ⌘+double-click and middle-click open a new tab; Backspace navigates back, Delete trashes (W11), ⌘⌫ trashes (macOS).
+- [x] Icons cached by UTType, common types warmed off-main at launch (thumbnails in Phase 6).
+- [x] Per-folder view memory (sort, grouping, columns, widths, hidden) keyed by path; folder-file-ID keys pending the settings DB.
+- [ ] Folder-type templates (General/Pictures/…) with “Apply to all folders”.
+- [x] Empty state, loading spinner, error state with working Retry.
+- [x] Status bar counts + selection size from published snapshots (no main-thread I/O).
+- [ ] Acceptance: 100k items scroll at 120 fps, 0 hitches (Instruments run pending).
 
 ## 4. Other views (Phase 4)
 - [ ] Extra large (256), Large (96), Medium (48), Small (16) icons, List, Tiles, Content — `NSCollectionView` with compositional layout and prefetching.
@@ -55,15 +60,16 @@ Status legend: `[ ]` unbuilt, `[x]` built and tested.
 - [ ] Acceptance: 8 views at 120 fps on 20k images (thumbnails off); view switch < 50 ms.
 
 ## 5. Navigation bar (Phase 5)
-- [ ] Breadcrumb segments with chevrons; chevron menu lists child folders (async, scrollable); overflow collapses to `«` menu.
-- [ ] Edit mode: ⌘L / Ctrl+L / F4 / Alt+D, full-path text field, autocomplete child folders, Tab completes, Enter navigates, Esc restores breadcrumbs.
-- [ ] Accepts `~`, `/`, relative paths, `smb://`, `afp://` (mount via NetFS) and aliases Home, Desktop, Downloads, Documents, Trash, Applications, iCloud.
-- [ ] Invalid path → inline error shake, no modal.
+- [x] Breadcrumb segments with chevrons; chevron menus list child folders (FSCore enumerator off-main, capped at 400) and overflow collapses behind «.
+- [x] Edit mode: ⌘L or click empty bar; full-path field, Enter navigates, Esc restores; search/autocomplete dropdown pending.
+- [ ] Accepts `~`, relative paths, smb/afp mounts, and named aliases in edit mode (tilde expansion only).
+- [x] Invalid path → inherent-folder error state (no modal); breadcrumb shake pending.
 - [ ] Drag files onto a segment to move/copy with spring-loading.
-- [ ] Segment context menu: Copy address, Copy as text, Open in new tab/window, Edit address.
-- [ ] Back/Forward long-press or right-click history dropdown (last 15); Alt+←/→, ⌘[ / ⌘], mouse buttons 4/5, two-finger swipe; Up Alt+↑ / ⌘↑; Refresh F5 / ⌘R.
-- [ ] Window/tab title shows folder name (option: full path).
-- [ ] Tests: path parsing/alias resolution; UI test for breadcrumb, edit mode, history.
+- [x] Segment context menu: Copy Address, Copy as Text, Open in New Tab, Open in New Window, Edit Address.
+- [x] Back / Forward / Up / Refresh wired: buttons, ⌘[ / ⌘], menu Shortcuts.
+- [ ] History dropdown (last 15), Alt+arrows, mouse buttons 4/5, two-finger swipe.
+- [x] Window/tab title shows folder name (full-path option pending).
+- [ ] Tests: path parsing/alias resolution; UI test for breadcrumbs (Phase 16/18 pass).
 
 ## 6. Thumbnails (Phase 6)
 - [ ] `ThumbnailService` actor over `QLThumbnailGenerator`: low-res icon first, then thumbnail; concurrency limit (default 6); visible-first priority; prefetch next screenful; cancel on cell reuse.
@@ -96,19 +102,22 @@ Status legend: `[ ]` unbuilt, `[x]` built and tested.
 - [ ] Tests for enabling rules.
 
 ## 9. File operations engine (Phase 9)
-- [ ] `FileOperationQueue` actor: copy, move, trash, delete-permanently, new folder, rename, duplicate, compress, extract, alias, symlink.
-- [ ] Concurrent across volumes, serial per destination volume by default.
-- [ ] Copy via `copyfile(3)` with `COPYFILE_ALL | COPYFILE_CLONE`; byte/item progress; pause and resume.
-- [ ] Same-volume move = `rename(2)`; cross-volume = copy + verify + delete.
+- [x] `FileOperationEngine` actor: copy, move, trash, apply-undo (delete-permanently, compress, extract, alias/symlink pending).
+- [x] Serialized inside the engine actor; per-destination-volume queues with the progress-window pass.
+- [ ] Copy via `copyfile(3)` with byte/item progress, clone-fast paths, pause/resume (currently atomic per-item `FileManager.copyItem`).
+- [x] Same-volume move is an atomic rename (`FileManager.moveItem`); cross-volume copy+delete handled by moveItem.
 - [ ] Pre-flight: counts, bytes, free space, permissions; fail fast.
-- [ ] Conflict dialog: Replace, Skip, Compare info side-by-side with checkboxes, Keep both auto-rename, "Do this for all N".
+- [x] Conflicts auto-resolve keep-both (“name (2).ext”); replace parks the overwritten original in the Trash so undo restores it.
+- [ ] Conflict dialog: Replace / Skip / Compare side-by-side / do-for-all.
 - [ ] Errors: Retry / Skip / Cancel with "do this for all"; admin option gated behind a setting.
 - [ ] Progress window: card per job, speed graph, current file, items remaining, ETA, Pause/Resume/Cancel, more/fewer details, collapse to status bar.
-- [ ] Trash + Restore with our own original-location DB.
-- [ ] Undo stack per window: rename, move, copy, new folder, trash.
+- [x] Trash + Restore with our own original-location DB (TrashStore actor, atomic JSON).
+- [x] Undo/redo per window for copy, move, trash, replace (⌘Z / ⇧⌘Z, menu validation).
+- [ ] Undo for rename and new folder (route through the engine).
 - [ ] Drag & drop: same volume move, cross volume copy; Option copy, ⌘ move, Option+⌘ alias (Windows mapping: Ctrl copy, Shift move, Alt shortcut); cursor badge.
-- [ ] Unicode normalization, long paths, `:` and `/` in names.
-- [ ] Tests: 10k small files + 5 GB sparse file, cancel leaves no partial final-named file, conflict auto-rename, undo/redo chains, cross-volume move via disk image.
+- [x] NFC-normalized, case/diacritic-insensitive duplicate checks; URL-based paths; separator/traversal validation on rename.
+- [x] Engine tests: copy/move/trash round trips with undo/redo pairs, keep-both naming, skip/replace policies, store persistence (9 tests).
+- [ ] Scale tests: 10k small files + 5 GB sparse, cross-volume via disk image.
 
 ## 10. Context menu (Phase 10)
 - [ ] Quick-action icon row: Cut, Copy, Rename, Share, Delete.
