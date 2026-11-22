@@ -7,24 +7,25 @@ import FSCore
 @MainActor
 struct FileRowSpaceTests {
     private func snapshot(items: [(String, String)]) -> DirectorySnapshot {
-        let group = ItemGroup(id: "all", title: "", items: items.map { FileItem(
+        let files = items.map { FileItem(
             id: $0.0,
             url: URL(fileURLWithPath: "/tmp"),
             name: $0.1,
             isDirectory: false
-        ) })
-        return DirectorySnapshot(generation: 1, groups: [group], totalCount: items.count)
+        ) }
+        let group = ItemGroup(id: "none:all", title: "", ids: files.map(\.id))
+        return DirectorySnapshot(generation: 1, groups: [group], items: files)
     }
 
     private func groupedSnapshot() -> DirectorySnapshot {
-        let a = ItemGroup(id: "folders", title: "Folders", items: [
+        let a = ItemGroup(id: "none:folders", title: "Folders", ids: ["1"])
+        let b = ItemGroup(id: "none:files", title: "Files", ids: ["2", "3"])
+        let files = [
             FileItem(id: "1", url: URL(fileURLWithPath: "/tmp"), name: "A", isDirectory: true),
-        ])
-        let b = ItemGroup(id: "files", title: "Files", items: [
             FileItem(id: "2", url: URL(fileURLWithPath: "/tmp"), name: "B", isDirectory: false),
             FileItem(id: "3", url: URL(fileURLWithPath: "/tmp"), name: "C", isDirectory: false),
-        ])
-        return DirectorySnapshot(generation: 2, groups: [a, b], totalCount: 3)
+        ]
+        return DirectorySnapshot(generation: 2, groups: [a, b], items: files)
     }
 
     @Test func ungroupedSnapshotHasNoHeaderRows() {
@@ -37,20 +38,20 @@ struct FileRowSpaceTests {
     @Test func groupedSnapshotInterleavesHeaders() {
         let space = FileRowSpace(snapshot: groupedSnapshot(), collapsedGroupIDs: [])
         #expect(space.rows == [
-            .groupHeader(id: "folders"),
+            .groupHeader(id: "none:folders"),
             .item(id: "1"),
-            .groupHeader(id: "files"),
+            .groupHeader(id: "none:files"),
             .item(id: "2"),
             .item(id: "3"),
         ])
     }
 
     @Test func collapsedGroupHidesItemsButKeepsHeader() {
-        let space = FileRowSpace(snapshot: groupedSnapshot(), collapsedGroupIDs: ["files"])
+        let space = FileRowSpace(snapshot: groupedSnapshot(), collapsedGroupIDs: ["none:files"])
         #expect(space.rows == [
-            .groupHeader(id: "folders"),
+            .groupHeader(id: "none:folders"),
             .item(id: "1"),
-            .groupHeader(id: "files"),
+            .groupHeader(id: "none:files"),
         ])
         #expect(space.rowIndexByItemID["2"] == nil)
     }
@@ -69,6 +70,46 @@ struct FileRowSpaceTests {
         #expect(space.row(at: -1) == nil)
         #expect(space.row(at: 99) == nil)
         #expect(space.itemID(at: 99) == nil)
+    }
+}
+
+@Suite("Row transitions (incremental publish)")
+@MainActor
+struct RowTransitionTests {
+    private func rows(_ ids: [String]) -> [FileRow] {
+        ids.map { FileRow.item(id: $0) }
+    }
+
+    @Test func identicalRowsAreANoOp() {
+        #expect(DetailsViewController.rowTransition(from: rows(["a", "b"]), to: rows(["a", "b"])) == .none)
+    }
+
+    @Test func singleInsertIsSplicedAtTheRightPosition() {
+        let before = rows(["a", "b", "d"])
+        let after = rows(["a", "b", "c", "d"])
+        #expect(DetailsViewController.rowTransition(from: before, to: after) == .splice(prefix: 2, removed: 0, inserted: 1))
+    }
+
+    @Test func singleRemovalIsSpliced() {
+        let before = rows(["a", "b", "c"])
+        let after = rows(["a", "c"])
+        #expect(DetailsViewController.rowTransition(from: before, to: after) == .splice(prefix: 1, removed: 1, inserted: 0))
+    }
+
+    @Test func appendAndPrependAreSplicedBySuffixAndPrefix() {
+        #expect(DetailsViewController.rowTransition(from: rows(["b"]), to: rows(["a", "b"])) == .splice(prefix: 0, removed: 0, inserted: 1))
+        #expect(DetailsViewController.rowTransition(from: rows(["a"]), to: rows(["a", "z"])) == .splice(prefix: 1, removed: 0, inserted: 1))
+    }
+
+    @Test func fullReshuffleFallsBackToReload() {
+        let before = (0..<300).map { FileRow.item(id: "\($0)") }
+        let after = Array(before.reversed())
+        #expect(DetailsViewController.rowTransition(from: before, to: after) == .reload)
+    }
+
+    @Test func emptyToEmptyAndFirstPaint() {
+        #expect(DetailsViewController.rowTransition(from: [], to: []) == .none)
+        #expect(DetailsViewController.rowTransition(from: [], to: rows(["a", "b"])) != .reload)
     }
 }
 

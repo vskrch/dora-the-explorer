@@ -3,28 +3,62 @@ import Observation
 
 /// Immutable, `Sendable` snapshot the table renders from. The model swaps the
 /// whole snapshot on the main actor so AppKit never reads mutated state.
+///
+/// Memory contract: `items` is the single owner of every `FileItem` — the
+/// identity map is an 8-byte-per-row index. Groups reference IDs only.
 public struct DirectorySnapshot: Sendable, Equatable {
     public let generation: UInt64
     public let groups: [ItemGroup]
+    /// The one and only copy of the loaded items, enumeration order.
+    public let items: [FileItem]
+    /// id → index into `items`.
+    public let identity: [FileItem.ID: Int]
     public let totalCount: Int
 
-    public init(generation: UInt64, groups: [ItemGroup], totalCount: Int) {
+    public init(
+        generation: UInt64,
+        groups: [ItemGroup],
+        items: [FileItem],
+        identity: [FileItem.ID: Int]
+    ) {
         self.generation = generation
         self.groups = groups
-        self.totalCount = totalCount
+        self.items = items
+        self.identity = identity
+        self.totalCount = items.count
     }
 
+    /// Convenience for tests (groups referencing externally owned items).
+    public init(generation: UInt64, groups: [ItemGroup], items: [FileItem]) {
+        let identity = Dictionary(items.enumerated().map { ($1.id, $0) }, uniquingKeysWith: { a, _ in a })
+        self.init(generation: generation, groups: groups, items: items, identity: identity)
+    }
+
+    /// Small empty snapshot.
+    public static let empty = DirectorySnapshot(
+        generation: 0, groups: [], items: [], identity: [:]
+    )
+
+    /// The single item-copy lookup every view uses.
+    public func item(withID id: FileItem.ID) -> FileItem? {
+        guard let index = identity[id], items.indices.contains(index) else { return nil }
+        return items[index]
+    }
+
+    /// Items in display (grouped/sorted) order.
     public var flatItems: [FileItem] {
-        groups.flatMap(\.items)
+        groups.flatMap { group in
+            group.ids.compactMap { id in item(withID: id) }
+        }
     }
 
     public func indexOfItem(withID id: FileItem.ID) -> Int? {
         var running = 0
         for group in groups {
-            if let offset = group.items.firstIndex(where: { $0.id == id }) {
+            if let offset = group.ids.firstIndex(of: id) {
                 return running + offset
             }
-            running += group.items.count
+            running += group.ids.count
         }
         return nil
     }
@@ -59,7 +93,7 @@ public final class DirectoryModel {
         }
     }
 
-    public private(set) var snapshot = DirectorySnapshot(generation: 0, groups: [], totalCount: 0)
+    public private(set) var snapshot = DirectorySnapshot.empty
     public private(set) var isLoading = false
     public private(set) var loadError: (any Error)?
     public private(set) var firstBatchLatency: Duration?
@@ -85,7 +119,10 @@ public final class DirectoryModel {
 
     private let enumerator = DirectoryEnumerator()
     private let sorter: @Sendable ([FileItem], [SortCriterion], GroupingKey) -> [ItemGroup]
-    private var itemsByID: [FileItem.ID: FileItem] = [:]
+    /// Single owner of every loaded item value.
+    private var currentItems: [FileItem] = []
+    /// id → index into `currentItems`; patched in O(k) on diffs.
+    private var currentIdentity: [FileItem.ID: Int] = [:]
     private var loadTask: Task<Void, Never>?
     private var watcher: DirectoryWatcher?
     private var generation: UInt64 = 0
@@ -113,7 +150,8 @@ public final class DirectoryModel {
         loadTask?.cancel()
         watcher?.stop()
         watcher = nil
-        itemsByID.removeAll(keepingCapacity: true)
+        currentItems.removeAll(keepingCapacity: true)
+        currentIdentity.removeAll(keepingCapacity: true)
         loadError = nil
         isLoading = true
         publish()
@@ -141,16 +179,18 @@ public final class DirectoryModel {
                         publishedFirstBatch = true
                         // Paint the first batch immediately: sort + group
                         // off-main, then publish the Sendable result.
-                        let prepared = await Self.prepare(loaded, settings)
+                        let prepared = await Self.prepare(loaded, settings, sorter: sorter)
                         guard let self, !Task.isCancelled else { return }
-                        self.itemsByID = prepared.index
+                        self.currentItems = prepared.items
+                        self.currentIdentity = prepared.identity
                         self.firstBatchLatency = clock.now - start
                         self.publish(groups: prepared.groups)
                     }
                 }
                 guard let self, !Task.isCancelled else { return }
-                let prepared = await Self.prepare(loaded, settings)
-                self.itemsByID = prepared.index
+                let prepared = await Self.prepare(loaded, settings, sorter: sorter)
+                self.currentItems = prepared.items
+                self.currentIdentity = prepared.identity
                 self.isLoading = false
                 self.publish(groups: prepared.groups)
                 self.startWatching()
@@ -166,18 +206,22 @@ public final class DirectoryModel {
         }
     }
 
-    /// Sort, group and index off the main actor for any directory size.
+    /// Sort and group off the main actor for any directory size. Returns the
+    /// single item array plus its identity map — one copy, referenced by ids.
     private static func prepare(
         _ items: [FileItem],
-        _ settings: ViewSettings
-    ) async -> (groups: [ItemGroup], index: [FileItem.ID: FileItem]) {
+        _ settings: ViewSettings,
+        sorter: @escaping @Sendable ([FileItem], [SortCriterion], GroupingKey) -> [ItemGroup]
+    ) async -> (groups: [ItemGroup], items: [FileItem], identity: [FileItem.ID: Int]) {
         await Task.detached(priority: .userInitiated) {
-            (
-                FileGrouper.groups(
-                    for: items,
-                    settings: .init(key: settings.grouping, sortCriteria: settings.sortCriteria)
-                ),
-                Dictionary(items.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+            let identity = Dictionary(
+                items.enumerated().map { ($1.id, $0) },
+                uniquingKeysWith: { first, _ in first }
+            )
+            return (
+                sorter(items, settings.sortCriteria, settings.grouping),
+                items,
+                identity
             )
         }.value
     }
@@ -245,20 +289,41 @@ public final class DirectoryModel {
         }.value
 
         guard !Task.isCancelled else { return }
-        let existingNames = Set(snapshot.flatItems.map(\.name))
+
+        var structureChanged = false
         for name in names where !resolved.contains(where: { $0.name == name }) {
-            if existingNames.contains(name) { // deleted or renamed away
-                itemsByID = itemsByID.filter { $0.value.name != name }
+            // Deleted or renamed away: swap-remove (O(k)) and patch the
+            // identity map for the element that moved — no O(n) rebuild.
+            guard let index = currentItems.firstIndex(where: { $0.name == name }) else { continue }
+            let removedID = currentItems[index].id
+            let lastIndex = currentItems.count - 1
+            if index != lastIndex {
+                let moved = currentItems[lastIndex]
+                currentItems.swapAt(index, lastIndex)
+                currentIdentity[moved.id] = index
+            }
+            currentItems.removeLast()
+            currentIdentity[removedID] = nil
+            structureChanged = true
+        }
+
+        for item in resolved {
+            if let index = currentIdentity[item.id] {
+                currentItems[index] = item // in-place metadata refresh
+            } else {
+                currentIdentity[item.id] = currentItems.count
+                currentItems.append(item)
+                structureChanged = true
             }
         }
-        for item in resolved {
-            itemsByID[item.id] = item
+
+        if structureChanged || !resolved.isEmpty {
+            regroup()
         }
-        regroup()
     }
 
     private func regroup() {
-        let items = Array(itemsByID.values)
+        let items = currentItems
         let criteria = settings.sortCriteria
         let grouping = settings.grouping
         let sorter = self.sorter
@@ -284,7 +349,8 @@ public final class DirectoryModel {
         snapshot = DirectorySnapshot(
             generation: generation,
             groups: resolvedGroups,
-            totalCount: itemsByID.count
+            items: currentItems,
+            identity: currentIdentity
         )
         onPublish?()
     }
@@ -294,14 +360,14 @@ public final class DirectoryModel {
     public var items: [FileItem] { snapshot.flatItems }
 
     public func item(withID id: FileItem.ID) -> FileItem? {
-        itemsByID[id]
+        snapshot.item(withID: id)
     }
 
-    /// Sums file sizes for a selection.Folders report nil (`FileItem.size`), so
+    /// Sums file sizes for a selection. Folders report nil (`FileItem.size`), so
     /// they contribute nothing — matching Explorer's status bar for mixed selections.
     public func size(ofIDs ids: Set<FileItem.ID>) -> Int64 {
         var total: Int64 = 0
-        for id in ids { total += itemsByID[id]?.size ?? 0 }
+        for id in ids { total += snapshot.item(withID: id)?.size ?? 0 }
         return total
     }
 

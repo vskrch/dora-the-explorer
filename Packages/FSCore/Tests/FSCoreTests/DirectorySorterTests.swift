@@ -105,7 +105,7 @@ struct DirectorySorterTests {
             settings: .init(key: .dateModified, sortCriteria: [SortCriterion(key: .dateModified)])
         )
         #expect(groups.map(\.title) == ["A long time ago", "Yesterday", "Today"])
-        #expect(groups.allSatisfy { !$0.items.isEmpty })
+        #expect(groups.allSatisfy { !$0.ids.isEmpty })
     }
 
     @Test func groupingByTypeUsesUTTypeBuckets() {

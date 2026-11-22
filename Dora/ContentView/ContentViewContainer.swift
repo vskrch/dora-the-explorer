@@ -34,6 +34,11 @@ final class ContentViewContainer: NSView {
 
     private var tabBoxes: [TabState.ID: TabBox] = [:]
     private var activeTabID: TabState.ID?
+    /// Recent activation order for model eviction (memory-bound windows).
+    private var recentTabIDs: [TabState.ID] = []
+    /// How many tab models stay warm (active + recently used), Explorer-style;
+    /// the rest re-enumerate on revisit instead of holding watchers + memory.
+    private let warmModelLimit = 4
     private let details = DetailsViewController(columns: FileColumn.defaultOrder)
     private var folderViews: FolderViewStore { FolderViewStore.shared }
     private let signposter = OSSignposter(subsystem: DoraLog.subsystem, category: "perf")
@@ -157,6 +162,14 @@ final class ContentViewContainer: NSView {
         self.tab = tab
         activeTabID = tab.id
 
+        // LRU bookkeeping for warm models.
+        recentTabIDs.removeAll { $0 == tab.id }
+        recentTabIDs.insert(tab.id, at: 0)
+        if recentTabIDs.count > warmModelLimit {
+            recentTabIDs.removeLast()
+        }
+        evictColdModels()
+
         let box: TabBox
         if let existing = tabBoxes[tab.id] {
             box = existing
@@ -193,8 +206,20 @@ final class ContentViewContainer: NSView {
         guard let box = tabBoxes.removeValue(forKey: id) else { return }
         box.model.onPublish = nil
         box.model.cancelLoads()
+        recentTabIDs.removeAll { $0 == id }
         if activeTabID == id {
             activeTabID = nil
+        }
+    }
+
+    /// Drops models for tabs outside the warm set: stops their watchers and
+    /// frees their item arrays. Switching back re-enumerates — the same
+    /// memory behavior Explorer uses for background tabs.
+    private func evictColdModels() {
+        for (id, box) in tabBoxes where !recentTabIDs.contains(id) {
+            box.model.onPublish = nil
+            box.model.cancelLoads()
+            tabBoxes.removeValue(forKey: id)
         }
     }
 
@@ -407,7 +432,7 @@ final class ContentViewContainer: NSView {
                 guard let self else { return }
                 // Tab switched away: never mutate another folder's view.
                 guard self.activeTabID == tabID, let box = self.tabBoxes[tabID] else { return }
-                if let item = box.model.snapshot.flatItems.first(where: { $0.name == name }) {
+                if let item = box.model.snapshot.items.first(where: { $0.name == name }) {
                     self.details.setSelectedItemIDs([item.id], revealingAnchor: item.id)
                     self.details.beginRename(for: item)
                     return

@@ -133,10 +133,10 @@ public enum FileGrouper {
     public static func groups(for items: [FileItem], settings: Settings, now: Date = Date()) -> [ItemGroup] {
         let sorted = DirectorySorter.sorted(items, by: settings.sortCriteria)
         guard settings.key != .none else {
-            return [ItemGroup(id: "all", title: "", items: sorted)]
+            return [ItemGroup(id: "\(settings.key.rawValue):all", title: "", ids: sorted.map(\.id))]
         }
 
-        var buckets: [String: [FileItem]] = [:]
+        var buckets: [String: [FileItem.ID]] = [:]
         var order: [String] = []
 
         for item in sorted {
@@ -145,13 +145,13 @@ public enum FileGrouper {
                 buckets[title] = []
                 order.append(title)
             }
-            buckets[title]?.append(item)
+            buckets[title]?.append(item.id)
         }
 
         return order.map { title in
             // Id keys on the grouping mode too, so collapse state can't hop
             // between buckets that happen to share a title.
-            ItemGroup(id: "\(settings.key.rawValue):\(title)", title: title, items: buckets[title] ?? [])
+            ItemGroup(id: "\(settings.key.rawValue):\(title)", title: title, ids: buckets[title] ?? [])
         }
     }
 

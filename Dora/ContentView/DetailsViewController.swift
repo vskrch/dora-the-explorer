@@ -37,7 +37,7 @@ final class DetailsViewController: NSViewController {
 
     let scrollView = NSScrollView()
     let table = FileTableView()
-    private var rowSpace = FileRowSpace(snapshot: DirectorySnapshot(generation: 0, groups: [], totalCount: 0), collapsedGroupIDs: [])
+    private var rowSpace = FileRowSpace(snapshot: DirectorySnapshot.empty, collapsedGroupIDs: [])
     private var collapsedGroupIDs: Set<String> = []
     private let renameField = InlineRenameField()
     private var renamingItem: FileItem?
@@ -150,16 +150,35 @@ final class DetailsViewController: NSViewController {
     // MARK: - Model attachment
 
     func attach(model: DirectoryModel, columns: [FileColumn]) {
+        let modelChanged = model !== self.model
+        let columnsChanged = columnsState != columns
+
+        guard modelChanged || columnsChanged else {
+            // Same model, same columns (the common navigation/tab-switch case):
+            // keep columns exactly as they are, including user reordering.
+            return
+        }
+
         self.model?.onPublish = nil
         self.model = model
-        columnsState = columns
-        rebuildColumns()
+        if columnsChanged {
+            columnsState = columns
+            rebuildColumns()
+        } else {
+            // Fresh model reusing the existing column set: keep widths, just
+            // rewire sorting indicators.
+            syncSortIndicators()
+        }
         syncSortIndicators()
     }
 
     /// Applies a fresh snapshot with ID-addressed selection and a captured
     /// viewport anchor. The caller (the container) owns selection state —
     /// the table never derives selection from indexes across publishes.
+    ///
+    /// Incremental updates: watcher events usually change a handful of rows,
+    /// so a prefix/suffix splice is applied with insert/remove instead of a
+    /// full `reloadData()` — the Finder-grade behavior AppKit recommends.
     func applySnapshot(
         snapshot: DirectorySnapshot,
         selection itemIDs: Set<FileItem.ID>,
@@ -170,12 +189,19 @@ final class DetailsViewController: NSViewController {
         defer { signposter.endInterval("details.rebuild", state) }
 
         self.collapsedGroupIDs = collapsedGroupIDs
-        rowSpace = FileRowSpace(snapshot: snapshot, collapsedGroupIDs: collapsedGroupIDs)
+        let oldRows = rowSpace.rows
+        let newSpace = FileRowSpace(snapshot: snapshot, collapsedGroupIDs: collapsedGroupIDs)
 
+        applyRowTransition(from: oldRows, to: newSpace.rows)
+        rowSpace = newSpace
+
+        // Selection is applied by ID; NSTableView has already adjusted its
+        // own row bookkeeping through insert/remove, so this never flickers.
         isSyncingSelection = true
-        table.reloadData()
         let rows = rowSpace.indexes(ofItems: itemIDs)
-        table.selectRowIndexes(rows, byExtendingSelection: false)
+        if table.selectedRowIndexes != rows {
+            table.selectRowIndexes(rows, byExtendingSelection: false)
+        }
         isSyncingSelection = false
 
         // Keep the viewport pinned: restore the anchor only if the update
@@ -185,6 +211,61 @@ final class DetailsViewController: NSViewController {
             if visible.location == NSNotFound || row < visible.location || row >= visible.location + visible.length {
                 table.scrollRowToVisible(row)
             }
+        }
+    }
+
+    /// Small-edit splice: identical rows keep their place; only the middle
+    /// span between the common prefix/suffix is replaced. Falls back to a
+    /// full reload when the edit is large (sort change, folder switch).
+    static func rowTransition(from oldRows: [FileRow], to newRows: [FileRow]) -> RowTransition {
+        guard oldRows != newRows else { return .none }
+        guard !oldRows.isEmpty || !newRows.isEmpty else { return .none }
+
+        // Common prefix.
+        var prefix = 0
+        while prefix < oldRows.count && prefix < newRows.count && oldRows[prefix] == newRows[prefix] {
+            prefix += 1
+        }
+        // Common suffix (not overlapping the prefix).
+        var suffix = 0
+        while suffix < oldRows.count - prefix && suffix < newRows.count - prefix,
+              oldRows[oldRows.count - 1 - suffix] == newRows[newRows.count - 1 - suffix] {
+            suffix += 1
+        }
+
+        let removedCount = oldRows.count - prefix - suffix
+        let insertedCount = newRows.count - prefix - suffix
+
+        // Big structural change: one reload is cheaper and avoids visible
+        // row thrash (Explorer does the same on sort/group switches).
+        if removedCount + insertedCount > (oldRows.count / 3), removedCount + insertedCount > 64 {
+            return .reload
+        }
+        guard removedCount > 0 || insertedCount > 0 else { return .none }
+        return .splice(prefix: prefix, removed: removedCount, inserted: insertedCount)
+    }
+
+    enum RowTransition: Equatable {
+        case none
+        case splice(prefix: Int, removed: Int, inserted: Int)
+        case reload
+    }
+
+    private func applyRowTransition(from oldRows: [FileRow], to newRows: [FileRow]) {
+        switch Self.rowTransition(from: oldRows, to: newRows) {
+        case .none:
+            return
+        case .reload:
+            table.reloadData()
+        case .splice(let prefix, let removed, let inserted):
+            table.beginUpdates()
+            if removed > 0 {
+                table.removeRows(at: IndexSet(integersIn: prefix..<(prefix + removed)), withAnimation: [])
+            }
+            if inserted > 0 {
+                table.insertRows(at: IndexSet(integersIn: prefix..<(prefix + inserted)), withAnimation: [])
+            }
+            table.endUpdates()
         }
     }
 
@@ -445,7 +526,7 @@ final class DetailsViewController: NSViewController {
         if let error = RenameValidator.validate(
             newName: proposed,
             originalName: item.name,
-            existingNames: model.snapshot.flatItems.map(\.name)
+            existingNames: model.snapshot.items.map(\.name)
         ) {
             // Keep editing: re-present the editor (the end-editing event we're
             // inside has already torn down the first responder) and show the
@@ -683,13 +764,13 @@ extension DetailsViewController {
 
     @objc private func contextOpen(_ sender: NSMenuItem) {
         guard let path = sender.representedObject as? String,
-              let item = model?.snapshot.flatItems.first(where: { $0.url.path == path }) else { return }
+              let item = model?.snapshot.items.first(where: { $0.url.path == path }) else { return }
         onOpen?(item, false)
     }
 
     @objc private func contextOpenInNewTab(_ sender: NSMenuItem) {
         guard let path = sender.representedObject as? String,
-              let item = model?.snapshot.flatItems.first(where: { $0.url.path == path }) else { return }
+              let item = model?.snapshot.items.first(where: { $0.url.path == path }) else { return }
         onOpen?(item, true)
     }
 
@@ -731,7 +812,7 @@ extension DetailsViewController {
             view.identifier = groupCellIdentifier
             view.configure(
                 title: group.title,
-                count: group.items.count,
+                count: group.ids.count,
                 isCollapsed: collapsedGroupIDs.contains(groupID)
             )
             view.onToggle = { [weak self] in

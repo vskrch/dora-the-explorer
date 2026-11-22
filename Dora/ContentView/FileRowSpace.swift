@@ -28,9 +28,9 @@ public struct FileRowSpace {
                 rows.append(.groupHeader(id: group.id))
             }
             guard !isCollapsed else { continue }
-            for item in group.items {
-                indexByID[item.id] = rows.count
-                rows.append(.item(id: item.id))
+            for itemID in group.ids {
+                indexByID[itemID] = rows.count
+                rows.append(.item(id: itemID))
             }
         }
 
