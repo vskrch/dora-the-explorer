@@ -32,6 +32,26 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/BulkAttributeParser.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectoryEnumerator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectoryModel.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectorySorter.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectoryWatcher.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FSCoreDiagnostics.swift"
         },
         {
@@ -48,7 +68,15 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/ObserverBag.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/Signposter.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/VolumeService.swift"
         },
         {
           "kind" : "file",
@@ -64,11 +92,18 @@
       "moduleOutputPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/Modules/FSCore.swiftmodule",
       "objects" : [
         "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/AssertNotMainThreadForIO.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/BulkAttributeParser.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryEnumerator.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryModel.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectorySorter.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryWatcher.swift.o",
         "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/FSCoreDiagnostics.swift.o",
         "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/FenestraLog.swift.o",
         "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/FileItem.swift.o",
         "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/GroupingKey.swift.o",
-        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/Signposter.swift.o"
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/ObserverBag.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/Signposter.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/VolumeService.swift.o"
       ],
       "otherArguments" : [
         "-target",
@@ -129,6 +164,26 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/BulkAttributeParser.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryEnumerator.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryModel.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectorySorter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryWatcher.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/FSCoreDiagnostics.swift.o"
         },
         {
@@ -145,7 +200,15 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/ObserverBag.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/Signposter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/VolumeService.swift.o"
         },
         {
           "kind" : "file",
@@ -155,11 +218,18 @@
       "prepareForIndexing" : false,
       "sources" : [
         "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/AssertNotMainThreadForIO.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/BulkAttributeParser.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectoryEnumerator.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectoryModel.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectorySorter.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectoryWatcher.swift",
         "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FSCoreDiagnostics.swift",
         "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FenestraLog.swift",
         "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FileItem.swift",
         "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/GroupingKey.swift",
-        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/Signposter.swift"
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/ObserverBag.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/Signposter.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/VolumeService.swift"
       ],
       "tempsPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build",
       "wholeModuleOptimization" : false
@@ -266,7 +336,39 @@
       "inputs" : [
         {
           "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/BulkRequestDebugTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryEnumeratorPerformanceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryEnumeratorTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryModelTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectorySorterTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryWatcherTests.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/FSCoreTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/Fixture.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/VolumeServiceTests.swift"
         },
         {
           "kind" : "file",
@@ -285,7 +387,15 @@
       "moduleName" : "FSCoreTests",
       "moduleOutputPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/Modules/FSCoreTests.swiftmodule",
       "objects" : [
-        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/FSCoreTests.swift.o"
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/BulkRequestDebugTests.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryEnumeratorPerformanceTests.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryEnumeratorTests.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryModelTests.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectorySorterTests.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryWatcherTests.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/FSCoreTests.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/Fixture.swift.o",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/VolumeServiceTests.swift.o"
       ],
       "otherArguments" : [
         "-target",
@@ -339,7 +449,39 @@
       "outputs" : [
         {
           "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/BulkRequestDebugTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryEnumeratorPerformanceTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryEnumeratorTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryModelTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectorySorterTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryWatcherTests.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/FSCoreTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/Fixture.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/VolumeServiceTests.swift.o"
         },
         {
           "kind" : "file",
@@ -348,7 +490,15 @@
       ],
       "prepareForIndexing" : false,
       "sources" : [
-        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/FSCoreTests.swift"
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/BulkRequestDebugTests.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryEnumeratorPerformanceTests.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryEnumeratorTests.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryModelTests.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectorySorterTests.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryWatcherTests.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/FSCoreTests.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/Fixture.swift",
+        "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/VolumeServiceTests.swift"
       ],
       "tempsPath" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build",
       "wholeModuleOptimization" : false
@@ -366,11 +516,18 @@
       "fscore",
       "-c",
       "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/AssertNotMainThreadForIO.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/BulkAttributeParser.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectoryEnumerator.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectoryModel.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectorySorter.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectoryWatcher.swift",
       "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FSCoreDiagnostics.swift",
       "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FenestraLog.swift",
       "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FileItem.swift",
       "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/GroupingKey.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/ObserverBag.swift",
       "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/Signposter.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/VolumeService.swift",
       "-I",
       "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/Modules",
       "-target",
@@ -492,7 +649,15 @@
       "-package-name",
       "fscore",
       "-c",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/BulkRequestDebugTests.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryEnumeratorPerformanceTests.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryEnumeratorTests.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryModelTests.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectorySorterTests.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryWatcherTests.swift",
       "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/FSCoreTests.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/Fixture.swift",
+      "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/VolumeServiceTests.swift",
       "-I",
       "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/Modules",
       "-target",
@@ -592,6 +757,26 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/BulkAttributeParser.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectoryEnumerator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectoryModel.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectorySorter.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectoryWatcher.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FSCoreDiagnostics.swift"
         },
         {
@@ -608,7 +793,15 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/ObserverBag.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/Signposter.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/VolumeService.swift"
         }
       ],
       "outputFilePath" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/sources"
@@ -640,6 +833,26 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/BulkAttributeParser.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryEnumerator.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryModel.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectorySorter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryWatcher.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/FSCoreDiagnostics.swift.o"
         },
         {
@@ -656,7 +869,15 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/ObserverBag.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/Signposter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/VolumeService.swift.o"
         },
         {
           "kind" : "file",
@@ -664,7 +885,39 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/BulkRequestDebugTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryEnumeratorPerformanceTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryEnumeratorTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryModelTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectorySorterTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryWatcherTests.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/FSCoreTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/Fixture.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/VolumeServiceTests.swift.o"
         }
       ],
       "outputFilePath" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCorePackageTests.product/Objects.LinkFileList"
@@ -678,7 +931,39 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/BulkRequestDebugTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryEnumeratorPerformanceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryEnumeratorTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryModelTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectorySorterTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryWatcherTests.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/FSCoreTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/Fixture.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/VolumeServiceTests.swift"
         }
       ],
       "outputFilePath" : "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/sources"

@@ -9,6 +9,41 @@
     "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/AssertNotMainThreadForIO.swiftdeps",
     "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/AssertNotMainThreadForIO.dia"
   },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/BulkAttributeParser.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/BulkAttributeParser.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/BulkAttributeParser.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/BulkAttributeParser~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/BulkAttributeParser.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/BulkAttributeParser.dia"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectoryEnumerator.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryEnumerator.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryEnumerator.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryEnumerator~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryEnumerator.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryEnumerator.dia"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectoryModel.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryModel.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryModel.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryModel~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryModel.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryModel.dia"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectorySorter.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectorySorter.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectorySorter.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectorySorter~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectorySorter.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectorySorter.dia"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/DirectoryWatcher.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryWatcher.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryWatcher.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryWatcher~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryWatcher.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/DirectoryWatcher.dia"
+  },
   "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/FSCoreDiagnostics.swift": {
     "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/FSCoreDiagnostics.d",
     "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/FSCoreDiagnostics.swift.o",
@@ -37,11 +72,25 @@
     "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/GroupingKey.swiftdeps",
     "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/GroupingKey.dia"
   },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/ObserverBag.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/ObserverBag.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/ObserverBag.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/ObserverBag~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/ObserverBag.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/ObserverBag.dia"
+  },
   "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/Signposter.swift": {
     "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/Signposter.d",
     "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/Signposter.swift.o",
     "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/Signposter~partial.swiftmodule",
     "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/Signposter.swiftdeps",
     "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/Signposter.dia"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Sources/FSCore/VolumeService.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/VolumeService.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/VolumeService.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/VolumeService~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/VolumeService.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCore.build/VolumeService.dia"
   }
 }

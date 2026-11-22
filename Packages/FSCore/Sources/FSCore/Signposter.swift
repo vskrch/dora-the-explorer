@@ -1,9 +1,16 @@
-import Foundation
-import os
+import OSLog
+
+extension OSSignposter {
+    /// `OSLog` for a subsystem/category pair, for `OSSignpostID(log:)`.
+    public static func loggerForCategory(_ subsystem: String, _ category: String) -> OSLog {
+        OSLog(subsystem: subsystem, category: category)
+    }
+}
 
 /// Signpost helpers for the project's performance budgets.
 public enum Signposter {
-    public static let performance = OSSignposter(logger: FenestraLog.perf)
+    public static let logger = FenestraLog.perf
+    public static let performance = OSSignposter(logger: logger)
 
     /// Runs `work` in a signpost interval named `name`.
     public static func measure<T>(_ name: StaticString, _ work: () throws -> T) rethrows -> T {

@@ -2,11 +2,67 @@
   "": {
     "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/primary.swiftdeps"
   },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/BulkRequestDebugTests.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/BulkRequestDebugTests.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/BulkRequestDebugTests.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/BulkRequestDebugTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/BulkRequestDebugTests.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/BulkRequestDebugTests.dia"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryEnumeratorPerformanceTests.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryEnumeratorPerformanceTests.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryEnumeratorPerformanceTests.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryEnumeratorPerformanceTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryEnumeratorPerformanceTests.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryEnumeratorPerformanceTests.dia"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryEnumeratorTests.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryEnumeratorTests.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryEnumeratorTests.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryEnumeratorTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryEnumeratorTests.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryEnumeratorTests.dia"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryModelTests.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryModelTests.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryModelTests.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryModelTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryModelTests.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryModelTests.dia"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectorySorterTests.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectorySorterTests.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectorySorterTests.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectorySorterTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectorySorterTests.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectorySorterTests.dia"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/DirectoryWatcherTests.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryWatcherTests.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryWatcherTests.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryWatcherTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryWatcherTests.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/DirectoryWatcherTests.dia"
+  },
   "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/FSCoreTests.swift": {
     "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/FSCoreTests.d",
     "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/FSCoreTests.swift.o",
     "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/FSCoreTests~partial.swiftmodule",
     "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/FSCoreTests.swiftdeps",
     "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/FSCoreTests.dia"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/Fixture.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/Fixture.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/Fixture.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/Fixture~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/Fixture.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/Fixture.dia"
+  },
+  "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/Tests/FSCoreTests/VolumeServiceTests.swift": {
+    "dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/VolumeServiceTests.d",
+    "object": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/VolumeServiceTests.swift.o",
+    "swiftmodule": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/VolumeServiceTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/VolumeServiceTests.swiftdeps",
+    "diagnostics": "/Users/venkatasai/Dora - The Explorer/Packages/FSCore/.build/arm64-apple-macosx/debug/FSCoreTests.build/VolumeServiceTests.dia"
   }
 }

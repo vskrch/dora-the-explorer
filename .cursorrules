@@ -11,28 +11,34 @@
 - Add debug information to stderr while keeping the main output clean in stdout for better pipeline integration
 - When using seaborn styles in matplotlib, use 'seaborn-v0_8' instead of 'seaborn' as the style name due to recent seaborn version changes
 - Use 'gpt-4o' as the model name for OpenAI's GPT-4 with vision capabilities
-- Dora is a native Swift/SwiftUI macOS File Explorer clone (Windows Explorer–like MVP)
-- Use XcodeGen (`project.yml`) for Dora; rebuild with `xcodegen generate && xcodebuild -scheme Dora -derivedDataPath build build`
-- File explorer apps should keep App Sandbox off for free filesystem browse
-- KeyCatcherView must not steal firstResponder from NSTextField/NSTextView
+- Dora (legacy, `Dora/`) is the old SwiftUI prototype; Fenestra (`Fenestra/` + `Packages/`) is the real app. Build Fenestra with `make build` / `xcodegen generate`.
+- File explorer apps keep App Sandbox off for free filesystem browse.
+- KeyCatcherView/NSView must not steal firstResponder from NSTextField/NSTextView.
+- **Package.swift platform**: `.macOS(.v26)` does not exist in PackageDescription here; use `.macOS("26.0")`.
+- **Drop `InternalImportsByDefault`** for now: it forces `public import` on every type that leaks. Add back per-package once APIs are stable.
+- **C macros import as `UInt32`** (`ATTR_CMN_*`, `VDIR`, …) while `obj_type_t` is `UInt32`. Never compare a macro straight to `UInt32(VDIR.rawValue)` without a cast; that bit us.
+- **`getattrlistbulk` in-process is unreliable here**: first call returns a partial batch with a 4-byte `f_getattrlist` prefix; later calls on the same fd return a malformed stale buffer that loops forever. Design: one bulk call, then `readdir`+`lstat` for the remainder. Standalone binaries on the same machine behaved differently — do not assume.
+- **`Darwin.statfs`** name collides with the `statfs` struct inside a type; use `getmntinfo(3)` for mount info instead.
+- **No `NSGlassEffectView`** exists. Use `NSVisualEffectView` (titlebar/sidebar/hudWindow) + SwiftUI `.glassEffect` and fall back to opaque under Reduce Transparency.
+- `URLResourceKey` has no `volumeIsNetworkKey`/`volumeFileSystemTypeKey`; use `volumeIsLocalKey` + `getmntinfo`.
+- `OSSignpostIntervalState` has no public `.id`; create `OSSignpostID(log:)` yourself and pass it to `beginInterval(_:id:)`.
+- `.localizedStandardCompare` is **not** natural-numeric in this SDK ("file 10" < "file 2"); implement digit-run comparison manually.
+- XcodeGen: `mkdir -p a/{b,c}` does not brace-expand in zsh; create dirs explicitly (`perl -e 'File::Path::make_path'` or one path per command).
 
 # Scratchpad
 
 ## Current task
-Build Dora — Windows Explorer–like Mac app (Swift/SwiftUI MVP)
+Fenestra — native macOS 26 file explorer (Windows 11 Explorer parity). Prompt-by-prompt.
 
-## Plan
-[X] scaffold — XcodeGen project + folder structure
-[X] layout — nav pane, toolbar, address bar, details list, status bar
-[X] fs-core — FileManager browse, history, open via NSWorkspace
-[X] file-ops — new folder, rename, delete, cut/copy/paste, drag-drop
-[X] views-sort — Details/Icons + column sort
-[X] polish — icons, shortcuts, empty/error, entitlements
+## Plan (prompts 0–19)
+[X] P0 scaffold — 8 SPM packages, AppKit app, tests, CI, Makefile
+[X] P1 FSCore — FileItem, bulk enumerator (+readdir fallback), FSEvents watcher, DirectoryModel, VolumeService, sort/group + tests; 100k first batch 19.8 ms
+[ ] P2 window shell — tab strip in title bar, nav bar, command bar, split view, status bar, glass, per-tab state, restore
+[ ] P3 Details view — NSTableView, columns/sort/groups/selection/rename/context menu, per-folder view memory
+[ ] Review pass 0–3
 
-## Run
-```
-cd "/Users/venkatasai/Dora - The Explorer"
-xcodegen generate
-open Dora.xcodeproj
-# or: open build/Build/Products/Debug/Dora.app
-```
+## Decisions
+- Bundle ID `com.dorasoft.fenestra`, ad-hoc signing until a team ID is supplied.
+- Keep `Dora/` as reference; do not delete.
+- macOS 26 + arm64 only. Timing-sensitive perf tests are local-only.
+- F2 on 1 item = inline rename; F2 on 2+ = PowerRename sheet (resolves prompt 3 vs 16 conflict).
