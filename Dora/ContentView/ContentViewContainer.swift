@@ -19,6 +19,13 @@ final class ContentViewContainer: NSView {
     var onSelectionChanged: (() -> Void)?
     /// Backspace in the content table navigates back.
     var onBackRequested: (() -> Void)?
+    /// Everything the content area asks its owner to do to FILES.
+    var onIntent: ((_ intent: Intent) -> Void)?
+
+    enum Intent {
+        case cut, copy, paste, trash
+        case drop(urls: [URL], destination: URL, asMove: Bool)
+    }
 
     private struct TabBox {
         let model: DirectoryModel
@@ -100,6 +107,27 @@ final class ContentViewContainer: NSView {
         }
         details.onNavigateBack = { [weak self] in
             self?.onBackRequested?()
+        }
+        details.onDropFiles = { [weak self] urls, destination, asMove in
+            self?.onIntent?(.drop(urls: urls, destination: destination, asMove: asMove))
+        }
+        details.onClipboardAction = { [weak self] intent in
+            switch intent {
+            case .cut: self?.onIntent?(.cut)
+            case .copy: self?.onIntent?(.copy)
+            case .paste: self?.onIntent?(.paste)
+            case .trash: self?.onIntent?(.trash)
+            }
+        }
+        details.onNewFolderRequested = { [weak self] in
+            self?.newFolder()
+        }
+        details.onRefreshRequested = { [weak self] in
+            self?.reload()
+        }
+        details.onToggleHiddenRequested = { [weak self] in
+            guard let self, let tab = self.tab else { return }
+            self.applyShowHidden(!tab.showHidden)
         }
         errorView.onRetry = { [weak self] in
             self?.reload()

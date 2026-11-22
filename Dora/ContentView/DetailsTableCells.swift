@@ -10,6 +10,7 @@ final class FileTableView: NSTableView {
     var onOpenRows: ((IndexSet, Bool) -> Void)?
     var onMiddleClickRow: ((Int) -> Void)?
     var onNavigateBack: (() -> Void)?
+    var onContextMenu: ((NSEvent) -> NSMenu?)?
 
     private var controller: WindowController? {
         window?.windowController as? WindowController
@@ -47,6 +48,11 @@ final class FileTableView: NSTableView {
             }
         }
         super.otherMouseUp(with: event)
+    }
+
+    /// Right-click context menu, built by the details controller.
+    override func menu(for event: NSEvent) -> NSMenu? {
+        onContextMenu?(event)
     }
 
     // MARK: - Responder-chain actions

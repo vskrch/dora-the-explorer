@@ -11,7 +11,10 @@
 		0DF8AF05A9A3E5ED5CC36CDF /* FileOps in Frameworks */ = {isa = PBXBuildFile; productRef = BACAFD7C0C898D9A22B5A02B /* FileOps */; };
 		1D6C3951DD093017422ADB1A /* WindowRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8084547C80D7DB030279170 /* WindowRegistry.swift */; };
 		1EA68D04A3311BCFBD93169E /* CommandBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5909912F0C4608D131B2EF12 /* CommandBarView.swift */; };
+		20BCA7F1E6E043507AA2C526 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = ECE24E1539F1AB8C3CE5A325 /* AppIcon.icns */; };
 		20F8B941D9F1CCFF9BBB2851 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = E588BD8794EC9A913CC19DA7 /* DesignSystem */; };
+		23564D5B8CDB11A6FC533BAD /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875FA1DA837CCA51B1D40C35 /* main.swift */; };
+		255FC8C76E926ADA0F6AC4AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED490041DBDCB45B59E66B50 /* Assets.xcassets */; };
 		287CE821A4DFF1F02C8B9231 /* FSCore in Frameworks */ = {isa = PBXBuildFile; productRef = D00652610503E04ACBC2E46C /* FSCore */; };
 		4F414C320B9C92178B431D30 /* ShellIntegration in Frameworks */ = {isa = PBXBuildFile; productRef = BC405251AE65F1FE4E0DF45A /* ShellIntegration */; };
 		557A120AB0FB35A59D56B14F /* FolderViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12344C063FC4255C7860CB03 /* FolderViewStore.swift */; };
@@ -75,6 +78,7 @@
 		6F20214427186666236103D0 /* Archives */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Archives; path = Packages/Archives; sourceTree = SOURCE_ROOT; };
 		73260C9E8C997F9FB997A4A5 /* StatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
 		7C1A715AF30AF153CBF3A52B /* InlineRename.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineRename.swift; sourceTree = "<group>"; };
+		875FA1DA837CCA51B1D40C35 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8A1ADAA3A85C80A40305A151 /* FSCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FSCore; path = Packages/FSCore; sourceTree = SOURCE_ROOT; };
 		8FF1FBFEC3FDCBCE4970343E /* TabStripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabStripView.swift; sourceTree = "<group>"; };
 		95119AEA5F61D8C2E5D053B1 /* DetailsLogicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsLogicTests.swift; sourceTree = "<group>"; };
@@ -87,6 +91,8 @@
 		E7ED106C0A28213F9A30B568 /* ShellIntegration */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ShellIntegration; path = Packages/ShellIntegration; sourceTree = SOURCE_ROOT; };
 		E8084547C80D7DB030279170 /* WindowRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRegistry.swift; sourceTree = "<group>"; };
 		E8A8A6F5E9DE2DBA2B341BB7 /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
+		ECE24E1539F1AB8C3CE5A325 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
+		ED490041DBDCB45B59E66B50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FAF24AABB902719AE75360FC /* GlassHostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassHostView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,6 +134,14 @@
 			path = Windows;
 			sourceTree = "<group>";
 		};
+		1FCFB08E1E754978034F7004 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				ECE24E1539F1AB8C3CE5A325 /* AppIcon.icns */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		2096150FC4C4BD83ED4CE8A5 = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +157,7 @@
 			children = (
 				4EB5A5298B936ACA700754C0 /* AppDelegate.swift */,
 				DC7A57D34148EC9C663C6AAE /* ClipboardStore.swift */,
+				875FA1DA837CCA51B1D40C35 /* main.swift */,
 				3F79A20BACC53AE50E457060 /* MainMenu.swift */,
 			);
 			path = App;
@@ -178,8 +193,10 @@
 				33EE0B8098020B0C407B5A91 /* App */,
 				EFC6984AA8BB33E85B82B2AA /* Chrome */,
 				D44C3715A13329E68E89B753 /* ContentView */,
+				1FCFB08E1E754978034F7004 /* Resources */,
 				DE2A10B32234ED247A8A611F /* Tabs */,
 				1190FD49FF00693FE0CBF230 /* Windows */,
+				ED490041DBDCB45B59E66B50 /* Assets.xcassets */,
 				201386E2DF32319D9E1BB7B1 /* Dora.entitlements */,
 				BF1432DD01368727B3F7169B /* Info.plist */,
 			);
@@ -247,6 +264,7 @@
 			buildConfigurationList = 33C5E54FEC5368E1129D5935 /* Build configuration list for PBXNativeTarget "Dora" */;
 			buildPhases = (
 				B66319935F861E7AC7381F49 /* Sources */,
+				C9849210AD692A3C300E6A1B /* Resources */,
 				F19FEBBBC2B595FB1996F336 /* Frameworks */,
 			);
 			buildRules = (
@@ -313,6 +331,18 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		C9849210AD692A3C300E6A1B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20BCA7F1E6E043507AA2C526 /* AppIcon.icns in Resources */,
+				255FC8C76E926ADA0F6AC4AA /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		06F2D4B41F703EEBA379187E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -349,6 +379,7 @@
 				BB12B94540FCB4C974D07917 /* TabStripView.swift in Sources */,
 				F894257AC105EC4782E8365C /* WindowController.swift in Sources */,
 				1D6C3951DD093017422ADB1A /* WindowRegistry.swift in Sources */,
+				23564D5B8CDB11A6FC533BAD /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,6 +545,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Dora/Dora.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -538,6 +570,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Dora/Dora.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;

@@ -15,7 +15,10 @@ enum MainWindow {
         window.isMovableByWindowBackground = false
         window.minSize = NSSize(width: 900, height: 520)
         window.center()
-        window.setFrameAutosaveName("Dora.MainWindow")
+        // Window-frame memory: deliberately NOT using setFrameAutosaveName —
+        // it has restored degenerate frames (full-width, title-bar-height
+        // strips) in the field. The app persists tabs/folders itself; if frame
+        // memory returns, it must validate against minSize before applying.
         return window
     }
 }

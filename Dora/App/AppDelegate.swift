@@ -1,8 +1,13 @@
 import AppKit
+import Foundation
 import AppCore
 import FSCore
 
-@main
+/// AppKit lifecycle delegate. The app boots via the explicit `main.swift`
+/// bootstrap (which wires the delegate directly) instead of the `@main`
+/// codegen — the generated entry point was observed leaving `NSApp.delegate`
+/// nil on macOS 26.3/Xcode 26.6 debug builds, leaving the app running with
+/// zero windows.
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillFinishLaunching(_ notification: Notification) {

@@ -19,6 +19,17 @@ final class DetailsViewController: NSViewController {
     var onGroupToggled: ((_ groupID: String) -> Void)?
     /// Backspace in the table asks the chrome to navigate back.
     var onNavigateBack: (() -> Void)?
+    /// Files dropped onto a folder row or the background: urls, destination, move-vs-copy.
+    var onDropFiles: ((_ urls: [URL], _ destination: URL, _ asMove: Bool) -> Void)?
+    /// Context-menu clipboard intents.
+    var onClipboardAction: ((_ intent: ClipboardIntent) -> Void)?
+    var onNewFolderRequested: (() -> Void)?
+    var onToggleHiddenRequested: (() -> Void)?
+    var onRefreshRequested: (() -> Void)?
+
+    enum ClipboardIntent {
+        case cut, copy, paste, trash
+    }
 
     private var cutPaths: Set<String> = []
 
@@ -94,6 +105,10 @@ final class DetailsViewController: NSViewController {
         table.onNavigateBack = { [weak self] in
             self?.onNavigateBack?()
         }
+        table.onContextMenu = { [weak self] event in
+            guard let self else { return nil }
+            return self.menu(for: event, in: self.table)
+        }
 
         renameField.onCommit = { [weak self] newName, moveToNext in
             self?.commitRename(newName: newName, moveToNext: moveToNext)
@@ -101,6 +116,9 @@ final class DetailsViewController: NSViewController {
         renameField.onCancel = { [weak self] in
             self?.endRename()
         }
+
+        // Drop target: files from anywhere (Finder, other Dora windows).
+        table.registerForDraggedTypes([.fileURL])
 
         rebuildColumns()
 
@@ -503,6 +521,201 @@ final class DetailsViewController: NSViewController {
 
     func numberOfRows(in tableView: NSTableView) -> Int {
         rowSpace.rows.count
+    }
+
+    /// Drag source: every item row can be dragged out (Finder, other apps).
+    func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardItem? {
+        guard let id = rowSpace.itemID(at: row), let model,
+              let item = model.item(withID: id) else { return nil }
+        let pasteboardItem = NSPasteboardItem()
+        pasteboardItem.setString(item.url.path, forType: .fileURL)
+        return pasteboardItem
+    }
+
+    // MARK: - Drop destination
+
+    /// Mount-point heuristic (no I/O): items share a volume when their first
+    /// path component matches (/ vs /Volumes/<name>). Good enough to choose
+    /// move-vs-copy defaults; the engine still handles real cross-volume moves.
+    private static func isSameVolume(_ lhs: URL, _ rhs: URL) -> Bool {
+        func volumeKey(_ url: URL) -> String {
+            let parts = url.pathComponents
+            if parts.count >= 3, parts[0] == "/", parts[1] == "Volumes" {
+                return "/" + parts[1] + "/" + parts[2]
+            }
+            return "/"
+        }
+        return volumeKey(lhs) == volumeKey(rhs)
+    }
+
+    private func dropTargetFolder(for row: Int, operation: NSTableView.DropOperation, directory: URL) -> URL? {
+        if operation == .on, let id = rowSpace.itemID(at: row), let model,
+           let item = model.item(withID: id), item.isDirectory {
+            return item.url
+        }
+        // Background, .above, or a non-folder row: the current directory.
+        return directory
+    }
+
+    func tableView(_ tableView: NSTableView, validateDrop info: any NSDraggingInfo, proposedRow row: Int, proposedDropOperation operation: NSTableView.DropOperation) -> NSDragOperation {
+        guard let urls = info.readDraggedFileURLs(), !urls.isEmpty,
+              let currentDirectory = model?.directory,
+              let destination = dropTargetFolder(for: row, operation: operation, directory: currentDirectory) else {
+            return []
+        }
+
+        let modifiers = NSApp.currentEvent?.modifierFlags ?? []
+        let allSameVolume = urls.allSatisfy { Self.isSameVolume($0, destination) }
+        if modifiers.contains(.option) { return .copy }
+        if modifiers.contains(.command) { return .move }
+        return allSameVolume ? .move : .copy
+    }
+
+    func tableView(_ tableView: NSTableView, acceptDrop info: any NSDraggingInfo, row: Int, dropOperation operation: NSTableView.DropOperation) -> Bool {
+        guard let urls = info.readDraggedFileURLs(), !urls.isEmpty,
+              let currentDirectory = model?.directory,
+              let destination = dropTargetFolder(for: row, operation: operation, directory: currentDirectory) else {
+            return false
+        }
+
+        // Dragging a folder onto itself: no-op.
+        if urls.contains(destination) { return true }
+
+        let modifiers = NSApp.currentEvent?.modifierFlags ?? []
+        let allSameVolume = urls.allSatisfy { Self.isSameVolume($0, destination) }
+        let asMove: Bool
+        if modifiers.contains(.option) {
+            asMove = false
+        } else if modifiers.contains(.command) {
+            asMove = true
+        } else {
+            asMove = allSameVolume
+        }
+
+        onDropFiles?(urls, destination, asMove)
+        return true
+    }
+}
+
+@MainActor
+extension NSDraggingInfo {
+    /// File URLs on the drag pasteboard, or nil when there are none.
+    func readDraggedFileURLs() -> [URL]? {
+        let urls = draggingPasteboard.readObjects(
+            forClasses: [NSURL.self],
+            options: [.urlReadingFileURLsOnly: true]
+        ) as? [URL] ?? []
+        return urls.isEmpty ? nil : urls
+    }
+}
+
+extension DetailsViewController {
+    // MARK: - Context menus
+
+    /// Right-click on rows: Explorer's action set over the current selection.
+    func menu(for event: NSEvent, in tableView: NSTableView) -> NSMenu? {
+        let point = tableView.convert(event.locationInWindow, from: nil)
+        let row = tableView.row(at: point)
+        if row >= 0, let id = rowSpace.itemID(at: row) {
+            // Right-clicking an unselected row select it first (Windows).
+            if !tableView.selectedRowIndexes.contains(row) {
+                tableView.selectRowIndexes(IndexSet(integer: row), byExtendingSelection: false)
+            }
+            return itemContextMenu(for: id)
+        }
+        return backgroundContextMenu()
+    }
+
+    private func itemContextMenu(for itemID: FileItem.ID) -> NSMenu {
+        let menu = NSMenu()
+
+        let items = tableSelectionIDs.compactMap { model?.item(withID: $0) }
+        guard let primary = model?.item(withID: itemID) ?? items.first else { return menu }
+        let selection = items.isEmpty ? [primary] : items
+
+        menu.addItem(makeItem("Open", action: #selector(contextOpen(_:)), represented: primary.url.path, enabled: true))
+        if primary.isDirectory {
+            menu.addItem(makeItem("Open in New Tab", action: #selector(contextOpenInNewTab(_:)), represented: primary.url.path, enabled: true))
+        }
+        menu.addItem(.separator())
+
+        menu.addItem(makeItem("Cut", action: #selector(contextCut(_:)), represented: nil, enabled: !selection.isEmpty))
+        menu.addItem(makeItem("Copy", action: #selector(contextCopy(_:)), represented: nil, enabled: !selection.isEmpty))
+        menu.addItem(makeItem("Paste", action: #selector(contextPaste(_:)), represented: nil, enabled: clipboardHasFiles()))
+        menu.addItem(.separator())
+
+        if selection.count == 1 {
+            menu.addItem(makeItem("Rename…", action: #selector(contextRename(_:)), represented: primary.id, enabled: true))
+        }
+        menu.addItem(makeItem("Move to Trash", action: #selector(contextTrash(_:)), represented: nil, enabled: !selection.isEmpty))
+        menu.addItem(.separator())
+
+        menu.addItem(makeItem("Copy as Pathname", action: #selector(contextCopyPath(_:)), represented: selection.map(\.url.path), enabled: true))
+        menu.addItem(makeItem("Show in Finder", action: #selector(contextRevealInFinder(_:)), represented: selection.map(\.url.path), enabled: true))
+
+        return menu
+    }
+
+    private func backgroundContextMenu() -> NSMenu {
+        let menu = NSMenu()
+        menu.addItem(makeItem("New Folder", action: #selector(contextNewFolder(_:)), represented: nil, enabled: true))
+        menu.addItem(makeItem("Paste", action: #selector(contextPaste(_:)), represented: nil, enabled: clipboardHasFiles()))
+        menu.addItem(.separator())
+        let hiddenTitle = model?.settings.showHidden == true ? "Hide Hidden Items" : "Show Hidden Items"
+        menu.addItem(makeItem(hiddenTitle, action: #selector(contextToggleHidden(_:)), represented: nil, enabled: true))
+        menu.addItem(makeItem("Refresh", action: #selector(contextRefresh(_:)), represented: nil, enabled: true))
+        return menu
+    }
+
+    private func makeItem(_ title: String, action: Selector, represented: Any?, enabled: Bool) -> NSMenuItem {
+        let item = NSMenuItem(title: title, action: action, keyEquivalent: "")
+        item.target = self
+        item.isEnabled = enabled
+        item.representedObject = represented
+        return item
+    }
+
+    private func clipboardHasFiles() -> Bool {
+        NSPasteboard.general.readObjects(forClasses: [NSURL.self], options: [.urlReadingFileURLsOnly: true])?.isEmpty == false
+    }
+
+    // MARK: - Context actions
+
+    @objc private func contextOpen(_ sender: NSMenuItem) {
+        guard let path = sender.representedObject as? String,
+              let item = model?.snapshot.flatItems.first(where: { $0.url.path == path }) else { return }
+        onOpen?(item, false)
+    }
+
+    @objc private func contextOpenInNewTab(_ sender: NSMenuItem) {
+        guard let path = sender.representedObject as? String,
+              let item = model?.snapshot.flatItems.first(where: { $0.url.path == path }) else { return }
+        onOpen?(item, true)
+    }
+
+    @objc private func contextCut(_ sender: NSMenuItem) { onClipboardAction?(.cut) }
+    @objc private func contextCopy(_ sender: NSMenuItem) { onClipboardAction?(.copy) }
+    @objc private func contextPaste(_ sender: NSMenuItem) { onClipboardAction?(.paste) }
+    @objc private func contextTrash(_ sender: NSMenuItem) { onClipboardAction?(.trash) }
+    @objc private func contextNewFolder(_ sender: NSMenuItem) { onNewFolderRequested?() }
+    @objc private func contextToggleHidden(_ sender: NSMenuItem) { onToggleHiddenRequested?() }
+    @objc private func contextRefresh(_ sender: NSMenuItem) { onRefreshRequested?() }
+
+    @objc private func contextRename(_ sender: NSMenuItem) {
+        guard let id = sender.representedObject as? String,
+              let item = model?.item(withID: id) else { return }
+        beginRename(for: item)
+    }
+
+    @objc private func contextCopyPath(_ sender: NSMenuItem) {
+        guard let paths = sender.representedObject as? [String], !paths.isEmpty else { return }
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(paths.first ?? "", forType: .string)
+    }
+
+    @objc private func contextRevealInFinder(_ sender: NSMenuItem) {
+        guard let paths = sender.representedObject as? [String], !paths.isEmpty else { return }
+        NSWorkspace.shared.activateFileViewerSelecting(paths.map { URL(fileURLWithPath: $0) })
     }
 
     // MARK: - NSTableViewDelegate

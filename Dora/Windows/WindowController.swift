@@ -140,6 +140,20 @@ final class WindowController: NSWindowController {
         }
     }
 
+    /// Drag-and-drop destination: same-volume drags move, cross-volume copy,
+    /// Option forces copy, ⌘ forces move (mirrors the drag cursor).
+    func dropItems(at urls: [URL], into destination: URL, asMove: Bool) {
+        guard !urls.isEmpty else { return }
+        operationTask?.cancel()
+        operationTask = Task { [weak self] in
+            guard let self else { return }
+            let outcome = asMove
+                ? await self.fileEngine.move(sources: urls, to: destination)
+                : await self.fileEngine.copy(sources: urls, to: destination)
+            self.finishOperation(outcome)
+        }
+    }
+
     func performUndo() {
         guard let record = undoRecords.popLast() else { return }
         operationTask?.cancel()

@@ -205,6 +205,17 @@ final class ExplorerChromeView: NSView {
         contentContainer.onBackRequested = { [weak self] in
             self?.delegate?.chromeDidRequestBack()
         }
+        contentContainer.onIntent = { [weak self] intent in
+            guard let controller = self?.window?.windowController as? WindowController else { return }
+            switch intent {
+            case .cut: controller.cutSelectedItems()
+            case .copy: controller.copySelectedItems()
+            case .paste: controller.pasteIntoCurrentTab()
+            case .trash: controller.trashSelectedItems()
+            case .drop(let urls, let destination, let asMove):
+                controller.dropItems(at: urls, into: destination, asMove: asMove)
+            }
+        }
 
         commandBar.onNew = { [weak self] in
             self?.presentNewMenu()
