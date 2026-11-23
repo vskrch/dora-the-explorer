@@ -832,9 +832,11 @@ extension DetailsViewController {
                 let view = (tableView.makeView(withIdentifier: nameCellIdentifier, owner: self) as? FileNameCellView)
                     ?? FileNameCellView()
                 view.identifier = nameCellIdentifier
-                view.configure(item: item, name: item.displayName)
-                let isCut = cutPaths.contains(item.url.path)
-                view.setCutAppearance(isCut)
+                view.nameLabel.stringValue = item.displayName
+                view.setAccessibilityLabel(item.displayName)
+                view.setAccessibilityValue(item.typeDescription)
+                view.setCutAppearance(cutPaths.contains(item.url.path))
+                ThumbnailCoordinator.shared.decorate(cell: view, item: item)
                 return view
             }
 
@@ -860,12 +862,16 @@ extension DetailsViewController {
                 ?? FileTableRowView()
             view.identifier = groupRowIdentifier
             view.isGroupHeader = true
+            // Lets the header use the standard group-row background rendering
+            // (which also paints while floating over scrolled content).
+            view.isGroupRowStyle = true
             return view
         case .item:
             let view = (tableView.makeView(withIdentifier: itemRowIdentifier, owner: self) as? FileTableRowView)
                 ?? FileTableRowView()
             view.identifier = itemRowIdentifier
             view.isGroupHeader = false
+            view.isGroupRowStyle = false
             return view
         case nil:
             return nil
@@ -888,6 +894,13 @@ extension DetailsViewController {
         guard let id = rowSpace.itemID(at: row), let model,
               let item = model.item(withID: id) else { return nil }
         return item.displayName
+    }
+
+    /// Floating group headers (the Explorer signature scroll polish): the
+    /// delegate answering YES enables them; `floatsGroupRows` defaults on.
+    func tableView(_ tableView: NSTableView, isGroupRow row: Int) -> Bool {
+        if case .groupHeader = rowSpace.row(at: row) { return true }
+        return false
     }
 }
 

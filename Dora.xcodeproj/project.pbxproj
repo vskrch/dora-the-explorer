@@ -16,6 +16,8 @@
 		23564D5B8CDB11A6FC533BAD /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875FA1DA837CCA51B1D40C35 /* main.swift */; };
 		255FC8C76E926ADA0F6AC4AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED490041DBDCB45B59E66B50 /* Assets.xcassets */; };
 		287CE821A4DFF1F02C8B9231 /* FSCore in Frameworks */ = {isa = PBXBuildFile; productRef = D00652610503E04ACBC2E46C /* FSCore */; };
+		2ADFF14F7C29B588BC689A87 /* ThumbnailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992E241D08B0BFAD54C5CD25 /* ThumbnailCoordinator.swift */; };
+		3F0A7948654D0B2C470A51F0 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3A093B4284441E2726C31D /* SidebarView.swift */; };
 		4F414C320B9C92178B431D30 /* ShellIntegration in Frameworks */ = {isa = PBXBuildFile; productRef = BC405251AE65F1FE4E0DF45A /* ShellIntegration */; };
 		557A120AB0FB35A59D56B14F /* FolderViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12344C063FC4255C7860CB03 /* FolderViewStore.swift */; };
 		55A21EBBC3A307369B81E0C3 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44682C7481D19DFF783B99BF /* NavigationBarView.swift */; };
@@ -82,8 +84,10 @@
 		8FF1FBFEC3FDCBCE4970343E /* TabStripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabStripView.swift; sourceTree = "<group>"; };
 		95119AEA5F61D8C2E5D053B1 /* DetailsLogicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsLogicTests.swift; sourceTree = "<group>"; };
 		98DBFA66C1A3FE952450904B /* Thumbnails */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Thumbnails; path = Packages/Thumbnails; sourceTree = SOURCE_ROOT; };
+		992E241D08B0BFAD54C5CD25 /* ThumbnailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailCoordinator.swift; sourceTree = "<group>"; };
 		9F4494DD92BED0C1CD9CC4E0 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DesignSystem; path = Packages/DesignSystem; sourceTree = SOURCE_ROOT; };
 		A994DDF8492CDF7524975D53 /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
+		AA3A093B4284441E2726C31D /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		BF1432DD01368727B3F7169B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D384C1C186CA0DF13D4329B6 /* BreadcrumbBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadcrumbBar.swift; sourceTree = "<group>"; };
 		DC7A57D34148EC9C663C6AAE /* ClipboardStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardStore.swift; sourceTree = "<group>"; };
@@ -211,6 +215,7 @@
 				5963337A2898A1DEDC3E4043 /* FileRowSpace.swift */,
 				12344C063FC4255C7860CB03 /* FolderViewStore.swift */,
 				7C1A715AF30AF153CBF3A52B /* InlineRename.swift */,
+				992E241D08B0BFAD54C5CD25 /* ThumbnailCoordinator.swift */,
 			);
 			path = ContentView;
 			sourceTree = "<group>";
@@ -232,6 +237,7 @@
 				46C43DCA723BD623993ED874 /* ExplorerChromeView.swift */,
 				44682C7481D19DFF783B99BF /* NavigationBarView.swift */,
 				4B03AAE4115AC9C822527BFC /* PanePlaceholders.swift */,
+				AA3A093B4284441E2726C31D /* SidebarView.swift */,
 				73260C9E8C997F9FB997A4A5 /* StatusBarView.swift */,
 			);
 			path = Chrome;
@@ -371,8 +377,10 @@
 				D468C8D548851BB8F10E4B18 /* MainWindow.swift in Sources */,
 				55A21EBBC3A307369B81E0C3 /* NavigationBarView.swift in Sources */,
 				BAB2A07730A0C513F899D0FE /* PanePlaceholders.swift in Sources */,
+				3F0A7948654D0B2C470A51F0 /* SidebarView.swift in Sources */,
 				7CF39A93DC3F22ED39F77505 /* StatusBarView.swift in Sources */,
 				BB12B94540FCB4C974D07917 /* TabStripView.swift in Sources */,
+				2ADFF14F7C29B588BC689A87 /* ThumbnailCoordinator.swift in Sources */,
 				F894257AC105EC4782E8365C /* WindowController.swift in Sources */,
 				1D6C3951DD093017422ADB1A /* WindowRegistry.swift in Sources */,
 				23564D5B8CDB11A6FC533BAD /* main.swift in Sources */,

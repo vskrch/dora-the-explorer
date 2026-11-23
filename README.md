@@ -22,7 +22,7 @@ undoable copy/move/trash — all Swift 6 strict-concurrency, zero third-party de
 
 <img src="docs/screenshots/light.png" width="880" alt="Dora the Explorer showing a folder in Details view — tabs in the title bar, breadcrumb bar, command bar, grouped file list with inline rename" />
 
-<p align="center"><i>Details view: tabs in the transparent title bar, breadcrumb trail with subfolder menus, command bar, live-updating file list. ⌘R-style rename in progress, with the extension left untouched.</i></p>
+<p align="center"><i>Details view over a wallpaper folder: tabs in the transparent title bar, breadcrumb trail with subfolder menus, Favorites sidebar, command bar, live-updating file list with inline Quick Look previews, and Explorer-style floating group headers.</i></p>
 
 ---
 
@@ -59,7 +59,7 @@ way a Mac app should be built:
 | **Drag & drop** | Drag rows out to anywhere; drop onto folders or the background — same-volume moves, cross-volume copies, ⌥ forces copy, ⌘ forces move |
 | **File ops engine** | Copy, move, trash, undo/redo; conflicts auto-resolve keep-both (`name (2).ext`); replace parks the original in the Trash so undo restores it |
 | **Inline rename** | F2 or right-click → basename preselected, extension untouched; Tab rolls rename to the next item; separators, duplicates, `.`/`..` and overlong names rejected inline — never a modal |
-| **Polish** | Command bar (New / Sort / View menus under their buttons), loading/empty/error states with working Retry, glass-respecting Reduce Transparency & Increase Contrast, SF-symbol iconography, warmed UTType icon cache |
+| **Polish** | Command bar (New / Sort / View menus under their buttons), **Favorites sidebar** with active-folder highlight, **inline Quick Look previews** (bounded-concurrency pipeline, NSCache-evicted), Explorer-style **floating group headers**, loading/empty/error states with working Retry, glass-respecting Reduce Transparency & Increase Contrast, SF-symbol iconography, warmed UTType icon cache |
 
 Full, honest inventory: **[FEATURES.md](FEATURES.md)** — every line checkable, nothing padded.
 

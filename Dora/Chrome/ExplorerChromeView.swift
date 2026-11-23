@@ -30,7 +30,7 @@ final class ExplorerChromeView: NSView {
     let statusBar = StatusBarView()
 
     private let splitView = NSSplitView()
-    private let sidebar = SidebarPlaceholderView()
+    private let sidebar = SidebarView()
     let contentContainer = ContentViewContainer()
     private let detailsPane = DetailsPlaceholderView()
 
@@ -229,6 +229,11 @@ final class ExplorerChromeView: NSView {
 
         statusBar.onToggleDetails = { [weak self] in self?.delegate?.chromeDidToggleDetailsPane() }
         statusBar.onTogglePreview = { [weak self] in self?.delegate?.chromeDidTogglePreviewPane() }
+
+        sidebar.onNavigateTo = { [weak self] url, inNewTab in
+            guard let self, let controller = self.window?.windowController as? WindowController else { return }
+            controller.open(url: url, inNewTab: inNewTab)
+        }
     }
 
     // MARK: - State application

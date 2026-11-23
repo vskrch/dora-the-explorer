@@ -176,17 +176,25 @@ final class FileTextCellView: NSTableCellView {
     }
 }
 
-/// Name column: file icon + display name.
+/// Name column: file icon / live preview + display name.
 @MainActor
 final class FileNameCellView: NSTableCellView {
     let iconView = NSImageView()
     let nameLabel = NSTextField(labelWithString: "")
+
+    /// Identity stamp for in-flight preview deliveries.
+    var currentToken: Int?
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         iconView.imageScaling = .scaleProportionallyDown
         iconView.translatesAutoresizingMaskIntoConstraints = false
         iconView.setContentHuggingPriority(.required, for: .horizontal)
+        iconView.wantsLayer = true
+        iconView.layer?.cornerRadius = 2.5
+        iconView.layer?.masksToBounds = true
+        iconView.layer?.borderWidth = 1
+        iconView.layer?.borderColor = NSColor.separatorColor.withAlphaComponent(0.6).cgColor
 
         nameLabel.font = .systemFont(ofSize: 13)
         nameLabel.lineBreakMode = .byTruncatingMiddle
@@ -200,8 +208,8 @@ final class FileNameCellView: NSTableCellView {
         NSLayoutConstraint.activate([
             iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 6),
             iconView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            iconView.widthAnchor.constraint(equalToConstant: 18),
-            iconView.heightAnchor.constraint(equalToConstant: 18),
+            iconView.widthAnchor.constraint(equalToConstant: 20),
+            iconView.heightAnchor.constraint(equalToConstant: 20),
             nameLabel.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: 8),
             nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -8),
             nameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -213,11 +221,17 @@ final class FileNameCellView: NSTableCellView {
         fatalError("init(coder:) is not supported")
     }
 
-    func configure(item: FileItem, name: String) {
+    /// Type-file icon (no preview available, or not a media row).
+    func showTypeIcon(for item: FileItem) {
+        // Square border reads as a "photo chip"; hide it for plain icons.
+        iconView.layer?.borderWidth = 0
         iconView.image = FileIconCache.shared.icon(for: item, preferredSize: CGSize(width: 18, height: 18))
-        nameLabel.stringValue = name
-        setAccessibilityLabel(name)
-        setAccessibilityValue(item.typeDescription)
+    }
+
+    /// Live Quick Look preview (rounded, hairline border).
+    func showPreview(_ image: NSImage) {
+        iconView.layer?.borderWidth = 1
+        iconView.image = image
     }
 
     /// Windows cut-ghosting: dimmed until the paste completes or is aborted.
