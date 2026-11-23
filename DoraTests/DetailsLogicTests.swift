@@ -113,6 +113,41 @@ struct RowTransitionTests {
     }
 }
 
+@Suite("Visible-row refresh on metadata-only publishes")
+@MainActor
+struct VisibleRowRefreshTests {
+    private func rows(_ ids: [String]) -> [FileRow] {
+        ids.map { FileRow.item(id: $0) }
+    }
+
+    /// A watcher metadata refresh (date/size changed, no reorder) produces
+    /// identical rows — without the generation check the visible cells keep
+    /// stale values until the next structural change.
+    @Test func identicalRowsWithNewGenerationNeedCellRefresh() {
+        let rows = self.rows(["a", "b"])
+        let transition = DetailsViewController.rowTransition(from: rows, to: rows)
+        #expect(transition == .none)
+        #expect(DetailsViewController.needsVisibleRowRefresh(transition: transition, oldGeneration: 3, newGeneration: 4))
+        #expect(DetailsViewController.needsVisibleRowRefresh(transition: transition, oldGeneration: nil, newGeneration: 1))
+    }
+
+    /// Re-applies of the same snapshot (column restore paths) must stay free.
+    @Test func identicalRowsSameGenerationStaysCheap() {
+        let rows = self.rows(["a", "b"])
+        let transition = DetailsViewController.rowTransition(from: rows, to: rows)
+        #expect(!DetailsViewController.needsVisibleRowRefresh(transition: transition, oldGeneration: 3, newGeneration: 3))
+    }
+
+    /// Structural changes rebuild cells through their own transition path.
+    @Test func structuralChangesNeverNeedTheExtraPass() {
+        let splice = DetailsViewController.rowTransition(from: rows(["a"]), to: rows(["a", "b"]))
+        #expect(!DetailsViewController.needsVisibleRowRefresh(transition: splice, oldGeneration: 1, newGeneration: 2))
+        let reorder = DetailsViewController.rowTransition(from: rows(["a", "b"]), to: rows(["b", "a"]))
+        #expect(reorder != .none)
+        #expect(!DetailsViewController.needsVisibleRowRefresh(transition: reorder, oldGeneration: 1, newGeneration: 2))
+    }
+}
+
 @Suite("Rename validation")
 struct RenameValidatorTests {
     @Test func rejectsEmptyNames() {

@@ -159,6 +159,10 @@ final class BreadcrumbBar: NSView {
     private var segments: [BreadcrumbSegmentView] = []
     private var pairs: [(URL, String)] = []
     private var hiddenOverflow: [(URL, String)] = []
+    /// Outstanding chevron-menu load. Enumeration completes asynchronously —
+    /// a stale completion (user clicked away, navigated, or waited out the
+    /// click) must never pop a menu uninvited.
+    private var childMenuRequestID = 0
 
     private(set) var path: String = "/"
 
@@ -200,6 +204,7 @@ final class BreadcrumbBar: NSView {
     /// Rebuild the trail from a path, caching the att. volume name once.
     func update(path: String) {
         self.path = path
+        childMenuRequestID += 1 // navigation invalidates outstanding chevron loads
         stack.arrangedSubviews.forEach {
             stack.removeArrangedSubview($0)
             $0.removeFromSuperview()
@@ -280,11 +285,19 @@ final class BreadcrumbBar: NSView {
 
     private func presentChildMenu(for folder: URL, from view: NSView) {
         guard let childFolderProvider else { return }
+        childMenuRequestID += 1
+        let requestID = childMenuRequestID
+        let requestedAt = Date()
         // Enumeration is usually <50 ms; the menu opens once warm so items
-        // never flash "Loading…".
-        childFolderProvider(folder) { [weak self] children in
-            Task { @MainActor [weak self] in
-                guard let self else { return }
+        // never flash "Loading…". A completion that arrives after the user
+        // moved on is dropped on the floor instead of popping uninvited.
+        childFolderProvider(folder) { [weak self, weak view] children in
+            Task { @MainActor [weak self, weak view] in
+                guard let self, let anchor = view,
+                      self.childMenuRequestID == requestID, // still the live request
+                      anchor.window != nil, // chevron still on screen
+                      Date().timeIntervalSince(requestedAt) < 1.0 // click was recent
+                else { return }
                 let menu = NSMenu()
                 if children.isEmpty {
                     let empty = NSMenuItem(title: "No subfolders", action: nil, keyEquivalent: "")
@@ -307,7 +320,7 @@ final class BreadcrumbBar: NSView {
                         menu.addItem(more)
                     }
                 }
-                menu.popUp(positioning: nil, at: NSPoint(x: 2, y: view.bounds.maxY), in: view)
+                menu.popUp(positioning: nil, at: NSPoint(x: 2, y: anchor.bounds.maxY), in: anchor)
             }
         }
     }

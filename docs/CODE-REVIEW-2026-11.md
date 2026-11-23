@@ -7,6 +7,57 @@ live syscall probes, lldb on the running app, and executed engine scenarios.
 
 Verdicts: **NO-SHIP ×5** — this document tracks what shipped as fixes and what stays open.
 
+---
+
+# Final full-repo OCR delegate review — 2026-11-22 (HEAD `3e22cd6`)
+
+Host-agent delegation run (ocr delegate preview/rule; clean tree → review set =
+all 74 tracked Swift files + configs per request, ~9.7k Swift lines; the Swift
+rule checklist applied file-by-file). Verified the shipped fixes for the five
+NO-SHIP reports all remain intact, then audited the two post-review commits
+(`d4f48d0`, `3e22cd6`) line-by-line plus a fresh sweep of the established
+modules. Build gate re-verified honestly: `make clean && make build &&
+make test` → BUILD SUCCEEDED, all suites green, exit 0; window probe onscreen=true.
+
+**Verdict: SHIP** — after the fixes below.
+
+## Fixed in this pass (final review findings)
+
+| # | Severity | Finding | Fix |
+|---|----------|---------|-----|
+| F1 | high | **Stale cells on metadata-only refreshes**: identical row ids made `applyRowTransition` a no-op, so a watcher metadata update (mtime/size changed, sort unchanged) never reconfigured visible cells — "Date Modified" text stayed wrong until the next structural change. | `needsVisibleRowRefresh(transition:oldGeneration:newGeneration:)` — `.none`+new generation → `reloadData(forRowIndexes:columnIndexes:)` over visible rows only (selection/viewport untouched); SDK-verified API; 3 new unit tests (`VisibleRowRefreshTests`, suite 21→24). |
+| F2 | high | **Advertised thumbnail purge was dead code**: `ThumbnailCoordinator.purge()` had no call site; in-flight QL jobs were never actually cancelled (`cancel(_:)` never called), and a purged cache could be re-polluted by a job finishing after the purge. | Purge wired into `ContentViewContainer.tearDown()` (window close) with an honest comment (per-navigation purge would defeat the cache other windows may rely on); service now cancels the real `QLThumbnailGenerator.Request`s and checks `Task.isCancelled` before cache-store/delivery. |
+| F3 | medium | **Concurrency cap accounting bug**: `inFlight` was keyed by `Request` — duplicate requests (scroll past the same item twice pre-cache) overwrote each other's slots, so the cap undercounted and let >5 QL jobs run; race also corrupted bookkeeping. | UUID-keyed job slots (one per running job, cap exact); duplicate requests join a waiters list and get delivered when the original job completes — no duplicate QL generation, no dropped deliveries. |
+| F4 | medium | **Breadcrumb chevron menus popped uninvited**: enumeration completes async and popped `NSMenu` unconditionally — a stale completion (user clicked away / navigated) stole the event loop ~50 ms after the click. | Monotonic request id + weak anchor + `window != nil` + 1.0 s freshness gate; `update(path:)` invalidates outstanding loads on navigation. |
+| F5 | medium | **Drag-over pasteboard re-read every callback**: `validateDrop` fires on every drag-motion row crossing; each uncached `readObjects` is a pasteboard-server IPC round trip. | Session cache keyed by drag pasteboard name (bounded, self-pruning). |
+| F6 | medium | **`DirectoryModel.refresh` removed names O(k·n) on the main actor**: per-name `firstIndex(where:)` scans — mass events (git checkout, bulk delete) stalled the UI on large folders. | Single-pass filter + identity rebuild, merged in O(n + k) with one allocation. |
+| F7 | low | `SidebarView.update` rebuilt `Entry.standardEntries()` per row per applyTab (8 allocs + home-dir lookups × rows); pointless `weak row` capture. | Entries computed once at init; `update` reads the cached array. |
+| F8 | low | Duplicate `syncSortIndicators()` in `DetailsViewController.attach` (else-branch call + unconditional call). | Removed the redundant branch. |
+| F9 | low | `FolderViewStore.prune()` existed but was never called — folder-views.json grows forever. | `save()` now prunes (500-entry cap) before scheduling the write. |
+
+## Confirmed still open (carried, risk-ordered)
+
+All prior open ledger items stand as written below: C6 (TrashStore sync
+init/load on main), C7 (TrashStore prune never called), C8 (undo-path trash not
+re-recorded in store), B11/B12/B10, A3 (Escape strands hidden path field as
+first responder), A4 (breadcrumb context-menu coordinate space), A5 (+now
+sidebar divider) snap-back on every applyTab, A8 overflow overlap, A10 full
+breadcrumb rebuild, D2 user-drag widths not persisted, D4 FolderViewStore
+init/flushNow sync on main, D6 multi-select copies only first path, D7 F2 on
+`Set.first`, E10/E11/E16/E19, C9 unbounded navigation history, A13 dead search
+UI (searchField + Filter button have no wiring — Phase 13), A6 StatusBarView
+layer color baked at init, A15 VoiceOver values.
+
+## Not reopened (checked and sound this pass)
+
+PassRetained/release-callback FSEvents balance and failure paths · redo
+step-inversion · replace park/revert trio · self-source + recursion guards ·
+row-space-before-mutation order + `isSyncingSelection` bracket ·
+`shouldPerformMove` live-session gate · tab-strip arranged-subview cleanup ·
+per-id tab menus · pre-removal workspace persistence · bulk parser format ·
+ID scheme unification (`parent#ino`, hard-link `#name`) · CI project/scheme,
+pipefail gate.
+
 ## Fixed in the review sprint (`feat/fixes-review-1` commit)
 
 | # | Severity | Finding | Fix |

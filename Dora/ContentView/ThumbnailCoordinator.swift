@@ -51,8 +51,13 @@ final class ThumbnailCoordinator {
         }
     }
 
-    /// Called when a visible folder is left: drops caches and cancels
-    /// everything in flight so no QL work survives the navigation.
+    /// Drops caches and cancels every QL job in flight. Called on window
+    /// teardown — the last consumer of this shared pipeline went away, so no
+    /// preview work for its folders should survive it.
+    ///
+    /// (Deliberately NOT called per navigation: the byte-costed cache is the
+    /// fast path for bouncing between folders, and other windows may still be
+    /// showing previews from these directories.)
     func purge() {
         generation &+= 1
         Task { await service.cancelAndPurge() }

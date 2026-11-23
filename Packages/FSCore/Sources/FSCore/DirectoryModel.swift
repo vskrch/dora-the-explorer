@@ -308,19 +308,28 @@ public final class DirectoryModel {
         guard !Task.isCancelled else { return }
 
         var structureChanged = false
-        for name in names where !resolved.contains(where: { $0.name == name }) {
-            // Deleted or renamed away: swap-remove (O(k)) and patch the
-            // identity map for the element that moved — no O(n) rebuild.
-            guard let index = currentItems.firstIndex(where: { $0.name == name }) else { continue }
-            let removedID = currentItems[index].id
-            let lastIndex = currentItems.count - 1
-            if index != lastIndex {
-                let moved = currentItems[lastIndex]
-                currentItems.swapAt(index, lastIndex)
-                currentIdentity[moved.id] = index
+        // One pass, not one scan per name: a mass event (git checkout, bulk
+        // delete) can carry thousands of names, and per-name `firstIndex`
+        // made that O(k·n) ON THE MAIN ACTOR. Filter once, rebuild identity
+        // in the same pass, then merge the (O(n), single-alloc) result.
+        let resolvedNames = Set(resolved.map(\.name))
+        let missingNames = names.subtracting(resolvedNames)
+        if !missingNames.isEmpty {
+            var kept: [FileItem] = []
+            kept.reserveCapacity(currentItems.count - missingNames.count)
+            var keptIdentity: [FileItem.ID: Int] = [:]
+            keptIdentity.reserveCapacity(currentItems.count - missingNames.count)
+            for item in currentItems where !missingNames.contains(item.name) {
+                keptIdentity[item.id] = kept.count
+                kept.append(item)
             }
-            currentItems.removeLast()
-            currentIdentity[removedID] = nil
+            for (id, index) in keptIdentity {
+                currentIdentity[id] = index
+            }
+            for item in currentItems where missingNames.contains(item.name) {
+                currentIdentity[item.id] = nil
+            }
+            currentItems = kept
             structureChanged = true
         }
 

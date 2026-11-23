@@ -103,6 +103,8 @@ final class SidebarView: NSView {
     private let stack = NSStackView()
     private var rows: [SidebarRowView] = []
     private var activePath: String?
+    /// Fixed once at init — `update` hot path never rebuilds the entry list.
+    private let entries: [Entry]
 
     struct Entry {
         let symbol: String
@@ -131,6 +133,7 @@ final class SidebarView: NSView {
     }
 
     override init(frame frameRect: NSRect) {
+        self.entries = Entry.standardEntries()
         super.init(frame: frameRect)
         wantsLayer = true
         layer?.backgroundColor = NSColor.underPageBackgroundColor.cgColor
@@ -167,13 +170,11 @@ final class SidebarView: NSView {
             stack.widthAnchor.constraint(greaterThanOrEqualTo: scrollView.widthAnchor),
         ])
 
-        for entry in Entry.standardEntries() {
+        for entry in entries {
             let row = SidebarRowView(symbol: entry.symbol, title: entry.title)
             let url = URL(fileURLWithPath: entry.path)
-            row.onActivate = { [weak self, weak row] in
-                guard let self, let row else { return }
-                self.onNavigateTo?(url, false)
-                _ = row
+            row.onActivate = { [weak self] in
+                self?.onNavigateTo?(url, false)
             }
             rows.append(row)
             stack.addArrangedSubview(row)
@@ -197,8 +198,7 @@ final class SidebarView: NSView {
     func update(directory: URL) {
         activePath = directory.standardizedFileURL.path
         for (index, row) in rows.enumerated() {
-            let entry = Entry.standardEntries()[index]
-            row.isActive = entry.path == activePath
+            row.isActive = entries[index].path == activePath
         }
     }
 }

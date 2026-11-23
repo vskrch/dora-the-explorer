@@ -32,6 +32,10 @@ final class DetailsViewController: NSViewController {
     }
 
     private var cutPaths: Set<String> = []
+    /// Drag-pasteboard reads cached per session: `validateDrop` fires on every
+    /// drag-motion row crossing and each uncached read is a pasteboard-server
+    /// round trip. Keyed by the stable pasteboard name of the session.
+    private var draggedURLsBySession: [String: [URL]] = [:]
 
     private(set) var model: DirectoryModel?
 
@@ -39,6 +43,10 @@ final class DetailsViewController: NSViewController {
     let table = FileTableView()
     private var rowSpace = FileRowSpace(snapshot: DirectorySnapshot.empty, collapsedGroupIDs: [])
     private var collapsedGroupIDs: Set<String> = []
+    /// Generation of the snapshot last applied to the table. Rows can be
+    /// identical across publishes (metadata-only refresh) while the cell
+    /// content still needs repainting — generation is the tell.
+    private var lastAppliedGeneration: UInt64?
     private let renameField = InlineRenameField()
     private var renamingItem: FileItem?
     private var isSyncingSelection = false
@@ -164,11 +172,9 @@ final class DetailsViewController: NSViewController {
         if columnsChanged {
             columnsState = columns
             rebuildColumns()
-        } else {
-            // Fresh model reusing the existing column set: keep widths, just
-            // rewire sorting indicators.
-            syncSortIndicators()
         }
+        // Fresh model or fresh columns — either way the indicators must
+        // track the (possibly different) sort of the attached model.
         syncSortIndicators()
     }
 
@@ -201,7 +207,27 @@ final class DetailsViewController: NSViewController {
         // reapply all adjust selection, and none of those notifications may
         // write back an intermediate state.
         isSyncingSelection = true
-        applyRowTransition(from: oldRows, to: newSpace.rows)
+        let transition = Self.rowTransition(from: oldRows, to: newSpace.rows)
+        applyRowTransition(transition)
+        if Self.needsVisibleRowRefresh(
+            transition: transition,
+            oldGeneration: lastAppliedGeneration,
+            newGeneration: snapshot.generation
+        ) {
+            // Identical rows, new content (a watcher metadata refresh): row
+            // identity didn't change, so the splice machinery is a no-op —
+            // reconfigure the visible cells only, keeping selection and
+            // viewport untouched.
+            let visible = table.rows(in: table.visibleRect)
+            if visible.location != NSNotFound, visible.length > 0 {
+                let rows = IndexSet(
+                    integersIn: visible.location..<min(visible.location + visible.length, table.numberOfRows)
+                )
+                let columns = IndexSet(integersIn: 0..<max(table.tableColumns.count, 1))
+                table.reloadData(forRowIndexes: rows, columnIndexes: columns)
+            }
+        }
+        lastAppliedGeneration = snapshot.generation
         let rows = rowSpace.indexes(ofItems: itemIDs)
         if table.selectedRowIndexes != rows {
             table.selectRowIndexes(rows, byExtendingSelection: false)
@@ -255,8 +281,23 @@ final class DetailsViewController: NSViewController {
         case reload
     }
 
-    private func applyRowTransition(from oldRows: [FileRow], to newRows: [FileRow]) {
-        switch Self.rowTransition(from: oldRows, to: newRows) {
+    /// Identical rows can still mean changed cells: publishes with a fresh
+    /// generation but the same row ids are metadata-only refreshes (a file's
+    /// date/size changed without reordering), and the already-configured
+    /// cells would keep showing stale text forever without this repainting
+    /// pass. Same-generation re-applies (column changes restore) don't need
+    /// it, and row-changing transitions rebuild cells through their own path.
+    static func needsVisibleRowRefresh(
+        transition: RowTransition,
+        oldGeneration: UInt64?,
+        newGeneration: UInt64
+    ) -> Bool {
+        guard case .none = transition else { return false }
+        return oldGeneration != newGeneration
+    }
+
+    private func applyRowTransition(_ transition: RowTransition) {
+        switch transition {
         case .none:
             return
         case .reload:
@@ -643,7 +684,7 @@ final class DetailsViewController: NSViewController {
     }
 
     func tableView(_ tableView: NSTableView, validateDrop info: any NSDraggingInfo, proposedRow row: Int, proposedDropOperation operation: NSTableView.DropOperation) -> NSDragOperation {
-        guard let urls = info.readDraggedFileURLs(), !urls.isEmpty,
+        guard let urls = cachedDraggedFileURLs(for: info), !urls.isEmpty,
               let currentDirectory = model?.directory,
               let destination = dropTargetFolder(for: row, operation: operation, directory: currentDirectory) else {
             return []
@@ -657,7 +698,7 @@ final class DetailsViewController: NSViewController {
     }
 
     func tableView(_ tableView: NSTableView, acceptDrop info: any NSDraggingInfo, row: Int, dropOperation operation: NSTableView.DropOperation) -> Bool {
-        guard let urls = info.readDraggedFileURLs(), !urls.isEmpty,
+        guard let urls = cachedDraggedFileURLs(for: info), !urls.isEmpty,
               let currentDirectory = model?.directory,
               let destination = dropTargetFolder(for: row, operation: operation, directory: currentDirectory) else {
             return false
@@ -691,6 +732,21 @@ extension NSDraggingInfo {
             options: [.urlReadingFileURLsOnly: true]
         ) as? [URL] ?? []
         return urls.isEmpty ? nil : urls
+    }
+}
+
+extension DetailsViewController {
+    /// Session-stable URL cache for the active drag. Drag sessions are
+    /// sequential and few; bound the cache so it can never accumulate.
+    private func cachedDraggedFileURLs(for info: any NSDraggingInfo) -> [URL]? {
+        let key = info.draggingPasteboard.name.rawValue
+        if let cached = draggedURLsBySession[key] {
+            return cached
+        }
+        guard let urls = info.readDraggedFileURLs() else { return nil }
+        if draggedURLsBySession.count > 3 { draggedURLsBySession.removeAll() }
+        draggedURLsBySession[key] = urls
+        return urls
     }
 }
 

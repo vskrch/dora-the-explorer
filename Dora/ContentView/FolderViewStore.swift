@@ -52,6 +52,10 @@ final class FolderViewStore {
     func save(_ entry: Entry, for directory: URL) {
         let key = directory.standardizedFileURL.path
         cache[key] = entry
+        // Every visited-and-configured folder appends an entry — kick the
+        // oldest past the cap so the file (and the in-memory cache) stays
+        // bounded across years of use.
+        prune()
         schedulePersist()
     }
 

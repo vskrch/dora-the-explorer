@@ -233,6 +233,7 @@ final class ContentViewContainer: NSView {
         }
         activeTabID = nil
         tab = nil
+        ThumbnailCoordinator.shared.purge()
     }
 
     /// Tab state (sort/group/hidden) always wins over stored folder memory for
