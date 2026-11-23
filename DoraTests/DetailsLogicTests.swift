@@ -240,4 +240,30 @@ struct FolderViewStoreTests {
         #expect(loaded?.columnWidths?["name"] == 240)
         #expect(loaded?.sortCriteria == [SortCriterion(key: .size, ascending: false)])
     }
+
+    /// Regression: the debounced persist used to carry MainActor isolation
+    /// onto the store's background queue; the Swift 6 runtime traps the
+    /// process (EXC_BREAKPOINT in swift_task_checkIsolatedSwift) when the
+    /// work item fires. This test exercises the FULL debounced path — with
+    /// the bug it kills the test process, with the fix the file just appears.
+    @Test func debouncedPersistWritesOffMainWithoutIsolationTrap() throws {
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("dora-tests-\(UUID().uuidString).json")
+        defer { try? FileManager.default.removeItem(at: url) }
+
+        let store = FolderViewStore(url: url, debounceInterval: 0.05)
+        let folder = URL(fileURLWithPath: "/Users/test/Movies")
+        store.save(FolderViewStore.Entry(grouping: .size), for: folder)
+
+        // Poll for the effect with a hard deadline (not a blind sleep): the
+        // write is the observable outcome, and the old bug crashes the
+        // process while waiting for it.
+        let deadline = Date().addingTimeInterval(5)
+        while !FileManager.default.fileExists(atPath: url.path) && Date() < deadline {
+            Thread.sleep(forTimeInterval: 0.02)
+        }
+
+        let reopened = FolderViewStore(url: url)
+        #expect(reopened.entry(for: folder)?.grouping == .size)
+    }
 }

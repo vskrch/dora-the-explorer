@@ -34,6 +34,7 @@ make test` → BUILD SUCCEEDED, all suites green, exit 0; window probe onscreen=
 | F7 | low | `SidebarView.update` rebuilt `Entry.standardEntries()` per row per applyTab (8 allocs + home-dir lookups × rows); pointless `weak row` capture. | Entries computed once at init; `update` reads the cached array. |
 | F8 | low | Duplicate `syncSortIndicators()` in `DetailsViewController.attach` (else-branch call + unconditional call). | Removed the redundant branch. |
 | F9 | low | `FolderViewStore.prune()` existed but was never called — folder-views.json grows forever. | `save()` now prunes (500-entry cap) before scheduling the write. |
+| F10 | **critical** | **Runtime crash (SIGTRAP, EXC_BREAKPOINT)** — the debounced folder-view persist carried `@MainActor` isolation onto the private `com.dorasoft.dora.folderviews` background queue; the Swift 6 runtime's executor assertion (`_swift_task_checkIsolatedSwift`) trapped 0.4 s after ANY sort/group/column/hidden change. Two `.ips` crash reports confirmed (21:34, 14:02). Not caught by smoke probes (they never changed view settings). | `persist` is now `nonisolated static` with an explicit `@Sendable` work-item closure (encode+write is pure I/O and belongs off-main); debounce interval injectable; repo-wide sweep for the same pattern found no other instance (`WindowRegistry`'s work item runs on the main queue, legal). Regression test runs the full debounced path — it killed the test process before the fix and passes after (suite 24→25). |
 
 ## Confirmed still open (carried, risk-ordered)
 

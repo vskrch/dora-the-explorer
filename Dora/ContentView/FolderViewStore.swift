@@ -27,9 +27,12 @@ final class FolderViewStore {
     private let url: URL
     private let queue = DispatchQueue(label: "com.dorasoft.dora.folderviews", qos: .utility)
     private var saveItem: DispatchWorkItem?
+    /// Debounce window for writes (injectable so tests can shorten it).
+    private let debounceInterval: TimeInterval
 
-    init(url: URL = FolderViewStore.defaultURL) {
+    init(url: URL = FolderViewStore.defaultURL, debounceInterval: TimeInterval = 0.4) {
         self.url = url
+        self.debounceInterval = debounceInterval
         if let data = try? Data(contentsOf: url),
            let store = try? JSONDecoder().decode(Store.self, from: data) {
             cache = store.entries
@@ -87,12 +90,20 @@ final class FolderViewStore {
         saveItem?.cancel()
         let snapshot = cache
         let url = self.url
-        let item = DispatchWorkItem { Self.persist(snapshot, to: url) }
+        // The work item runs on the store's background queue, so it must NOT
+        // inherit this class's MainActor isolation — the Swift 6 runtime
+        // checks executor identity at closure entry and traps otherwise
+        // (this exact crash shipped once: SIGTRAP in
+        // `_swift_task_checkIsolatedSwift` on com.dorasoft.dora.folderviews).
+        // `persist` is nonisolated by design: encode+write is pure I/O.
+        let item = DispatchWorkItem { @Sendable in
+            Self.persist(snapshot, to: url)
+        }
         saveItem = item
-        queue.asyncAfter(deadline: .now() + 0.4, execute: item)
+        queue.asyncAfter(deadline: .now() + debounceInterval, execute: item)
     }
 
-    private static func persist(_ entries: [String: Entry], to url: URL) {
+    private nonisolated static func persist(_ entries: [String: Entry], to url: URL) {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         do {
